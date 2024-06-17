@@ -1,9 +1,6 @@
 package africa.semicolon.com.electionManagementSystem.models;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -21,5 +18,6 @@ public class Voter {
     private String name;
     private String dateOfBirth;
     private String address;
-
+    @OneToOne
+    private Vote vote;
 }
