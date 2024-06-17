@@ -6,10 +6,9 @@ import lombok.Setter;
 
 @Setter
 @Getter
-public class Admin {
+public class Candidate {
     @Id
     private Long id;
-    private String username;
-    private String password;
-    private String email;
+    private String name;
+    private Party party;
 }
