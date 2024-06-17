@@ -11,12 +11,12 @@ import static jakarta.persistence.GenerationType.IDENTITY;
 @Setter
 @Getter
 @Entity
+@Table(name = "ballot")
 public class Ballot {
     @Id
     @GeneratedValue(strategy = IDENTITY)
     private Long ballotId;
     private Long electionId;
-    private Long voterId;
     @OneToMany
-    private List<Voter> voterList;
+    private List<Vote> votes;
 }
