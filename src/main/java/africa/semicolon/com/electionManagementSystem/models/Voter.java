@@ -11,6 +11,7 @@ import static jakarta.persistence.GenerationType.IDENTITY;
 @Setter
 @Getter
 @Entity
+@Table(name = "voters")
 public class Voter {
     @Id
     @GeneratedValue(strategy = IDENTITY)
