@@ -9,23 +9,30 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 import static jakarta.persistence.GenerationType.IDENTITY;
 
 @Setter
 @Getter
 @Entity
-@Table(name = "Elections")
+@Table(name = "elections")
 public class Election {
     @Id
     @GeneratedValue(strategy = IDENTITY)
     private Long electionId;
     private String title;
+
     @JsonSerialize(using = LocalDateTimeSerializer.class)
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)
     private LocalDateTime startTime;
+
     @JsonSerialize(using = LocalDateTimeSerializer.class)
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)
     private LocalDateTime endTime;
+    @OneToMany
+    private List<Candidate> candidates;
     private Category category;
+    @OneToOne
+    private Ballot ballot;
 }

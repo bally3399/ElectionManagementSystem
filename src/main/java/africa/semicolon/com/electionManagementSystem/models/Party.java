@@ -4,6 +4,7 @@ public enum Party {
     APC,
     PDP,
     NDP,
+    LP
 
 
 }

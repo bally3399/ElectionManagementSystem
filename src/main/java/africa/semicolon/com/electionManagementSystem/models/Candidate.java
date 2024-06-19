@@ -15,6 +15,10 @@ public class Candidate {
     @Id
     @GeneratedValue(strategy = IDENTITY)
     private Long id;
-    private String name;
+    private String firstName;
+    private String lastName;
     private Party party;
+    private String biography;
+    private String phoneNumber;
+    private String email;
 }
