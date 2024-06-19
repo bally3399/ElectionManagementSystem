@@ -14,6 +14,10 @@ public class Vote {
     @Id
     @GeneratedValue(strategy = IDENTITY)
     private Long voteId;
-    private Long ballotId;
-    private Long candidateId;
+    @ManyToOne
+    private Ballot ballot;
+    @OneToOne
+    private Candidate candidate;
+    @OneToOne
+    private Voter voter;
 }
