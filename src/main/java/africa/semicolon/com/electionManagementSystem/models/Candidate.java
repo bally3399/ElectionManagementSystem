@@ -17,4 +17,6 @@ public class Candidate {
     private Long id;
     private String name;
     private Party party;
+    @ManyToOne
+    private Election election;
 }
