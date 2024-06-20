@@ -19,7 +19,8 @@ public class Voter {
     @GeneratedValue(strategy = IDENTITY)
     private Long id;
     private String username;
-    private String name;
+    private String firstName;
+    private String lastName;
     private String dateOfBirth;
     @OneToMany(fetch = FetchType.EAGER)
     private List<Vote> voteHistory;
