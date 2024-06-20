@@ -21,4 +21,6 @@ public class Candidate {
     private String biography;
     private String phoneNumber;
     private String email;
+    // position contested // or Enum
+    private String position;
 }
