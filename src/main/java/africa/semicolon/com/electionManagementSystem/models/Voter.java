@@ -7,10 +7,8 @@ import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
-
-import java.util.ArrayList;
-import java.util.List;
 import java.time.LocalDate;
+import java.util.List;
 import static jakarta.persistence.GenerationType.IDENTITY;
 
 @Setter
@@ -21,9 +19,9 @@ public class Voter {
     @Id
     @GeneratedValue(strategy = IDENTITY)
     private Long id;
-    private String voterNumber;
     private String firstName;
     private String lastName;
+    private String voterNumber;
     private String stateOfOrigin;
     @JsonSerialize(using = LocalDateTimeSerializer.class)
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)
@@ -32,10 +30,8 @@ public class Voter {
     private String phoneNumber;
     @Column(unique = true)
     private String email;
-    private String password;
-
     @OneToMany(fetch = FetchType.EAGER)
-    private List<Vote> voteHistory = new ArrayList<>();
+    private List<Vote> voteHistory;
     @Embedded
     private Address address;
     private boolean isLocked;
