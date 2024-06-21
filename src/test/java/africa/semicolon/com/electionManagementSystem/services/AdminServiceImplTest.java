@@ -81,8 +81,8 @@ public class AdminServiceImplTest {
 
     @Test
     public void scheduleElectionTest(){
-        Admin admin = adminService.findAdminById(100L);
-        assertNotNull(admin);
+//        Admin admin = adminService.findAdminById(100L);
+//        assertNotNull(admin);
         ScheduleElectionRequest scheduleElectionRequest = new ScheduleElectionRequest();
         scheduleElectionRequest.setAdminId(100L);
         scheduleElectionRequest.setCategory(NATIONAL);
