@@ -12,4 +12,6 @@ public interface AdminService {
     Admin findByEmail(String email);
 
     DeleteAdminResponse deleteAdmin(DeleteAdminRequest deleteAdminRequest);
+
+    Admin findAdminById(Long adminId);
 }
