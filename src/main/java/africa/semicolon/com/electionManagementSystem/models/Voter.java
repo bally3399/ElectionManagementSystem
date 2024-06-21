@@ -10,14 +10,12 @@ import lombok.Setter;
 import java.time.LocalDate;
 
 import java.util.List;
-
-
 import static jakarta.persistence.GenerationType.IDENTITY;
 
 @Setter
 @Getter
 @Entity
-@Table(name = "Voters")
+@Table(name = "voters")
 public class Voter {
     @Id
     @GeneratedValue(strategy = IDENTITY)
@@ -33,6 +31,7 @@ public class Voter {
     @Column(unique = true)
     private String email;
 
+
     private String password;
 
 
@@ -40,6 +39,5 @@ public class Voter {
     private List<Vote> voteHistory;
     @Embedded
     private Address address;
-    private boolean isSuspended;
     private boolean isLocked;
 }
