@@ -18,6 +18,7 @@ import java.time.LocalDate;
 public class VoterServiceImplementation implements VoterService {
     private final VoterRepository voterRepository;
     private final ModelMapper modelMapper;
+
     @Override
     public RegisterVoterResponse register(RegisterVoterRequest registerVoterRequest) {
         verifyVoterEligibility(registerVoterRequest);

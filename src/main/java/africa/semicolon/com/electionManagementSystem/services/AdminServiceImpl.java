@@ -2,11 +2,10 @@ package africa.semicolon.com.electionManagementSystem.services;
 
 import africa.semicolon.com.electionManagementSystem.dtos.requests.AddAdminRequest;
 import africa.semicolon.com.electionManagementSystem.dtos.requests.DeleteAdminRequest;
-import africa.semicolon.com.electionManagementSystem.dtos.requests.ScheduleElectionRequest;
 import africa.semicolon.com.electionManagementSystem.dtos.responses.AddAdminResponse;
 import africa.semicolon.com.electionManagementSystem.dtos.responses.DeleteAdminResponse;
-import africa.semicolon.com.electionManagementSystem.dtos.responses.ScheduleElectionResponse;
 import africa.semicolon.com.electionManagementSystem.exceptions.AdminNotFoundException;
+import africa.semicolon.com.electionManagementSystem.exceptions.ElectionNotFoundException;
 import africa.semicolon.com.electionManagementSystem.exceptions.UserAlreadyExistException;
 import africa.semicolon.com.electionManagementSystem.models.Admin;
 import africa.semicolon.com.electionManagementSystem.repository.AdminRepository;
@@ -19,7 +18,6 @@ import org.springframework.stereotype.Service;
 public class AdminServiceImpl implements AdminService{
     private final ModelMapper modelMapper;
     private final AdminRepository adminRepository;
-    private final ElectionService electionService;
 
     @Override
     public AddAdminResponse addAdmin(AddAdminRequest addAdminRequest) {
@@ -51,18 +49,11 @@ public class AdminServiceImpl implements AdminService{
     }
 
     @Override
-    public ScheduleElectionResponse scheduleElection(ScheduleElectionRequest scheduleElectionRequest) {
-        return electionService.scheduleElection(scheduleElectionRequest);
-    }
-//    @Override
-//    public Admin findAdminById(Long adminId) {
-//        Admin admin = adminRepository.findAdminById(adminId);
-//        if(admin == null) {
-//            throw new AdminNotFoundException("Admin not found");
-//        }
-//        return admin;
-//    }
+    public Admin findAdminById(Long adminId) {
+        return adminRepository.findById(adminId).
+                orElseThrow(()-> new AdminNotFoundException("Admin not does not exist."));
 
+    }
 
     public void verifyAdmin(String email) {
             Admin admin = adminRepository.findByEmail(email);
@@ -70,6 +61,5 @@ public class AdminServiceImpl implements AdminService{
                 throw new UserAlreadyExistException("Admin with same email already exist");
             }
     }
-
 
 }

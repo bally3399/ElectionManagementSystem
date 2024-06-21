@@ -7,13 +7,16 @@ import africa.semicolon.com.electionManagementSystem.dtos.responses.AddCandidate
 import africa.semicolon.com.electionManagementSystem.dtos.responses.CancelElectionResponse;
 import africa.semicolon.com.electionManagementSystem.dtos.responses.ScheduleElectionResponse;
 import africa.semicolon.com.electionManagementSystem.exceptions.ElectionNotFoundException;
+import africa.semicolon.com.electionManagementSystem.exceptions.InvalidElectionAdminException;
 import africa.semicolon.com.electionManagementSystem.exceptions.InvalidElectionDateException;
 import africa.semicolon.com.electionManagementSystem.exceptions.InvalidElectionTimeException;
+import africa.semicolon.com.electionManagementSystem.models.Admin;
 import africa.semicolon.com.electionManagementSystem.models.Election;
 import africa.semicolon.com.electionManagementSystem.repository.ElectionRepository;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -21,26 +24,34 @@ import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 
 @Service
-@AllArgsConstructor
 public class ElectionServiceImplementation implements ElectionService {
 
-    private final ElectionRepository electionRepository;
-    private final ModelMapper modelMapper;
+    @Autowired
+    private  ElectionRepository electionRepository;
+    @Autowired
+    private ModelMapper modelMapper;
+    private final AdminService adminService;
+
+    public ElectionServiceImplementation(AdminService adminService){
+        this.adminService = adminService;
+    }
 
     @Override
     public ScheduleElectionResponse scheduleElection(ScheduleElectionRequest scheduleElectionRequest) {
-        //find admin and map it
+        Admin admin = adminService.findAdminById(scheduleElectionRequest.getAdminId());
         Election election = modelMapper.map(scheduleElectionRequest, Election.class);
         validateElectionDates(scheduleElectionRequest, election);
         validateElectionTimes(scheduleElectionRequest, election);
+        election.setAdmin(admin);
         electionRepository.save(election);
         return modelMapper.map(election, ScheduleElectionResponse.class);
     }
 
     @Override
     public CancelElectionResponse cancelElection(CancelElectionRequest cancelElectionRequest) {
-        // find admin and map it
+        Admin admin = adminService.findAdminById(cancelElectionRequest.getAdminId());
         Election election = getElectionById(cancelElectionRequest.getElectionId());
+        if(!election.getAdmin().getId().equals(admin.getId())) throw new InvalidElectionAdminException("Admin not assigned to election.");
         CancelElectionResponse cancelElectionResponse = modelMapper.map(election, CancelElectionResponse.class);
         cancelElectionResponse.setAdminId(election.getAdmin().getId());
         electionRepository.delete(election);
