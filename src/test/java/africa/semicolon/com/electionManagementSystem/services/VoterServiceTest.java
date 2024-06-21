@@ -1,5 +1,12 @@
 package africa.semicolon.com.electionManagementSystem.services;
 
+import africa.semicolon.com.electionManagementSystem.dtos.requests.LoginRequest;
+import africa.semicolon.com.electionManagementSystem.dtos.responses.LoginResponse;
+import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.context.SpringBootTest;
+
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import africa.semicolon.com.electionManagementSystem.dtos.reponses.RegisterVoterResponse;
 import africa.semicolon.com.electionManagementSystem.dtos.requests.RegisterVoterRequest;
 import africa.semicolon.com.electionManagementSystem.exceptions.UnderAgeVoterException;
@@ -16,12 +23,15 @@ import java.time.LocalDate;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
+
 @SpringBootTest
 public class VoterServiceTest {
     @Autowired
     private VoterServiceImplementation voterService;
     @Autowired
     private VoterRepository voterRepository;
+  
+//     VoterService voterService;
 
     @Test
     public void registerVoterTest() {
@@ -45,7 +55,19 @@ public class VoterServiceTest {
         Assertions.assertEquals(2,voterRepository.findAll().size());
     }
 
+    @Test
+    public void testToLogin(){
+        LoginRequest loginRequest = new LoginRequest();
+        loginRequest.setPassword("1245");
+        loginRequest.setUsername("chichi");
+        LoginResponse response = voterService.login(loginRequest);
 
+
+
+        assertNotNull(response);
+        assertTrue(response.getMessage().contains("success"));
+
+    }
 
     @Test
     public void sameVoterCannotBeRegisteredMoreThanOnce() {
