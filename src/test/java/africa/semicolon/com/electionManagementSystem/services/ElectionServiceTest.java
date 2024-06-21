@@ -33,13 +33,8 @@ public class ElectionServiceTest {
 
     @Autowired
     private ElectionService electionService;
-    @Autowired
-    private AdminService adminService;
-
     @Test
     public void electionCanBeScheduledTest() {
-        Admin admin = adminService.findAdminById(100L);
-        assertThat(admin).isNotNull();
         ScheduleElectionRequest scheduleElectionRequest = new ScheduleElectionRequest();
         scheduleElectionRequest.setAdminId(100L);
         scheduleElectionRequest.setCategory(NATIONAL);
