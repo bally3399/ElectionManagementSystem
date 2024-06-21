@@ -32,6 +32,5 @@ public class Voter {
     private List<Vote> voteHistory;
     @Embedded
     private Address address;
-    private boolean isSuspended;
     private boolean isLocked;
 }
