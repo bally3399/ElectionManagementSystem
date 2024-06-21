@@ -9,6 +9,7 @@ import africa.semicolon.com.electionManagementSystem.dtos.responses.AddCandidate
 import africa.semicolon.com.electionManagementSystem.dtos.responses.CancelElectionResponse;
 import africa.semicolon.com.electionManagementSystem.dtos.responses.ScheduleElectionResponse;
 import africa.semicolon.com.electionManagementSystem.exceptions.ElectionNotFoundException;
+import africa.semicolon.com.electionManagementSystem.exceptions.InvalidElectionAdminException;
 import africa.semicolon.com.electionManagementSystem.exceptions.InvalidElectionDateException;
 import africa.semicolon.com.electionManagementSystem.exceptions.InvalidElectionTimeException;
 import africa.semicolon.com.electionManagementSystem.models.Election;
@@ -52,6 +53,7 @@ public class ElectionServiceTest {
     @Test
     public void invalidElectionStartDate_ThrowsExceptionTest() {
         ScheduleElectionRequest scheduleElectionRequest = new ScheduleElectionRequest();
+        scheduleElectionRequest.setAdminId(100L);
         scheduleElectionRequest.setCategory(NATIONAL);
         scheduleElectionRequest.setTitle("Lagos State Governorship Election");
         scheduleElectionRequest.setLocation("Lagos");
@@ -66,6 +68,7 @@ public class ElectionServiceTest {
     @Test
     public void invalidElectionEndTimeTestThrowsExceptionTest() {
         ScheduleElectionRequest scheduleElectionRequest = new ScheduleElectionRequest();
+        scheduleElectionRequest.setAdminId(100L);
         scheduleElectionRequest.setCategory(NATIONAL);
         scheduleElectionRequest.setTitle("Lagos State Governorship Election");
         scheduleElectionRequest.setLocation("Lagos");
@@ -97,6 +100,15 @@ public class ElectionServiceTest {
         cancelElectionRequest.setAdminId(100L);
 
         assertThrows(ElectionNotFoundException.class,()->electionService.cancelElection(cancelElectionRequest));
+    }
+
+    @Test
+    public void invalidAdminCancelsElectionThrowsExceptionTest() {
+        CancelElectionRequest cancelElectionRequest = new CancelElectionRequest();
+        cancelElectionRequest.setElectionId(301L);
+        cancelElectionRequest.setAdminId(101L);
+
+        assertThrows(InvalidElectionAdminException.class, ()->electionService.cancelElection(cancelElectionRequest));
     }
 
     @Test

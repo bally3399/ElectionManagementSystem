@@ -22,7 +22,8 @@ public class Voter {
     private Long id;
     private String firstName;
     private String lastName;
-
+    private String voterNumber;
+    private String stateOfOrigin;
     @JsonSerialize(using = LocalDateTimeSerializer.class)
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)
     private LocalDate dateOfBirth;

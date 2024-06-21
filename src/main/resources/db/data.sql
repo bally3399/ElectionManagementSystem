@@ -1,13 +1,12 @@
 truncate table admin cascade;
-truncate table ballot cascade;
 truncate table candidates cascade;
 truncate table elections cascade;
 truncate table voters cascade;
 truncate table votes cascade;
 
-insert into admin(id, email, password) values
-(100, 'admin1@email.com', 'password'),
-(101, 'admin2@email.com', 'password');
+insert into admin(id, email,first_name, last_name, password) values
+(100, 'admin1@email.com', 'john','doe', 'password'),
+(101, 'admin2@email.com','jane', 'doe', 'password');
 
 insert into voters(id, voter_number, first_name, last_name, is_locked, date_of_birth, state_of_origin, building_number,street_name, ward, city, local_government_area, state) values
 (200, '100000', 'Adamu', 'Baba', 'false', '1/1/1991', 'Kano', '1', 'adedoyin', 'Ikateland', 'Lekki', 'Eti-Osa', 'Lagos'),

@@ -5,6 +5,7 @@ import africa.semicolon.com.electionManagementSystem.dtos.requests.DeleteAdminRe
 import africa.semicolon.com.electionManagementSystem.dtos.responses.AddAdminResponse;
 import africa.semicolon.com.electionManagementSystem.dtos.responses.DeleteAdminResponse;
 import africa.semicolon.com.electionManagementSystem.exceptions.AdminNotFoundException;
+import africa.semicolon.com.electionManagementSystem.exceptions.ElectionNotFoundException;
 import africa.semicolon.com.electionManagementSystem.exceptions.UserAlreadyExistException;
 import africa.semicolon.com.electionManagementSystem.models.Admin;
 import africa.semicolon.com.electionManagementSystem.repository.AdminRepository;
@@ -45,6 +46,13 @@ public class AdminServiceImpl implements AdminService{
         DeleteAdminResponse response = modelMapper.map(admin, DeleteAdminResponse.class);
         response.setMessage("Admin deleted successfully");
         return response;
+    }
+
+    @Override
+    public Admin findAdminById(Long adminId) {
+        return adminRepository.findById(adminId).
+                orElseThrow(()-> new AdminNotFoundException("Admin not does not exist."));
+
     }
 
     public void verifyAdmin(String email) {
