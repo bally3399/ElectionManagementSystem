@@ -10,6 +10,14 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import africa.semicolon.com.electionManagementSystem.dtos.requests.LoginRequest;
+import africa.semicolon.com.electionManagementSystem.dtos.responses.LoginResponse;
+import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.context.SpringBootTest;
+
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 
 import java.time.LocalDate;
 
@@ -91,10 +99,20 @@ public class VoterServiceTest {
             LocalDate dateOfBirth = LocalDate.of(2020, 9, 20);
             registerVoterRequest.setDateOfBirth(dateOfBirth);
             voterService.register(registerVoterRequest);
-        }
-        catch(UnderAgeVoterException e){
+        } catch (UnderAgeVoterException e) {
             assertThat(e.getMessage()).isEqualTo("Under age voter not eligible for registration");
         }
     }
 
+    @Test
+    public void testToLogin() {
+        LoginRequest loginRequest = new LoginRequest();
+        loginRequest.setPassword("1245");
+        loginRequest.setUsername("chichi");
+        LoginResponse response = voterService.login(loginRequest);
+
+        assertNotNull(response);
+        assertTrue(response.getMessage().contains("success"));
+
+    }
 }
