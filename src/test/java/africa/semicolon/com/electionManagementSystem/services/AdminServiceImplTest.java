@@ -23,9 +23,9 @@ public class AdminServiceImplTest {
     public void addAdminTest(){
         AddAdminRequest addAdminRequest = new AddAdminRequest();
         addAdminRequest.setPassword("1234");
-        addAdminRequest.setFirstName("Sulaiman");
-        addAdminRequest.setLastName("Bally");
-        addAdminRequest.setEmail("ballyOne@email.com");
+        addAdminRequest.setFirstName("Lawal");
+        addAdminRequest.setLastName("Toheeb");
+        addAdminRequest.setEmail("Lawaltoheeb@email.com");
         AddAdminResponse response = adminService.addAdmin(addAdminRequest);
         assertNotNull(response);
         assertThat(response.getMessage()).isEqualTo("Successfully added admin");
