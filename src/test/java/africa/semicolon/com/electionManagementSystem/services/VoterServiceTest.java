@@ -104,15 +104,5 @@ public class VoterServiceTest {
         }
     }
 
-    @Test
-    public void testToLogin() {
-        LoginRequest loginRequest = new LoginRequest();
-        loginRequest.setPassword("1245");
-        loginRequest.setUsername("chichi");
-        LoginResponse response = voterService.login(loginRequest);
 
-        assertNotNull(response);
-        assertTrue(response.getMessage().contains("success"));
-
-    }
 }

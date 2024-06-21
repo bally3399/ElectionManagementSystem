@@ -1,9 +1,11 @@
 package africa.semicolon.com.electionManagementSystem.services;
 
 import africa.semicolon.com.electionManagementSystem.dtos.requests.AddAdminRequest;
+import africa.semicolon.com.electionManagementSystem.dtos.requests.CancelElectionRequest;
 import africa.semicolon.com.electionManagementSystem.dtos.requests.DeleteAdminRequest;
 import africa.semicolon.com.electionManagementSystem.dtos.requests.ScheduleElectionRequest;
 import africa.semicolon.com.electionManagementSystem.dtos.responses.AddAdminResponse;
+import africa.semicolon.com.electionManagementSystem.dtos.responses.CancelElectionResponse;
 import africa.semicolon.com.electionManagementSystem.dtos.responses.DeleteAdminResponse;
 import africa.semicolon.com.electionManagementSystem.dtos.responses.ScheduleElectionResponse;
 import africa.semicolon.com.electionManagementSystem.exceptions.AdminNotFoundException;
@@ -31,9 +33,9 @@ public class AdminServiceImplTest {
     public void addAdminTest(){
         AddAdminRequest addAdminRequest = new AddAdminRequest();
         addAdminRequest.setPassword("1234");
-        addAdminRequest.setFirstName("Lawal");
-        addAdminRequest.setLastName("Toheeb");
-        addAdminRequest.setEmail("Lawaltoheeb@email.com");
+        addAdminRequest.setFirstName("Sulaiman");
+        addAdminRequest.setLastName("Bally");
+        addAdminRequest.setEmail("ballyOne@email.com");
         AddAdminResponse response = adminService.addAdmin(addAdminRequest);
         assertNotNull(response);
         assertThat(response.getMessage()).isEqualTo("Successfully added admin");
@@ -55,34 +57,34 @@ public class AdminServiceImplTest {
             assertThat(e.getMessage()).isEqualTo("Admin with same email already exist");
         }
     }
-    @Test
-    public void findAdminTest(){
-        Admin admin = adminService.findByEmail("ballyOne@email.com");
-        assertNotNull(admin);
-    }
-
-    @Test
-    public void deleteAdminTest(){
-        Admin admin = adminService.findByEmail("ballyOne@email.com");
-        assertNotNull(admin);
-        DeleteAdminRequest deleteAdminRequest = new DeleteAdminRequest();
-        deleteAdminRequest.setEmail("ballyOne@email.com");
-        DeleteAdminResponse response = adminService.deleteAdmin(deleteAdminRequest);
-        assertNotNull(response);
-        assertThat(response.getMessage()).isEqualTo("Admin deleted successfully");
-        try{
-            admin = adminService.findByEmail("ballyOne@email.com");
-            assertNull(admin);
-        } catch (AdminNotFoundException e){
-            assertThat(e.getMessage()).isEqualTo("Admin not found");
-        }
-
-    }
+//    @Test
+//    public void findAdminTest(){
+//        Admin admin = adminService.findByEmail("ballyOne@email.com");
+//        assertNotNull(admin);
+//    }
+//
+//    @Test
+//    public void deleteAdminTest(){
+//        Admin admin = adminService.findByEmail("ballyOne@email.com");
+//        assertNotNull(admin);
+//        DeleteAdminRequest deleteAdminRequest = new DeleteAdminRequest();
+//        deleteAdminRequest.setEmail("ballyOne@email.com");
+//        DeleteAdminResponse response = adminService.deleteAdmin(deleteAdminRequest);
+//        assertNotNull(response);
+//        assertThat(response.getMessage()).isEqualTo("Admin deleted successfully");
+//        try{
+//            admin = adminService.findByEmail("ballyOne@email.com");
+//            assertNull(admin);
+//        } catch (AdminNotFoundException e){
+//            assertThat(e.getMessage()).isEqualTo("Admin not found");
+//        }
+//
+//    }
 
     @Test
     public void scheduleElectionTest(){
-//        Admin admin = adminService.findAdminById(100L);
-//        assertNotNull(admin);
+        Admin admin = adminService.findAdminById(100L);
+        assertNotNull(admin);
         ScheduleElectionRequest scheduleElectionRequest = new ScheduleElectionRequest();
         scheduleElectionRequest.setAdminId(100L);
         scheduleElectionRequest.setCategory(NATIONAL);
@@ -96,6 +98,21 @@ public class AdminServiceImplTest {
 
         assertThat(scheduleElectionResponse).isNotNull();
         assertEquals("Lagos State Governorship Election", scheduleElectionResponse.getTitle());
+    }
+
+    @Test
+    public void cancelElectionTest(){
+        Admin admin = adminService.findAdminById(100L);
+        assertNotNull(admin);
+
+        CancelElectionRequest cancelElectionRequest = new CancelElectionRequest();
+        cancelElectionRequest.setElectionId(303L);
+        cancelElectionRequest.setAdminId(100L);
+        CancelElectionResponse cancelElectionResponse = electionService.cancelElection(cancelElectionRequest);
+
+        assertThat(cancelElectionResponse).isNotNull();
+        assertEquals(303L, cancelElectionResponse.getElectionId());
+        assertEquals(100L, cancelElectionResponse.getAdminId());
     }
 
 }

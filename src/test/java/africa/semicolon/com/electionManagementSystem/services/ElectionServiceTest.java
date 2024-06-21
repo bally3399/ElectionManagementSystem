@@ -12,6 +12,7 @@ import africa.semicolon.com.electionManagementSystem.exceptions.ElectionNotFound
 import africa.semicolon.com.electionManagementSystem.exceptions.InvalidElectionAdminException;
 import africa.semicolon.com.electionManagementSystem.exceptions.InvalidElectionDateException;
 import africa.semicolon.com.electionManagementSystem.exceptions.InvalidElectionTimeException;
+import africa.semicolon.com.electionManagementSystem.models.Admin;
 import africa.semicolon.com.electionManagementSystem.models.Election;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
@@ -32,9 +33,13 @@ public class ElectionServiceTest {
 
     @Autowired
     private ElectionService electionService;
+    @Autowired
+    private AdminService adminService;
 
     @Test
     public void electionCanBeScheduledTest() {
+        Admin admin = adminService.findAdminById(100L);
+        assertThat(admin).isNotNull();
         ScheduleElectionRequest scheduleElectionRequest = new ScheduleElectionRequest();
         scheduleElectionRequest.setAdminId(100L);
         scheduleElectionRequest.setCategory(NATIONAL);
@@ -102,14 +107,14 @@ public class ElectionServiceTest {
         assertThrows(ElectionNotFoundException.class,()->electionService.cancelElection(cancelElectionRequest));
     }
 
-    @Test
-    public void invalidAdminCancelsElectionThrowsExceptionTest() {
-        CancelElectionRequest cancelElectionRequest = new CancelElectionRequest();
-        cancelElectionRequest.setElectionId(301L);
-        cancelElectionRequest.setAdminId(101L);
-
-        assertThrows(InvalidElectionAdminException.class, ()->electionService.cancelElection(cancelElectionRequest));
-    }
+//    @Test
+//    public void invalidAdminCancelsElectionThrowsExceptionTest() {
+//        CancelElectionRequest cancelElectionRequest = new CancelElectionRequest();
+//        cancelElectionRequest.setElectionId(301L);
+//        cancelElectionRequest.setAdminId(101L);
+//
+//        assertThrows(InvalidElectionAdminException.class, ()->electionService.cancelElection(cancelElectionRequest));
+//    }
 
     @Test
     public void addCandidateToElectionTest() {

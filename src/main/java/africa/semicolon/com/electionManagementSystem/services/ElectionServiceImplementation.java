@@ -14,6 +14,8 @@ import africa.semicolon.com.electionManagementSystem.models.Admin;
 import africa.semicolon.com.electionManagementSystem.models.Election;
 import africa.semicolon.com.electionManagementSystem.repository.ElectionRepository;
 import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
 import org.modelmapper.ModelMapper;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,36 +26,24 @@ import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 
 @Service
+@AllArgsConstructor
 public class ElectionServiceImplementation implements ElectionService {
-
-    @Autowired
-    private  ElectionRepository electionRepository;
-    @Autowired
-    private ModelMapper modelMapper;
-    private final AdminService adminService;
-
-    public ElectionServiceImplementation(AdminService adminService){
-        this.adminService = adminService;
-    }
+    private final ElectionRepository electionRepository;
+    private final ModelMapper modelMapper;
 
     @Override
     public ScheduleElectionResponse scheduleElection(ScheduleElectionRequest scheduleElectionRequest) {
-        Admin admin = adminService.findAdminById(scheduleElectionRequest.getAdminId());
         Election election = modelMapper.map(scheduleElectionRequest, Election.class);
         validateElectionDates(scheduleElectionRequest, election);
         validateElectionTimes(scheduleElectionRequest, election);
-        election.setAdmin(admin);
         electionRepository.save(election);
         return modelMapper.map(election, ScheduleElectionResponse.class);
     }
 
     @Override
     public CancelElectionResponse cancelElection(CancelElectionRequest cancelElectionRequest) {
-        Admin admin = adminService.findAdminById(cancelElectionRequest.getAdminId());
         Election election = getElectionById(cancelElectionRequest.getElectionId());
-        if(!election.getAdmin().getId().equals(admin.getId())) throw new InvalidElectionAdminException("Admin not assigned to election.");
         CancelElectionResponse cancelElectionResponse = modelMapper.map(election, CancelElectionResponse.class);
-        cancelElectionResponse.setAdminId(election.getAdmin().getId());
         electionRepository.delete(election);
         return cancelElectionResponse;
     }
@@ -101,5 +91,6 @@ public class ElectionServiceImplementation implements ElectionService {
             throw new InvalidElectionTimeException("Please enter a valid 24-hour time format - 12:00");
         }
     }
+
 
 }

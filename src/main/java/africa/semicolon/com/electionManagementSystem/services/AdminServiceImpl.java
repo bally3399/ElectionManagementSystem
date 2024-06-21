@@ -1,9 +1,13 @@
 package africa.semicolon.com.electionManagementSystem.services;
 
 import africa.semicolon.com.electionManagementSystem.dtos.requests.AddAdminRequest;
+import africa.semicolon.com.electionManagementSystem.dtos.requests.CancelElectionRequest;
 import africa.semicolon.com.electionManagementSystem.dtos.requests.DeleteAdminRequest;
+import africa.semicolon.com.electionManagementSystem.dtos.requests.ScheduleElectionRequest;
 import africa.semicolon.com.electionManagementSystem.dtos.responses.AddAdminResponse;
+import africa.semicolon.com.electionManagementSystem.dtos.responses.CancelElectionResponse;
 import africa.semicolon.com.electionManagementSystem.dtos.responses.DeleteAdminResponse;
+import africa.semicolon.com.electionManagementSystem.dtos.responses.ScheduleElectionResponse;
 import africa.semicolon.com.electionManagementSystem.exceptions.AdminNotFoundException;
 import africa.semicolon.com.electionManagementSystem.exceptions.ElectionNotFoundException;
 import africa.semicolon.com.electionManagementSystem.exceptions.UserAlreadyExistException;
@@ -11,13 +15,15 @@ import africa.semicolon.com.electionManagementSystem.models.Admin;
 import africa.semicolon.com.electionManagementSystem.repository.AdminRepository;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 @AllArgsConstructor
 public class AdminServiceImpl implements AdminService{
-    private final ModelMapper modelMapper;
-    private final AdminRepository adminRepository;
+    private ModelMapper modelMapper;
+    private AdminRepository adminRepository;
+    private final ElectionService electionService;
 
     @Override
     public AddAdminResponse addAdmin(AddAdminRequest addAdminRequest) {
@@ -52,6 +58,19 @@ public class AdminServiceImpl implements AdminService{
     public Admin findAdminById(Long adminId) {
         return adminRepository.findById(adminId).
                 orElseThrow(()-> new AdminNotFoundException("Admin not does not exist."));
+
+    }
+
+    @Override
+    public ScheduleElectionResponse scheduleElection(ScheduleElectionRequest scheduleElectionRequest) {
+        findAdminById(scheduleElectionRequest.getAdminId());
+        return electionService.scheduleElection(scheduleElectionRequest);
+    }
+
+    @Override
+    public CancelElectionResponse cancelElection(CancelElectionRequest cancelElectionRequest) {
+        findAdminById(cancelElectionRequest.getAdminId());
+        return electionService.cancelElection(cancelElectionRequest);
 
     }
 

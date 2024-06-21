@@ -12,7 +12,6 @@ import java.time.LocalTime;
 @Getter
 @Setter
 public class ScheduleElectionResponse {
-
     private String electionId;
     private String title;
     private String location;
