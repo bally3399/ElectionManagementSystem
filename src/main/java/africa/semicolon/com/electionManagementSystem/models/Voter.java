@@ -7,27 +7,20 @@ import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
-<<<<<<< HEAD
 import java.time.LocalDate;
-=======
-
->>>>>>> chichi
 import java.util.List;
-
-
 import static jakarta.persistence.GenerationType.IDENTITY;
 
 @Setter
 @Getter
 @Entity
-@Table(name = "Voters")
+@Table(name = "voters")
 public class Voter {
     @Id
     @GeneratedValue(strategy = IDENTITY)
     private Long id;
     private String firstName;
     private String lastName;
-<<<<<<< HEAD
     @JsonSerialize(using = LocalDateTimeSerializer.class)
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)
     private LocalDate dateOfBirth;
@@ -35,10 +28,6 @@ public class Voter {
     private String phoneNumber;
     @Column(unique = true)
     private String email;
-=======
-    private String password;
-    private String dateOfBirth;
->>>>>>> chichi
     @OneToMany(fetch = FetchType.EAGER)
     private List<Vote> voteHistory;
     @Embedded
