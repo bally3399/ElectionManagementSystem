@@ -1,5 +1,6 @@
 package africa.semicolon.com.electionManagementSystem.services;
 import africa.semicolon.com.electionManagementSystem.dtos.requests.LoginRequest;
+import africa.semicolon.com.electionManagementSystem.dtos.requests.ViewVoterRequest;
 import africa.semicolon.com.electionManagementSystem.dtos.responses.LoginResponse;
 import africa.semicolon.com.electionManagementSystem.dtos.responses.RegisterVoterResponse;
 import africa.semicolon.com.electionManagementSystem.dtos.requests.RegisterVoterRequest;
@@ -46,12 +47,16 @@ public class VoterServiceImplementation implements VoterService {
 
     @Override
     public LoginResponse login(LoginRequest loginRequest) {
-        String username = loginRequest.getUsername();
-        String password = loginRequest.getPassword();
-
-
+//        String username = loginRequest.getUsername();
+//        String password = loginRequest.getPassword();
         return null;
     }
+
+    @Override
+    public void viewVoter(ViewVoterRequest viewRequest) {
+
+    }
+
 
 }
 

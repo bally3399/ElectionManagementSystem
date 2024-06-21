@@ -1,19 +1,19 @@
 package africa.semicolon.com.electionManagementSystem.services;
 
+import africa.semicolon.com.electionManagementSystem.dtos.requests.ViewVoterRequest;
 import africa.semicolon.com.electionManagementSystem.dtos.responses.RegisterVoterResponse;
 import africa.semicolon.com.electionManagementSystem.dtos.requests.RegisterVoterRequest;
 import africa.semicolon.com.electionManagementSystem.exceptions.UnderAgeVoterException;
 import africa.semicolon.com.electionManagementSystem.exceptions.VoterAlreadyExistException;
 import africa.semicolon.com.electionManagementSystem.models.Address;
 import africa.semicolon.com.electionManagementSystem.repository.VoterRepository;
-import org.junit.jupiter.api.Assertions;
+
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import africa.semicolon.com.electionManagementSystem.dtos.requests.LoginRequest;
 import africa.semicolon.com.electionManagementSystem.dtos.responses.LoginResponse;
-import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
+
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -50,7 +50,7 @@ public class VoterServiceTest {
         RegisterVoterResponse registerVoterResponse = voterService.register(registerVoterRequest);
         assertNotNull(registerVoterResponse);
         assertTrue(registerVoterResponse.getMessage().contains("Voter Registered Successfully"));
-        Assertions.assertEquals(2,voterRepository.findAll().size());
+        assertEquals(2,voterRepository.findAll().size());
     }
 
 
@@ -115,4 +115,32 @@ public class VoterServiceTest {
         assertTrue(response.getMessage().contains("success"));
 
     }
+
+    @Test
+    public void testToViewVoterHistory() {
+        RegisterVoterRequest registerVoterRequest = new RegisterVoterRequest();
+        registerVoterRequest.setFirstName("newfirstname");
+        registerVoterRequest.setLastName("newlastname");
+        registerVoterRequest.setPassword("1234");
+        Address address = new Address();
+        address.setBuildingNumber("00123");
+        address.setWard("newWardName");
+        address.setLocalGovernmentArea("newLocalGovtArea");
+        address.setCity("newCityName");
+        address.setState("newStateName");
+        registerVoterRequest.setAddress(address);
+        registerVoterRequest.setPhoneNumber("001234567");
+        registerVoterRequest.setEmail("newvoter@gmail.com");
+        LocalDate dateOfBirth = LocalDate.of(1995, 10, 20);
+        registerVoterRequest.setDateOfBirth(dateOfBirth);
+       voterService.register(registerVoterRequest);
+
+       ViewVoterRequest viewRequest = new ViewVoterRequest();
+       viewRequest.setPassword("1234");
+       viewRequest.setEmail("newvoter@gmail.com");
+       voterService.viewVoter(viewRequest);
+
+    }
+
+
 }
