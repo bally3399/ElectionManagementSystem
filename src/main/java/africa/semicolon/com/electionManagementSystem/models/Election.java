@@ -53,8 +53,6 @@ public class Election {
     private List<Candidate> candidates = new ArrayList<>();
     @Enumerated(value = STRING)
     private Category category;
-    /*a voter can be registered for many elections
-      an election can have multiple voters*/
     @ManyToMany
     private List<Voter> registeredVoters = new ArrayList<>();
     @ManyToOne
