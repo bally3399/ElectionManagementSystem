@@ -4,9 +4,8 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.time.LocalDate;
 import java.util.List;
-import java.util.Map;
+
 
 import static jakarta.persistence.GenerationType.IDENTITY;
 
@@ -21,6 +20,7 @@ public class Voter {
     private String username;
     private String firstName;
     private String lastName;
+    private String password;
     private String dateOfBirth;
     @OneToMany(fetch = FetchType.EAGER)
     private List<Vote> voteHistory;
