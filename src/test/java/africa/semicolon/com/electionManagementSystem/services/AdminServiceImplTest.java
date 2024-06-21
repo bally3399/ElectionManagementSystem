@@ -22,7 +22,6 @@ public class AdminServiceImplTest {
     @Test
     public void addAdminTest(){
         AddAdminRequest addAdminRequest = new AddAdminRequest();
-        addAdminRequest.setUsername("Olayinka1");
         addAdminRequest.setPassword("1234");
         addAdminRequest.setFirstName("Sulaiman");
         addAdminRequest.setLastName("Bally");
@@ -31,11 +30,12 @@ public class AdminServiceImplTest {
         assertNotNull(response);
         assertThat(response.getMessage()).isEqualTo("Successfully added admin");
     }
+
+
     @Test
     public void addAdminWithSameUsername_throwsUserAlreadyExistsException(){
         try {
             AddAdminRequest addAdminRequest = new AddAdminRequest();
-            addAdminRequest.setUsername("Olayinka1");
             addAdminRequest.setPassword("1234");
             addAdminRequest.setFirstName("Sulaiman");
             addAdminRequest.setLastName("Bally");
