@@ -22,7 +22,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
-@Sql(scripts = {"/db/data.sql"})
 public class AdminServiceImplTest {
     @Autowired
     private AdminService adminService;
@@ -57,31 +56,32 @@ public class AdminServiceImplTest {
             assertThat(e.getMessage()).isEqualTo("Admin with same email already exist");
         }
     }
-//    @Test
-//    public void findAdminTest(){
-//        Admin admin = adminService.findByEmail("ballyOne@email.com");
-//        assertNotNull(admin);
-//    }
-//
-//    @Test
-//    public void deleteAdminTest(){
-//        Admin admin = adminService.findByEmail("ballyOne@email.com");
-//        assertNotNull(admin);
-//        DeleteAdminRequest deleteAdminRequest = new DeleteAdminRequest();
-//        deleteAdminRequest.setEmail("ballyOne@email.com");
-//        DeleteAdminResponse response = adminService.deleteAdmin(deleteAdminRequest);
-//        assertNotNull(response);
-//        assertThat(response.getMessage()).isEqualTo("Admin deleted successfully");
-//        try{
-//            admin = adminService.findByEmail("ballyOne@email.com");
-//            assertNull(admin);
-//        } catch (AdminNotFoundException e){
-//            assertThat(e.getMessage()).isEqualTo("Admin not found");
-//        }
-//
-//    }
+    @Test
+    public void findAdminTest(){
+        Admin admin = adminService.findByEmail("ballyOne@email.com");
+        assertNotNull(admin);
+    }
 
     @Test
+    public void deleteAdminTest(){
+        Admin admin = adminService.findByEmail("ballyOne@email.com");
+        assertNotNull(admin);
+        DeleteAdminRequest deleteAdminRequest = new DeleteAdminRequest();
+        deleteAdminRequest.setEmail("ballyOne@email.com");
+        DeleteAdminResponse response = adminService.deleteAdmin(deleteAdminRequest);
+        assertNotNull(response);
+        assertThat(response.getMessage()).isEqualTo("Admin deleted successfully");
+        try{
+            admin = adminService.findByEmail("ballyOne@email.com");
+            assertNull(admin);
+        } catch (AdminNotFoundException e){
+            assertThat(e.getMessage()).isEqualTo("Admin not found");
+        }
+
+    }
+
+    @Test
+    @Sql(scripts = {"/db/data.sql"})
     public void scheduleElectionTest(){
         Admin admin = adminService.findAdminById(100L);
         assertNotNull(admin);
@@ -101,6 +101,7 @@ public class AdminServiceImplTest {
     }
 
     @Test
+    @Sql(scripts = {"/db/data.sql"})
     public void cancelElectionTest(){
         Admin admin = adminService.findAdminById(100L);
         assertNotNull(admin);
