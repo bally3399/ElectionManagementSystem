@@ -1,9 +1,12 @@
 package africa.semicolon.com.electionManagementSystem.services;
 
-import africa.semicolon.com.electionManagementSystem.dataTransferObjects.requests.CancelElectionRequest;
-import africa.semicolon.com.electionManagementSystem.dataTransferObjects.requests.ScheduleElectionRequest;
-import africa.semicolon.com.electionManagementSystem.dataTransferObjects.responses.CancelElectionResponse;
-import africa.semicolon.com.electionManagementSystem.dataTransferObjects.responses.ScheduleElectionResponse;
+import africa.semicolon.com.electionManagementSystem.dtos.requests.AddCandidateToElectionRequest;
+import africa.semicolon.com.electionManagementSystem.dtos.requests.CancelElectionRequest;
+import africa.semicolon.com.electionManagementSystem.dtos.requests.ScheduleElectionRequest;
+import africa.semicolon.com.electionManagementSystem.dtos.responses.AddCandidateToElectionResponse;
+import africa.semicolon.com.electionManagementSystem.dtos.responses.CancelElectionResponse;
+import africa.semicolon.com.electionManagementSystem.dtos.responses.ScheduleElectionResponse;
+import africa.semicolon.com.electionManagementSystem.exceptions.ElectionNotFoundException;
 import africa.semicolon.com.electionManagementSystem.exceptions.InvalidElectionDateException;
 import africa.semicolon.com.electionManagementSystem.exceptions.InvalidElectionTimeException;
 import africa.semicolon.com.electionManagementSystem.models.Election;
@@ -26,16 +29,36 @@ public class ElectionServiceImplementation implements ElectionService {
 
     @Override
     public ScheduleElectionResponse scheduleElection(ScheduleElectionRequest scheduleElectionRequest) {
+        //find admin and map it
         Election election = modelMapper.map(scheduleElectionRequest, Election.class);
         validateElectionDates(scheduleElectionRequest, election);
         validateElectionTimes(scheduleElectionRequest, election);
         electionRepository.save(election);
-        System.out.println(election);
         return modelMapper.map(election, ScheduleElectionResponse.class);
     }
 
     @Override
     public CancelElectionResponse cancelElection(CancelElectionRequest cancelElectionRequest) {
+        // find admin and map it
+        Election election = getElectionById(cancelElectionRequest.getElectionId());
+        CancelElectionResponse cancelElectionResponse = modelMapper.map(election, CancelElectionResponse.class);
+        cancelElectionResponse.setAdminId(election.getAdmin().getId());
+        electionRepository.delete(election);
+        return cancelElectionResponse;
+    }
+
+    @Override
+    public Election getElectionById(Long electionId) {
+        return electionRepository.findById(electionId).
+                orElseThrow(()-> new ElectionNotFoundException("Election not does not exist."));
+    }
+
+    @Override
+    public AddCandidateToElectionResponse addCandidateToElection(AddCandidateToElectionRequest addCandidateToElectionRequest) {
+        Election election = getElectionById(addCandidateToElectionRequest.getElectionId());
+        //make sure you find and add the candidate;
+        // make sure you validate the admin
+
         return null;
     }
 
@@ -67,6 +90,5 @@ public class ElectionServiceImplementation implements ElectionService {
             throw new InvalidElectionTimeException("Please enter a valid 24-hour time format - 12:00");
         }
     }
-
 
 }

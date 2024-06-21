@@ -1,4 +1,4 @@
-package africa.semicolon.com.electionManagementSystem.dataTransferObjects.requests;
+package africa.semicolon.com.electionManagementSystem.dtos.requests;
 
 
 import lombok.Getter;

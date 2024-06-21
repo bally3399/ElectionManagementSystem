@@ -7,6 +7,7 @@ import lombok.Setter;
 @Getter
 public class Address {
     private String buildingNumber;
+    private String streetName;
     private String ward;
     private String localGovernmentArea;
     private String city;

@@ -1,4 +1,4 @@
-package africa.semicolon.com.electionManagementSystem.dataTransferObjects.requests;
+package africa.semicolon.com.electionManagementSystem.dtos.requests;
 
 import africa.semicolon.com.electionManagementSystem.models.Category;
 import lombok.Getter;
@@ -7,6 +7,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class ScheduleElectionRequest {
+    private Long adminId;
     private String location;
     private String startDate;
     private String startTime;
