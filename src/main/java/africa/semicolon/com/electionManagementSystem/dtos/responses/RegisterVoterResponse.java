@@ -1,4 +1,4 @@
-package africa.semicolon.com.electionManagementSystem.dtos.reponses;
+package africa.semicolon.com.electionManagementSystem.dtos.responses;
 
 import lombok.Getter;
 import lombok.Setter;
