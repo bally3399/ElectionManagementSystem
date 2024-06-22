@@ -10,4 +10,10 @@ public class AddAdminRequest {
     private String lastName;
     private String password;
     private String email;
+
+    public AddAdminRequest(String email, String password) {}
+
+    public AddAdminRequest() {
+
+    }
 }
