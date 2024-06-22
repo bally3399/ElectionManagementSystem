@@ -80,7 +80,6 @@ public class ElectionServiceTest {
         assertThrows(InvalidElectionTimeException.class ,()->electionService.scheduleElection(scheduleElectionRequest));
     }
 
-
     @Test
     public void electionCanBeCancelledTest() {
         CancelElectionRequest cancelElectionRequest = new CancelElectionRequest();
@@ -102,14 +101,14 @@ public class ElectionServiceTest {
         assertThrows(ElectionNotFoundException.class,()->electionService.cancelElection(cancelElectionRequest));
     }
 
-//    @Test
-//    public void invalidAdminCancelsElectionThrowsExceptionTest() {
-//        CancelElectionRequest cancelElectionRequest = new CancelElectionRequest();
-//        cancelElectionRequest.setElectionId(301L);
-//        cancelElectionRequest.setAdminId(101L);
-//
-//        assertThrows(InvalidElectionAdminException.class, ()->electionService.cancelElection(cancelElectionRequest));
-//    }
+    @Test
+    public void invalidAdminCancelsElectionThrowsExceptionTest() {
+        CancelElectionRequest cancelElectionRequest = new CancelElectionRequest();
+        cancelElectionRequest.setElectionId(301L);
+        cancelElectionRequest.setAdminId(101L);
+
+        assertThrows(InvalidElectionAdminException.class, ()->electionService.cancelElection(cancelElectionRequest));
+    }
 
     @Test
     public void addCandidateToElectionTest() {

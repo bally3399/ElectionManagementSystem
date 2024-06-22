@@ -60,7 +60,7 @@ public class AdminServiceImpl implements AdminService{
     @Override
     public Admin findAdminById(Long adminId) {
         return adminRepository.findById(adminId)
-                .orElseThrow(()-> new AdminNotFoundException("blahhh"));
+                .orElseThrow(()-> new AdminNotFoundException("Admin does not exist."));
     }
 
     @Override
