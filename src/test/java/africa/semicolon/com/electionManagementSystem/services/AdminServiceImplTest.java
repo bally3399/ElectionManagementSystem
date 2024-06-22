@@ -1,15 +1,12 @@
 package africa.semicolon.com.electionManagementSystem.services;
 
-import africa.semicolon.com.electionManagementSystem.dtos.requests.AddAdminRequest;
-import africa.semicolon.com.electionManagementSystem.dtos.requests.CancelElectionRequest;
-import africa.semicolon.com.electionManagementSystem.dtos.requests.RegisterCandidateRequest;
-import africa.semicolon.com.electionManagementSystem.dtos.requests.ScheduleElectionRequest;
-import africa.semicolon.com.electionManagementSystem.dtos.responses.AddAdminResponse;
-import africa.semicolon.com.electionManagementSystem.dtos.responses.CancelElectionResponse;
-import africa.semicolon.com.electionManagementSystem.dtos.responses.ScheduleElectionResponse;
+import africa.semicolon.com.electionManagementSystem.dtos.requests.*;
+import africa.semicolon.com.electionManagementSystem.dtos.responses.*;
+import africa.semicolon.com.electionManagementSystem.exceptions.AdminNotFoundException;
 import africa.semicolon.com.electionManagementSystem.exceptions.UserAlreadyExistException;
+import africa.semicolon.com.electionManagementSystem.models.Address;
 import africa.semicolon.com.electionManagementSystem.models.Admin;
-import africa.semicolon.com.electionManagementSystem.repository.CandidateRepository;
+import africa.semicolon.com.electionManagementSystem.repository.VoterRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -20,8 +17,8 @@ import java.time.LocalDate;
 import static africa.semicolon.com.electionManagementSystem.models.Category.NATIONAL;
 import static africa.semicolon.com.electionManagementSystem.models.Party.APC;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
+
 @SpringBootTest
 
 public class AdminServiceImplTest {
@@ -33,8 +30,9 @@ public class AdminServiceImplTest {
     @Autowired
     private CandidateService candidateService;
     @Autowired
-    private CandidateRepository candidateRepository;
-
+    private VoterService voterService;
+    @Autowired
+    private VoterRepository voterRepository;
     @Test
     public void addAdminTest(){
         AddAdminRequest addAdminRequest = new AddAdminRequest();
@@ -64,36 +62,33 @@ public class AdminServiceImplTest {
         }
 
     }
-//    @Test
-//    public void findAdminTest(){
-//        Admin admin = adminService.findByEmail("ballyOne@email.com");
-//        assertNotNull(admin);
-//    }
+
 
     @Test
-    public void findAdminTest(){
-    Admin admin = adminService.findByEmail("ballyOne@email.com");
+    @Sql(scripts = {"/db/data.sql"})
+    public void findAdminById(){
+    Admin admin = adminService.findAdminById(100L);
     assertNotNull(admin);
 }
 
-//
-//    @Test
-//    public void deleteAdminTest(){
-//        Admin admin = adminService.findByEmail("ballyOne@email.com");
-//        assertNotNull(admin);
-//        DeleteAdminRequest deleteAdminRequest = new DeleteAdminRequest();
-//        deleteAdminRequest.setEmail("ballyOne@email.com");
-//        DeleteAdminResponse response = adminService.deleteAdmin(deleteAdminRequest);
-//        assertNotNull(response);
-//        assertThat(response.getMessage()).isEqualTo("Admin deleted successfully");
-//        try{
-//            admin = adminService.findByEmail("ballyOne@email.com");
-//            assertNull(admin);
-//        } catch (AdminNotFoundException e){
-//            assertThat(e.getMessage()).isEqualTo("Admin not found");
-//        }
-//
-//    }
+    @Test
+    @Sql(scripts = {"/db/data.sql"})
+    public void deleteAdminTest(){
+        Admin admin = adminService.findByEmail("admin2@email.com");
+        assertNotNull(admin);
+        DeleteAdminRequest deleteAdminRequest = new DeleteAdminRequest();
+        deleteAdminRequest.setEmail("admin2@email.com");
+        DeleteAdminResponse response = adminService.deleteAdmin(deleteAdminRequest);
+        assertNotNull(response);
+        assertThat(response.getMessage()).isEqualTo("Admin deleted successfully");
+        try{
+            admin = adminService.findByEmail("admin2@email.com");
+            assertNull(admin);
+        } catch (AdminNotFoundException e){
+            assertThat(e.getMessage()).isEqualTo("Admin not found");
+        }
+
+    }
 
 @Test
 @Sql(scripts = {"/db/data.sql"})
@@ -131,6 +126,7 @@ public void cancelElectionTest(){
 }
 
 @Test
+@Sql(scripts = {"/db/data.sql"})
 public void registerCandidate(){
     Admin admin = adminService.findAdminById(100L);
     assertNotNull(admin);
@@ -149,28 +145,29 @@ public void registerCandidate(){
     assertThat(response.getMessage()).isEqualTo("candidate registration successful");
 }
 
-//    @Test
-//    public void registerVoter(){
-//        Admin admin = adminService.findAdminById(100L);
-//        assertThat(admin).isNotNull();
-//        RegisterVoterRequest registerVoterRequest = new RegisterVoterRequest();
-//        registerVoterRequest.setFirstName("newfirstname");
-//        registerVoterRequest.setLastName("newlastname");
-//        registerVoterRequest.setAdminId(100L);
-//        Address address = new Address();
-//        address.setBuildingNumber("00123");
-//        address.setWard("newWardName");
-//        address.setLocalGovernmentArea("newLocalGovtArea");
-//        address.setCity("newCityName");
-//        address.setState("newStateName");
-//        registerVoterRequest.setAddress(address);
-//        registerVoterRequest.setPhoneNumber("001234567");
-//        registerVoterRequest.setEmail("newvoter@gmail.com");
-//        registerVoterRequest.setDateOfBirth("21/10/1990");
-//        RegisterVoterResponse registerVoterResponse = voterService.register(registerVoterRequest);
-//        assertNotNull(registerVoterResponse);
-//        assertTrue(registerVoterResponse.getMessage().contains("Voter Registered Successfully"));
-//        Assertions.assertEquals(6,voterRepository.findAll().size());
-//    }
+    @Test
+    @Sql(scripts = {"/db/data.sql"})
+    public void registerVoter(){
+        Admin admin = adminService.findAdminById(100L);
+        assertThat(admin).isNotNull();
+        RegisterVoterRequest registerVoterRequest = new RegisterVoterRequest();
+        registerVoterRequest.setFirstName("newfirstname");
+        registerVoterRequest.setLastName("newlastname");
+        registerVoterRequest.setAdminId(100L);
+        Address address = new Address();
+        address.setBuildingNumber("00123");
+        address.setWard("newWardName");
+        address.setLocalGovernmentArea("newLocalGovtArea");
+        address.setCity("newCityName");
+        address.setState("newStateName");
+        registerVoterRequest.setAddress(address);
+        registerVoterRequest.setPhoneNumber("001234567");
+        registerVoterRequest.setEmail("newvoter@gmail.com");
+        registerVoterRequest.setDateOfBirth("21/10/1990");
+        RegisterVoterResponse registerVoterResponse = voterService.register(registerVoterRequest);
+        assertNotNull(registerVoterResponse);
+        assertTrue(registerVoterResponse.getMessage().contains("Voter Registered Successfully"));
+        assertEquals(6,voterRepository.findAll().size());
+    }
 
 }
