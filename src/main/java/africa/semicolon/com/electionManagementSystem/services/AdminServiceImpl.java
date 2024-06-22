@@ -1,5 +1,7 @@
 package africa.semicolon.com.electionManagementSystem.services;
 
+import africa.semicolon.com.electionManagementSystem.dtos.requests.*;
+import africa.semicolon.com.electionManagementSystem.dtos.responses.*;
 import africa.semicolon.com.electionManagementSystem.dtos.requests.AddAdminRequest;
 import africa.semicolon.com.electionManagementSystem.dtos.requests.DeleteAdminRequest;
 import africa.semicolon.com.electionManagementSystem.dtos.requests.ScheduleElectionRequest;
@@ -22,6 +24,8 @@ public class AdminServiceImpl implements AdminService{
     private final ModelMapper modelMapper;
     private final AdminRepository adminRepository;
     private final ElectionService electionService;
+    private final CandidateService candidateService;
+
 
 
     @Override
@@ -64,6 +68,18 @@ public class AdminServiceImpl implements AdminService{
         return electionService.scheduleElection(scheduleElectionRequest);
     }
 
+    @Override
+    public CancelElectionResponse cancelElection(CancelElectionRequest cancelElectionRequest) {
+        findAdminById(cancelElectionRequest.getAdminId());
+        return electionService.cancelElection(cancelElectionRequest);
+
+    }
+
+    @Override
+    public RegisterCandidateResponse registerCandidate(RegisterCandidateRequest candidateRequest) {
+        findAdminById(candidateRequest.getAdminId());
+        return candidateService.registerCandidate(candidateRequest);
+    }
     public void verifyAdmin(String email) {
             Admin admin = adminRepository.findByEmail(email);
             if(admin != null) {
