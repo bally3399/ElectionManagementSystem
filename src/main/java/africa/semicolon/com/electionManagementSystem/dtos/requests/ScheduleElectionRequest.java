@@ -22,4 +22,7 @@ public class ScheduleElectionRequest {
     public ScheduleElectionRequest() {
 
     }
+
+    public void setElectionName(String electionName) {
+    }
 }
