@@ -8,4 +8,10 @@ import lombok.Setter;
 public class DeleteAdminRequest {
     private String email;
 
+    public DeleteAdminRequest(long l) {
+    }
+
+    public DeleteAdminRequest() {
+
+    }
 }
