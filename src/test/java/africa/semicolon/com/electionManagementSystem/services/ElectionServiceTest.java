@@ -1,20 +1,15 @@
 package africa.semicolon.com.electionManagementSystem.services;
 
-import africa.semicolon.com.electionManagementSystem.dtos.requests.AddCandidateToElectionRequest;
-import africa.semicolon.com.electionManagementSystem.dtos.requests.CancelElectionRequest;
-import africa.semicolon.com.electionManagementSystem.dtos.requests.ScheduleElectionRequest;
-
-import africa.semicolon.com.electionManagementSystem.dtos.requests.UpdateElectionRequest;
+import africa.semicolon.com.electionManagementSystem.dtos.requests.*;
 import africa.semicolon.com.electionManagementSystem.dtos.responses.AddCandidateToElectionResponse;
 import africa.semicolon.com.electionManagementSystem.dtos.responses.CancelElectionResponse;
+import africa.semicolon.com.electionManagementSystem.dtos.responses.RemoveCandidateFromElectionResponse;
 import africa.semicolon.com.electionManagementSystem.dtos.responses.ScheduleElectionResponse;
+import africa.semicolon.com.electionManagementSystem.exceptions.AdminNotInvolvedInElectionException;
 import africa.semicolon.com.electionManagementSystem.exceptions.ElectionNotFoundException;
-import africa.semicolon.com.electionManagementSystem.exceptions.InvalidElectionAdminException;
 import africa.semicolon.com.electionManagementSystem.exceptions.InvalidElectionDateException;
 import africa.semicolon.com.electionManagementSystem.exceptions.InvalidElectionTimeException;
-import africa.semicolon.com.electionManagementSystem.models.Admin;
 import africa.semicolon.com.electionManagementSystem.models.Election;
-import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -28,11 +23,11 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @SpringBootTest
 @Sql(scripts = {"/db/data.sql"})
-@Slf4j
 public class ElectionServiceTest {
 
     @Autowired
     private ElectionService electionService;
+
     @Test
     public void electionCanBeScheduledTest() {
         ScheduleElectionRequest scheduleElectionRequest = new ScheduleElectionRequest();
@@ -102,14 +97,14 @@ public class ElectionServiceTest {
         assertThrows(ElectionNotFoundException.class,()->electionService.cancelElection(cancelElectionRequest));
     }
 
-//    @Test
-//    public void invalidAdminCancelsElectionThrowsExceptionTest() {
-//        CancelElectionRequest cancelElectionRequest = new CancelElectionRequest();
-//        cancelElectionRequest.setElectionId(301L);
-//        cancelElectionRequest.setAdminId(101L);
-//
-//        assertThrows(InvalidElectionAdminException.class, ()->electionService.cancelElection(cancelElectionRequest));
-//    }
+    @Test
+    public void uninvolvedAdminCancelsElectionThrowsExceptionTest() {
+        CancelElectionRequest cancelElectionRequest = new CancelElectionRequest();
+        cancelElectionRequest.setElectionId(301L);
+        cancelElectionRequest.setAdminId(101L);
+
+        assertThrows(AdminNotInvolvedInElectionException.class, ()->electionService.cancelElection(cancelElectionRequest));
+    }
 
     @Test
     public void addCandidateToElectionTest() {
@@ -135,7 +130,7 @@ public class ElectionServiceTest {
         addCandidateToElectionRequest.setCandidateId(400L);
         addCandidateToElectionRequest.setElectionId(500L);
 
-        //assertThrows(ElectionNotFoundException.class, ()->electionService.addCandidateToElection(addCandidateToElectionRequest));
+        assertThrows(ElectionNotFoundException.class, ()->electionService.addCandidateToElection(addCandidateToElectionRequest));
     }
 
     @Test
@@ -148,15 +143,54 @@ public class ElectionServiceTest {
         //assertThrows(need to know the exception, ()->electionService.addCandidateToElection(addCandidateToElectionRequest));
     }
 
-//    @Test
-//    public void removeCandidateFromElectionTest() {
-//        RemoveCandidateFromElectionRequest removeCandidateFromElectionRequest = new RemoveCandidateFromElectionRequest();
-//        removeCandidateFromElectionRequest.
-//    }
+    @Test
+    public void uninvolvedAdmin_AddsCandidateToElectionThrowsExceptionTest() {
+        AddCandidateToElectionRequest addCandidateToElectionRequest = new AddCandidateToElectionRequest();
+        addCandidateToElectionRequest.setAdminId(101L);
+        addCandidateToElectionRequest.setCandidateId(400L);
+        addCandidateToElectionRequest.setElectionId(300L);
+
+        assertThrows(AdminNotInvolvedInElectionException.class, ()->electionService.addCandidateToElection(addCandidateToElectionRequest));
+
+    }
+
+    @Test
+    public void removeCandidateFromElectionTest() {
+        RemoveCandidateFromElectionRequest removeCandidateFromElectionRequest = new RemoveCandidateFromElectionRequest();
+        removeCandidateFromElectionRequest.setCandidateId(403L);
+        removeCandidateFromElectionRequest.setAdminId(100L);
+        removeCandidateFromElectionRequest.setElectionId(303L);
+        RemoveCandidateFromElectionResponse removeCandidateFromElectionResponse = electionService.removeCandidateFromElection(removeCandidateFromElectionRequest);
+
+        assertThat(removeCandidateFromElectionResponse).isNotNull();
+        assertEquals(403L, removeCandidateFromElectionResponse.getCandidateId());
+        assertEquals(100L, removeCandidateFromElectionResponse.getAdminId());
+    }
+
+    @Test
+    public void uninvolvedAdmin_RemovesCandidateFromElection_ThrowsExceptionTest() {
+        RemoveCandidateFromElectionRequest removeCandidateFromElectionRequest = new RemoveCandidateFromElectionRequest();
+        removeCandidateFromElectionRequest.setCandidateId(403L);
+        removeCandidateFromElectionRequest.setAdminId(101L);
+        removeCandidateFromElectionRequest.setElectionId(303L);
+
+        assertThrows(AdminNotInvolvedInElectionException.class ,()->electionService.removeCandidateFromElection(removeCandidateFromElectionRequest));
+    }
+
+    @Test
+    public void removeCandidate_FromNonExistentElection_ThrowsExceptionTest() {
+        RemoveCandidateFromElectionRequest removeCandidateFromElectionRequest = new RemoveCandidateFromElectionRequest();
+        removeCandidateFromElectionRequest.setCandidateId(403L);
+        removeCandidateFromElectionRequest.setAdminId(100L);
+        removeCandidateFromElectionRequest.setElectionId(303L);
+
+        assertThrows(AdminNotInvolvedInElectionException.class ,()->electionService.removeCandidateFromElection(removeCandidateFromElectionRequest));
+    }
 
     @Test
     public void electionCanBeUpdatedTest() {
         UpdateElectionRequest updateElectionRequest = new UpdateElectionRequest();
+
 
     }
 
