@@ -2,14 +2,20 @@ package africa.semicolon.com.electionManagementSystem.services;
 
 import africa.semicolon.com.electionManagementSystem.dtos.requests.*;
 import africa.semicolon.com.electionManagementSystem.dtos.responses.*;
+import africa.semicolon.com.electionManagementSystem.dtos.requests.AddAdminRequest;
+import africa.semicolon.com.electionManagementSystem.dtos.requests.DeleteAdminRequest;
+import africa.semicolon.com.electionManagementSystem.dtos.requests.ScheduleElectionRequest;
+import africa.semicolon.com.electionManagementSystem.dtos.responses.AddAdminResponse;
+import africa.semicolon.com.electionManagementSystem.dtos.responses.DeleteAdminResponse;
+import africa.semicolon.com.electionManagementSystem.dtos.responses.ScheduleElectionResponse;
 import africa.semicolon.com.electionManagementSystem.exceptions.AdminNotFoundException;
-import africa.semicolon.com.electionManagementSystem.exceptions.ElectionNotFoundException;
 import africa.semicolon.com.electionManagementSystem.exceptions.UserAlreadyExistException;
 import africa.semicolon.com.electionManagementSystem.models.Admin;
 import africa.semicolon.com.electionManagementSystem.repository.AdminRepository;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -19,6 +25,7 @@ public class AdminServiceImpl implements AdminService{
     private final AdminRepository adminRepository;
     private final ElectionService electionService;
     private final CandidateService candidateService;
+
 
 
     @Override
@@ -34,7 +41,7 @@ public class AdminServiceImpl implements AdminService{
 
     @Override
     public Admin findByEmail(String email) {
-        Admin admin = adminRepository.findByEmail(email);
+        Admin admin = adminRepository.findByEmail(email.toLowerCase());
         if(admin == null) {
             throw new AdminNotFoundException("Admin not found");
         }
@@ -43,7 +50,7 @@ public class AdminServiceImpl implements AdminService{
 
     @Override
     public DeleteAdminResponse deleteAdmin(DeleteAdminRequest deleteAdminRequest) {
-        Admin admin = findByEmail(deleteAdminRequest.getEmail());
+        Admin admin = findByEmail(deleteAdminRequest.getEmail().toLowerCase());
         adminRepository.delete(admin);
         DeleteAdminResponse response = modelMapper.map(admin, DeleteAdminResponse.class);
         response.setMessage("Admin deleted successfully");
@@ -52,14 +59,12 @@ public class AdminServiceImpl implements AdminService{
 
     @Override
     public Admin findAdminById(Long adminId) {
-        return adminRepository.findById(adminId).
-                orElseThrow(()-> new AdminNotFoundException("Admin not does not exist."));
-
+        return adminRepository.findById(adminId)
+                .orElseThrow(()-> new AdminNotFoundException("blahhh"));
     }
 
     @Override
     public ScheduleElectionResponse scheduleElection(ScheduleElectionRequest scheduleElectionRequest) {
-        findAdminById(scheduleElectionRequest.getAdminId());
         return electionService.scheduleElection(scheduleElectionRequest);
     }
 
@@ -75,12 +80,12 @@ public class AdminServiceImpl implements AdminService{
         findAdminById(candidateRequest.getAdminId());
         return candidateService.registerCandidate(candidateRequest);
     }
-
     public void verifyAdmin(String email) {
             Admin admin = adminRepository.findByEmail(email);
             if(admin != null) {
                 throw new UserAlreadyExistException("Admin with same email already exist");
             }
     }
+
 
 }

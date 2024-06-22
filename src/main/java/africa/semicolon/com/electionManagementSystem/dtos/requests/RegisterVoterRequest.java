@@ -16,6 +16,7 @@ public class RegisterVoterRequest {
     private Address address;
     private String email;
     private String phoneNumber;
-    private LocalDate dateOfBirth;
+    private String dateOfBirth;
+    private String password;
     private String message;
 }
