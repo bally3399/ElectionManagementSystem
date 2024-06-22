@@ -45,4 +45,12 @@ public class Candidate {
 
     @Column(nullable = false)
     private boolean isSuspended;
+
+    public Candidate(String email, String name, LocalDate now) {
+
+    }
+
+    public Candidate() {
+
+    }
 }
