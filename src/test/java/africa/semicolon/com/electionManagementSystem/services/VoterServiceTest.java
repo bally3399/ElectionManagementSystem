@@ -1,5 +1,6 @@
 package africa.semicolon.com.electionManagementSystem.services;
 
+import africa.semicolon.com.electionManagementSystem.dtos.requests.ViewVoterInformationRequest;
 import africa.semicolon.com.electionManagementSystem.dtos.responses.RegisterVoterResponse;
 import africa.semicolon.com.electionManagementSystem.dtos.requests.RegisterVoterRequest;
 import africa.semicolon.com.electionManagementSystem.exceptions.UnderAgeVoterException;
@@ -99,6 +100,16 @@ public class VoterServiceTest {
         } catch (UnderAgeVoterException e) {
             assertThat(e.getMessage()).isEqualTo("Under age voter not eligible for registration");
         }
+    }
+
+    @Test
+    public void testToViewVoterInformation(){
+        ViewVoterInformationRequest voterInfo = new ViewVoterInformationRequest();
+        voterInfo.setVoterNumber("100000");
+        voterInfo.setPhoneNumber("9876543210");
+        voterInfo.setEmail("another@example.com");
+        voterInfo.setLastName("name");
+
     }
 
 
