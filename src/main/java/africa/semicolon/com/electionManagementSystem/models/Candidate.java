@@ -25,7 +25,6 @@ public class Candidate {
     private String firstName;
     @Column(nullable = false)
     private String lastName;
-
     @Column(nullable = false)
     @Enumerated(value = STRING)
     private Party party;
