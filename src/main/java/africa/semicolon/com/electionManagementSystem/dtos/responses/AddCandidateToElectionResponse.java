@@ -9,4 +9,6 @@ public class AddCandidateToElectionResponse {
     private Long electionId;
     private Long candidateId;
 
+    public void setMessage(String candidateAddedSuccessfully) {
+    }
 }
