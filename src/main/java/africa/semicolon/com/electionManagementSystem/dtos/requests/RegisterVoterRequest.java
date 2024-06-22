@@ -9,6 +9,7 @@ import java.time.LocalDate;
 
 @Getter
 @Setter
+
 public class RegisterVoterRequest {
     private Long adminId;
     private String firstName;
