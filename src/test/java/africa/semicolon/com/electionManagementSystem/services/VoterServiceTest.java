@@ -36,6 +36,7 @@ public class VoterServiceTest {
         RegisterVoterRequest registerVoterRequest = new RegisterVoterRequest();
         registerVoterRequest.setFirstName("newfirstname");
         registerVoterRequest.setLastName("newlastname");
+        registerVoterRequest.setAdminId(100L);
         Address address = new Address();
         address.setBuildingNumber("00123");
         address.setWard("newWardName");
@@ -60,6 +61,7 @@ public class VoterServiceTest {
         RegisterVoterRequest registerVoterRequest = new RegisterVoterRequest();
         registerVoterRequest.setFirstName("first name");
         registerVoterRequest.setLastName("last name");
+        registerVoterRequest.setAdminId(100L);
         Address address = new Address();
         address.setBuildingNumber("123");
         address.setWard("Ward Name");
@@ -85,6 +87,7 @@ public class VoterServiceTest {
             RegisterVoterRequest registerVoterRequest = new RegisterVoterRequest();
             registerVoterRequest.setFirstName("second");
             registerVoterRequest.setLastName("name");
+            registerVoterRequest.setAdminId(100L);
             Address address = new Address();
             address.setBuildingNumber("456");
             address.setWard("WardName2");

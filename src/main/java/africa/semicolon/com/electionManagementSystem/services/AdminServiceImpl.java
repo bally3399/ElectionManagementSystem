@@ -1,13 +1,7 @@
 package africa.semicolon.com.electionManagementSystem.services;
 
-import africa.semicolon.com.electionManagementSystem.dtos.requests.AddAdminRequest;
-import africa.semicolon.com.electionManagementSystem.dtos.requests.CancelElectionRequest;
-import africa.semicolon.com.electionManagementSystem.dtos.requests.DeleteAdminRequest;
-import africa.semicolon.com.electionManagementSystem.dtos.requests.ScheduleElectionRequest;
-import africa.semicolon.com.electionManagementSystem.dtos.responses.AddAdminResponse;
-import africa.semicolon.com.electionManagementSystem.dtos.responses.CancelElectionResponse;
-import africa.semicolon.com.electionManagementSystem.dtos.responses.DeleteAdminResponse;
-import africa.semicolon.com.electionManagementSystem.dtos.responses.ScheduleElectionResponse;
+import africa.semicolon.com.electionManagementSystem.dtos.requests.*;
+import africa.semicolon.com.electionManagementSystem.dtos.responses.*;
 import africa.semicolon.com.electionManagementSystem.exceptions.AdminNotFoundException;
 import africa.semicolon.com.electionManagementSystem.exceptions.ElectionNotFoundException;
 import africa.semicolon.com.electionManagementSystem.exceptions.UserAlreadyExistException;
@@ -21,9 +15,11 @@ import org.springframework.stereotype.Service;
 @Service
 @AllArgsConstructor
 public class AdminServiceImpl implements AdminService{
-    private ModelMapper modelMapper;
-    private AdminRepository adminRepository;
+    private final ModelMapper modelMapper;
+    private final AdminRepository adminRepository;
     private final ElectionService electionService;
+    private final CandidateService candidateService;
+
 
     @Override
     public AddAdminResponse addAdmin(AddAdminRequest addAdminRequest) {
@@ -72,6 +68,12 @@ public class AdminServiceImpl implements AdminService{
         findAdminById(cancelElectionRequest.getAdminId());
         return electionService.cancelElection(cancelElectionRequest);
 
+    }
+
+    @Override
+    public RegisterCandidateResponse registerCandidate(RegisterCandidateRequest candidateRequest) {
+        findAdminById(candidateRequest.getAdminId());
+        return candidateService.registerCandidate(candidateRequest);
     }
 
     public void verifyAdmin(String email) {
