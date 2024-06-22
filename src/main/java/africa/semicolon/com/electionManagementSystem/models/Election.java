@@ -40,34 +40,26 @@ public class Election {
     @JsonSerialize(using = LocalDateSerializer.class)
     @JsonDeserialize(using = LocalDateDeserializer.class)
     private LocalDate startDate;
-
     @JsonSerialize(using = LocalDateTimeSerializer.class)
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)
     private LocalTime startTime;
-
     @JsonSerialize(using = LocalDateSerializer.class)
     @JsonDeserialize(using = LocalDateDeserializer.class)
     private LocalDate endDate;
-
     @JsonSerialize(using = LocalTimeSerializer.class)
     @JsonDeserialize(using = LocalTimeDeserializer.class)
     private LocalTime endTime;
-
     @OneToMany
     private List<Candidate> candidates = new ArrayList<>();
-
     @Enumerated(value = STRING)
     private Category category;
-    /*a voter can be registered for many elections
-      an election can have multiple voters*/
     @ManyToMany
     private List<Voter> registeredVoters = new ArrayList<>();
     @ManyToOne
     private Admin admin;
-
     @OneToMany
     private List<Vote> votes;
     @Enumerated(value = STRING)
-    private ElectionStatus electionStatus = ElectionStatus.NOT_STARTED;
+    private ElectionStatus electionStatus;
 
 }
