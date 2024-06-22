@@ -7,4 +7,7 @@ import lombok.Setter;
 @Getter
 public class DeleteAdminResponse {
     private String message;
+
+    public DeleteAdminResponse(String adminDeletedSuccessfully) {
+    }
 }
