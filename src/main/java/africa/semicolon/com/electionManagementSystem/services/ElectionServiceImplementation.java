@@ -2,23 +2,25 @@ package africa.semicolon.com.electionManagementSystem.services;
 
 import africa.semicolon.com.electionManagementSystem.dtos.requests.AddCandidateToElectionRequest;
 import africa.semicolon.com.electionManagementSystem.dtos.requests.CancelElectionRequest;
+import africa.semicolon.com.electionManagementSystem.dtos.requests.RemoveCandidateFromElectionRequest;
 import africa.semicolon.com.electionManagementSystem.dtos.requests.ScheduleElectionRequest;
 import africa.semicolon.com.electionManagementSystem.dtos.responses.AddCandidateToElectionResponse;
 import africa.semicolon.com.electionManagementSystem.dtos.responses.CancelElectionResponse;
+import africa.semicolon.com.electionManagementSystem.dtos.responses.RemoveCandidateFromElectionResponse;
 import africa.semicolon.com.electionManagementSystem.dtos.responses.ScheduleElectionResponse;
+import africa.semicolon.com.electionManagementSystem.exceptions.AdminNotInvolvedInElectionException;
 import africa.semicolon.com.electionManagementSystem.exceptions.ElectionNotFoundException;
-import africa.semicolon.com.electionManagementSystem.exceptions.InvalidElectionAdminException;
 import africa.semicolon.com.electionManagementSystem.exceptions.InvalidElectionDateException;
 import africa.semicolon.com.electionManagementSystem.exceptions.InvalidElectionTimeException;
 import africa.semicolon.com.electionManagementSystem.models.Admin;
 import africa.semicolon.com.electionManagementSystem.models.Election;
 import africa.semicolon.com.electionManagementSystem.repository.ElectionRepository;
 import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -26,23 +28,35 @@ import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class ElectionServiceImplementation implements ElectionService {
+
     private final ElectionRepository electionRepository;
     private final ModelMapper modelMapper;
+    private AdminService adminService;
+
+    @Lazy
+    @Autowired
+    public void setAdminService(AdminService adminService){
+        this.adminService = adminService;
+    }
 
     @Override
     public ScheduleElectionResponse scheduleElection(ScheduleElectionRequest scheduleElectionRequest) {
+        Admin admin = adminService.findAdminById(scheduleElectionRequest.getAdminId());
         Election election = modelMapper.map(scheduleElectionRequest, Election.class);
         validateElectionDates(scheduleElectionRequest, election);
         validateElectionTimes(scheduleElectionRequest, election);
+        election.setAdmin(admin);
         electionRepository.save(election);
         return modelMapper.map(election, ScheduleElectionResponse.class);
     }
 
     @Override
     public CancelElectionResponse cancelElection(CancelElectionRequest cancelElectionRequest) {
+        Admin admin = adminService.findAdminById(cancelElectionRequest.getAdminId());
         Election election = getElectionById(cancelElectionRequest.getElectionId());
+        if(!election.getAdmin().getId().equals(admin.getId())) throw new AdminNotInvolvedInElectionException("Admin is not involved in this election.");
         CancelElectionResponse cancelElectionResponse = modelMapper.map(election, CancelElectionResponse.class);
         electionRepository.delete(election);
         return cancelElectionResponse;
@@ -57,9 +71,19 @@ public class ElectionServiceImplementation implements ElectionService {
     @Override
     public AddCandidateToElectionResponse addCandidateToElection(AddCandidateToElectionRequest addCandidateToElectionRequest) {
         Election election = getElectionById(addCandidateToElectionRequest.getElectionId());
+        Admin admin = adminService.findAdminById(addCandidateToElectionRequest.getAdminId());
+        if(!election.getAdmin().getId().equals(admin.getId())) throw new AdminNotInvolvedInElectionException("Admin is not involved in this election.");
+        // validate if candidate is in two elections
         //make sure you find and add the candidate;
-        // make sure you validate the admin
+        return null;
+    }
 
+    @Override
+    public RemoveCandidateFromElectionResponse removeCandidateFromElection(RemoveCandidateFromElectionRequest removeCandidateFromElectionRequest) {
+        Election election = getElectionById(removeCandidateFromElectionRequest.getElectionId());
+        Admin admin = adminService.findAdminById(removeCandidateFromElectionRequest.getAdminId());
+        if(!election.getAdmin().getId().equals(admin.getId())) throw new AdminNotInvolvedInElectionException("Admin is not involved in this election.");
+        //make sure you find and add the candidate;
         return null;
     }
 

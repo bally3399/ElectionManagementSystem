@@ -45,7 +45,8 @@ public class VoterServiceTest {
         registerVoterRequest.setAddress(address);
         registerVoterRequest.setPhoneNumber("001234567");
         registerVoterRequest.setEmail("newvoter@gmail.com");
-        registerVoterRequest.setDateOfBirth("21/10/1990");
+        LocalDate dateOfBirth = LocalDate.of(1995, 10, 20);
+        registerVoterRequest.setDateOfBirth(dateOfBirth);
         RegisterVoterResponse registerVoterResponse = voterService.register(registerVoterRequest);
         assertNotNull(registerVoterResponse);
         assertTrue(registerVoterResponse.getMessage().contains("Voter Registered Successfully"));
@@ -69,7 +70,8 @@ public class VoterServiceTest {
         registerVoterRequest.setAddress(address);
         registerVoterRequest.setPhoneNumber("1234567");
         registerVoterRequest.setEmail("voter@gmail.com");
-        registerVoterRequest.setDateOfBirth("21/10/2000");
+        LocalDate dateOfBirth = LocalDate.of(1990, 9, 20);
+        registerVoterRequest.setDateOfBirth(dateOfBirth);
         RegisterVoterResponse registerVoterResponse = voterService.register(registerVoterRequest);
         assertNotNull(registerVoterResponse);
         assertTrue(registerVoterResponse.getMessage().contains("Voter Registered Successfully"));
@@ -94,13 +96,23 @@ public class VoterServiceTest {
             registerVoterRequest.setAddress(address);
             registerVoterRequest.setPhoneNumber("9876543210");
             registerVoterRequest.setEmail("another@example.com");
-            registerVoterRequest.setDateOfBirth("21/10/2022");
+            LocalDate dateOfBirth = LocalDate.of(2020, 9, 20);
+            registerVoterRequest.setDateOfBirth(dateOfBirth);
             voterService.register(registerVoterRequest);
         } catch (UnderAgeVoterException e) {
             assertThat(e.getMessage()).isEqualTo("Under age voter not eligible for registration");
         }
     }
 
-
-
+//    @Test
+//    public void testToLogin() {
+//        LoginRequest loginRequest = new LoginRequest();
+//        loginRequest.setPassword("1245");
+//        loginRequest.setUsername("chichi");
+//        LoginResponse response = voterService.login(loginRequest);
+//
+//        assertNotNull(response);
+//        assertTrue(response.getMessage().contains("success"));
+//
+//    }
 }
