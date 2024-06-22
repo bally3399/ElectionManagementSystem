@@ -25,6 +25,7 @@ public class CandidateServiceImpl implements CandidateService{
 
     private final ModelMapper modelMapper;
     private final CandidateRepository candidateRepository;
+    private final EmailService emailService;
 
     @Override
     public RegisterCandidateResponse registerCandidate(RegisterCandidateRequest candidateRequest) {
@@ -34,6 +35,11 @@ public class CandidateServiceImpl implements CandidateService{
         candidateRepository.save(candidate);
         RegisterCandidateResponse response = modelMapper.map(candidate, RegisterCandidateResponse.class);
         response.setMessage("candidate registration successful");
+        emailService.sendEmail(candidate.getEmail(), "Election Service Team\n",
+                "Hello " + candidate.getFirstName() + " " + candidate.getLastName() +
+                "\nYou registration was successful.\n" +
+                        "You are now one of the aspired "
+                        + candidate.getPositionContested() + " candidate");
         return response;
     }
 
