@@ -18,6 +18,7 @@ public interface AdminService {
     DeleteAdminResponse deleteAdmin(DeleteAdminRequest deleteAdminRequest);
 
     Admin findAdminById(Long adminId);
+
     ScheduleElectionResponse scheduleElection(ScheduleElectionRequest scheduleElectionRequest);
 
     CancelElectionResponse cancelElection(CancelElectionRequest cancelElectionRequest);
