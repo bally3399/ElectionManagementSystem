@@ -22,8 +22,6 @@ public class Vote {
     @GeneratedValue(strategy = IDENTITY)
     private Long voteId;
     private Category category;
-    @ManyToOne
-    private Ballot ballot;
     @OneToOne
     private Candidate candidate;
     @OneToOne
@@ -32,4 +30,6 @@ public class Vote {
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)
     private LocalDateTime localDateTime;
     //there should be starting time for voting and ending here
+    @OneToOne
+    private Election election;
 }
