@@ -7,13 +7,18 @@ import africa.semicolon.com.electionManagementSystem.dtos.responses.AddCandidate
 import africa.semicolon.com.electionManagementSystem.dtos.responses.CancelElectionResponse;
 import africa.semicolon.com.electionManagementSystem.dtos.responses.ScheduleElectionResponse;
 import africa.semicolon.com.electionManagementSystem.exceptions.ElectionNotFoundException;
+import africa.semicolon.com.electionManagementSystem.exceptions.InvalidElectionAdminException;
 import africa.semicolon.com.electionManagementSystem.exceptions.InvalidElectionDateException;
 import africa.semicolon.com.electionManagementSystem.exceptions.InvalidElectionTimeException;
+import africa.semicolon.com.electionManagementSystem.models.Admin;
 import africa.semicolon.com.electionManagementSystem.models.Election;
 import africa.semicolon.com.electionManagementSystem.repository.ElectionRepository;
 import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
 import org.modelmapper.ModelMapper;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -23,13 +28,11 @@ import java.time.format.DateTimeFormatter;
 @Service
 @AllArgsConstructor
 public class ElectionServiceImplementation implements ElectionService {
-
     private final ElectionRepository electionRepository;
     private final ModelMapper modelMapper;
 
     @Override
     public ScheduleElectionResponse scheduleElection(ScheduleElectionRequest scheduleElectionRequest) {
-        //find admin and map it
         Election election = modelMapper.map(scheduleElectionRequest, Election.class);
         validateElectionDates(scheduleElectionRequest, election);
         validateElectionTimes(scheduleElectionRequest, election);
@@ -39,10 +42,8 @@ public class ElectionServiceImplementation implements ElectionService {
 
     @Override
     public CancelElectionResponse cancelElection(CancelElectionRequest cancelElectionRequest) {
-        // find admin and map it
         Election election = getElectionById(cancelElectionRequest.getElectionId());
         CancelElectionResponse cancelElectionResponse = modelMapper.map(election, CancelElectionResponse.class);
-        cancelElectionResponse.setAdminId(election.getAdmin().getId());
         electionRepository.delete(election);
         return cancelElectionResponse;
     }
@@ -90,5 +91,6 @@ public class ElectionServiceImplementation implements ElectionService {
             throw new InvalidElectionTimeException("Please enter a valid 24-hour time format - 12:00");
         }
     }
+
 
 }
