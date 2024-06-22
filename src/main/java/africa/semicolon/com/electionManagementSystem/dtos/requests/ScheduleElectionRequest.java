@@ -15,4 +15,11 @@ public class ScheduleElectionRequest {
     private String endDate;
     private String title;
     private Category category;
+
+    public ScheduleElectionRequest(long l, String title, String description) {
+    }
+
+    public ScheduleElectionRequest() {
+
+    }
 }

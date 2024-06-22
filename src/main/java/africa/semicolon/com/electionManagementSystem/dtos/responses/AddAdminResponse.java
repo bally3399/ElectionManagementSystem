@@ -7,4 +7,6 @@ import lombok.Setter;
 @Getter
 public class AddAdminResponse {
     private String message;
+
+    public AddAdminResponse(String adminAddedSuccessfully) {}
 }
