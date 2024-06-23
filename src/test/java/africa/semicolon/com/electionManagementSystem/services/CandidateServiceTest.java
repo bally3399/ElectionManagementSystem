@@ -18,7 +18,7 @@ import java.util.List;
 import static africa.semicolon.com.electionManagementSystem.models.Party.APC;
 import static africa.semicolon.com.electionManagementSystem.models.Party.PDP;
 import static africa.semicolon.com.electionManagementSystem.models.PositionContested.GOVERNOR;
-import static africa.semicolon.com.electionManagementSystem.models.PositionContested.PRESIDENTIAL;
+import static africa.semicolon.com.electionManagementSystem.models.PositionContested.PRESIDENT;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.result.StatusResultMatchersExtensionsKt.isEqualTo;
 
@@ -41,7 +41,7 @@ public class CandidateServiceTest {
         candidateRequest.setBiography("Biography");
         candidateRequest.setPhoneNumber("08155336155");
         candidateRequest.setParty(APC);
-        candidateRequest.setPositionContested(PRESIDENTIAL);
+        candidateRequest.setPositionContested(PRESIDENT);
         var response = candidateService.registerCandidate(candidateRequest);
         assertThat(response).isNotNull();
         assertThat(response.getMessage()).isEqualTo("candidate registration successful");
@@ -59,7 +59,7 @@ public class CandidateServiceTest {
         candidateRequest.setPhoneNumber("08155336155");
         candidateRequest.setParty(APC);
         //candidateRequest.setElectionId(300L);
-        candidateRequest.setPositionContested(PRESIDENTIAL);
+        candidateRequest.setPositionContested(PRESIDENT);
         try{
             var response = candidateService.registerCandidate(candidateRequest);
             assertThat(response).isNull();
@@ -81,7 +81,7 @@ public class CandidateServiceTest {
         //candidateRequest.setElectionId(300L);
         candidateRequest.setAdminId(100L);
         candidateRequest.setParty(APC);
-        candidateRequest.setPositionContested(PRESIDENTIAL);
+        candidateRequest.setPositionContested(PRESIDENT);
         try{
             RegisterCandidateResponse response = candidateService.registerCandidate(candidateRequest);
             assertThat(response).isNotNull();
@@ -111,13 +111,13 @@ public class CandidateServiceTest {
         UpdateCandidateRequest updateCandidateRequest = new UpdateCandidateRequest();
         updateCandidateRequest.setCandidateId(401L);
         updateCandidateRequest.setParty(PDP);
-        updateCandidateRequest.setPositionContested(PRESIDENTIAL);
+        updateCandidateRequest.setPositionContested(PRESIDENT);
         UpdateCandidateResponse response = candidateService.updateCandidate(updateCandidateRequest);
         assertThat(response).isNotNull();
         assertThat(response.getMessage()).isEqualTo("candidate updated successfully");
         assertThat(candidateService.findCandidateById(401L).getParty()).isEqualTo(PDP);
         assertThat(candidate.getId()).isEqualTo(401L);
-        assertThat(candidateService.findCandidateById(401L).getPositionContested()).isEqualTo(PRESIDENTIAL);
+        assertThat(candidateService.findCandidateById(401L).getPositionContested()).isEqualTo(PRESIDENT);
     }
 
     @Test
@@ -131,5 +131,26 @@ public class CandidateServiceTest {
         assertThat(candidateService.getNoOfCandidates()).isEqualTo(2);
     }
 
+    @Test
+    public void testThatMemberOfSamePartyCannotBeRegisteredAsCandidateForSamePosition(){
+        RegisterCandidateRequest candidateRequest = new RegisterCandidateRequest();
+        candidateRequest.setFirstName("King");
+        candidateRequest.setLastName("Jumong");
+        candidateRequest.setEmail("lawaltoheeb36@gmail.com");
+        candidateRequest.setDateOfBirth(LocalDate.of(1980, 12, 29));
+        candidateRequest.setBiography("Biography");
+        candidateRequest.setPhoneNumber("08155336155");
+        candidateRequest.setParty(APC);
+        //candidateRequest.setElectionId(300L);
+        candidateRequest.setPositionContested(PRESIDENT);
+        try{
+            var response = candidateService.registerCandidate(candidateRequest);
+            assertThat(response).isNull();
+        } catch (Exception e){
+            assertThat(e).isNotNull();
+            assertThat(e.getMessage()).isEqualTo("Only one candidate from " + candidateRequest.getParty() +
+                    " is allowed to contest for " + candidateRequest.getPositionContested());
+        }
+    }
 
 }

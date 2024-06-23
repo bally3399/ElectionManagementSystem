@@ -1,7 +1,7 @@
 package africa.semicolon.com.electionManagementSystem.models;
 
 public enum PositionContested {
-    PRESIDENTIAL,
+    PRESIDENT,
     GOVERNOR,
     SENATOR,
     LOCAL_GOVERNMENT_CHAIRMAN,
