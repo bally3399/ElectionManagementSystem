@@ -32,6 +32,7 @@ public class CandidateServiceImpl implements CandidateService{
         Candidate candidate = modelMapper.map(candidateRequest, Candidate.class);
         verifyCandidate(candidateRequest.getEmail());
         checkCandidateAge(candidate.getDateOfBirth());
+        validateCandidate(candidateRequest);
         candidateRepository.save(candidate);
         RegisterCandidateResponse response = modelMapper.map(candidate, RegisterCandidateResponse.class);
         response.setMessage("candidate registration successful");
@@ -57,6 +58,13 @@ public class CandidateServiceImpl implements CandidateService{
         }
     }
 
+    private void validateCandidate(RegisterCandidateRequest registerCandidateRequest){
+        Candidate candidate = candidateRepository.findCandidateByParty(registerCandidateRequest.getParty());
+        if (candidate != null) {
+            throw new CandidateAlreadyExistsException("Only one candidate from " + registerCandidateRequest.getParty() +
+                    " is allowed to contest for " + registerCandidateRequest.getPositionContested());
+        }
+    }
 
     @Override
     public Candidate findCandidateById(long id) {
