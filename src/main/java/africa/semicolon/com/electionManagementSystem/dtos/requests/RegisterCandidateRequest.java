@@ -19,10 +19,4 @@ public class RegisterCandidateRequest {
     private String email;
     private String positionContested;
 
-    public RegisterCandidateRequest(String email, String name, LocalDate now) {
-    }
-
-    public RegisterCandidateRequest() {
-
-    }
 }

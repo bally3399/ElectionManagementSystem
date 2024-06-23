@@ -5,7 +5,8 @@ import lombok.Setter;
 
 @Setter
 @Getter
-public class DeleteAdminRequest {
-    private String email;
+public class CastBallotRequest {
 
+    private Long candidateId;
+    private Long voterId;
 }

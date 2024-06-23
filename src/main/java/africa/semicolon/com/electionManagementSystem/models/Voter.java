@@ -9,6 +9,7 @@ import lombok.Getter;
 import lombok.Setter;
 import java.time.LocalDate;
 
+import java.util.ArrayList;
 import java.util.List;
 import static jakarta.persistence.GenerationType.IDENTITY;
 
@@ -22,23 +23,21 @@ public class Voter {
     private Long id;
     private String firstName;
     private String lastName;
+    private String nationalIdentificationNumber;
     private String voterNumber;
     private String stateOfOrigin;
     @JsonSerialize(using = LocalDateTimeSerializer.class)
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)
     private LocalDate dateOfBirth;
-    @Column(unique = true)
+
     private String phoneNumber;
-    @Column(unique = true)
+
     private String email;
     private String password;
     @OneToMany(fetch = FetchType.EAGER)
-    private List<Vote> voteHistory;
+    private List<Vote> voteHistory = new ArrayList<>();
     @Embedded
     private Address address;
     private boolean isLocked;
 
-    public Object getName() {
-        return this.firstName + " " + this.lastName;
-    }
 }

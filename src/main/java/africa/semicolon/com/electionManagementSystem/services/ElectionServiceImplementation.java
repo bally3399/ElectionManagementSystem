@@ -1,20 +1,15 @@
 package africa.semicolon.com.electionManagementSystem.services;
 
-import africa.semicolon.com.electionManagementSystem.dtos.requests.AddCandidateToElectionRequest;
-import africa.semicolon.com.electionManagementSystem.dtos.requests.CancelElectionRequest;
+import africa.semicolon.com.electionManagementSystem.dtos.requests.UpdateElectionStatusRequest;
 import africa.semicolon.com.electionManagementSystem.dtos.requests.ScheduleElectionRequest;
-import africa.semicolon.com.electionManagementSystem.dtos.responses.AddCandidateToElectionResponse;
-import africa.semicolon.com.electionManagementSystem.dtos.responses.CancelElectionResponse;
-import africa.semicolon.com.electionManagementSystem.dtos.responses.ScheduleElectionResponse;
+import africa.semicolon.com.electionManagementSystem.dtos.responses.*;
 import africa.semicolon.com.electionManagementSystem.exceptions.ElectionNotFoundException;
-import africa.semicolon.com.electionManagementSystem.exceptions.InvalidElectionAdminException;
 import africa.semicolon.com.electionManagementSystem.exceptions.InvalidElectionDateException;
+import africa.semicolon.com.electionManagementSystem.exceptions.InvalidElectionStatusException;
 import africa.semicolon.com.electionManagementSystem.exceptions.InvalidElectionTimeException;
-import africa.semicolon.com.electionManagementSystem.models.Admin;
-import africa.semicolon.com.electionManagementSystem.models.Candidate;
 import africa.semicolon.com.electionManagementSystem.models.Election;
+import africa.semicolon.com.electionManagementSystem.models.ElectionStatus;
 import africa.semicolon.com.electionManagementSystem.repository.ElectionRepository;
-import lombok.AllArgsConstructor;
 
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -32,6 +27,7 @@ public class ElectionServiceImplementation implements ElectionService {
     private final ElectionRepository electionRepository;
     private final ModelMapper modelMapper;
     private AdminService adminService;
+
     private CandidateService candidateService;
 
     @Lazy
@@ -40,23 +36,28 @@ public class ElectionServiceImplementation implements ElectionService {
         this.adminService = adminService;
     }
 
+    @Lazy
+    @Autowired
+    public void setCandidateService(CandidateService candidateService) {
+        this.candidateService = candidateService;
+    }
+
     @Override
     public ScheduleElectionResponse scheduleElection(ScheduleElectionRequest scheduleElectionRequest) {
-        Admin admin = adminService.findAdminById(scheduleElectionRequest.getAdminId());
         Election election = modelMapper.map(scheduleElectionRequest, Election.class);
         validateElectionDates(scheduleElectionRequest, election);
         validateElectionTimes(scheduleElectionRequest, election);
-        election.setAdmin(admin);
         electionRepository.save(election);
         return modelMapper.map(election, ScheduleElectionResponse.class);
     }
 
     @Override
-    public CancelElectionResponse cancelElection(CancelElectionRequest cancelElectionRequest) {
-        Election election = getElectionById(cancelElectionRequest.getElectionId());
-        CancelElectionResponse cancelElectionResponse = modelMapper.map(election, CancelElectionResponse.class);
-        electionRepository.delete(election);
-        return cancelElectionResponse;
+    public UpdateElectionStatusResponse updateElectionStatus(UpdateElectionStatusRequest updateElectionStatusRequest) {
+        Election election = getElectionById(updateElectionStatusRequest.getElectionId());
+        if (updateElectionStatusRequest.getElectionStatus() == null) throw new InvalidElectionStatusException("Please enter a valid status for the election.");
+        election.setElectionStatus(updateElectionStatusRequest.getElectionStatus());
+        electionRepository.save(election);
+        return modelMapper.map(election, UpdateElectionStatusResponse.class);
     }
 
     @Override
@@ -66,16 +67,29 @@ public class ElectionServiceImplementation implements ElectionService {
     }
 
     @Override
-    public AddCandidateToElectionResponse addCandidateToElection(AddCandidateToElectionRequest addCandidateToElectionRequest) {
-        Admin admin = adminService.findAdminById(addCandidateToElectionRequest.getAdminId());
-        Election election = getElectionById(addCandidateToElectionRequest.getElectionId());
-        if (!election.getAdmin().getId().equals(admin.getId())) throw new InvalidElectionAdminException("Admin is not involved in election.");
-        Candidate candidate = candidateService.findCandidateById(addCandidateToElectionRequest.getCandidateId());
-        //make sure you find and add the candidate;
-        // make sure you validate the admin
-
-        return null;
+    public Election saveElection(Election election) {
+        return electionRepository.save(election);
     }
+
+//    @Override
+//    public AddCandidateToElectionResponse addCandidateToElection(AddCandidateToElectionRequest addCandidateToElectionRequest) {
+//        Admin admin = adminService.findAdminById(addCandidateToElectionRequest.getAdminId());
+//        Election election = getElectionById(addCandidateToElectionRequest.getElectionId());
+//        if (!election.getAdmin().getId().equals(admin.getId())) throw new InvalidElectionAdminException("Admin is not involved in this election.");
+//        Candidate candidate = candidateService.findCandidateById(addCandidateToElectionRequest.getCandidateId());
+//        election.getCandidates().add(candidate);
+//        electionRepository.save(election);
+//        return modelMapper.map(election, AddCandidateToElectionResponse.class);
+//        // make sure candidate has one election
+//        // validate that candidate has one election. i am begging you ajiri;
+//    }
+//
+//    @Override
+//    public RemoveCandidateFromElectionResponse removeCandidateFromElection(RemoveCandidateFromElectionRequest removeCandidateFromElectionRequest) {
+//        Admin admin = adminService.findAdminById(removeCandidateFromElectionRequest.getAdminId());
+//        Election election =
+//        return null;
+//    }
 
     private void validateElectionTimes(ScheduleElectionRequest scheduleElectionRequest, Election election) {
         election.setStartTime(parseStringToLocalTime(scheduleElectionRequest.getStartTime()));

@@ -18,11 +18,4 @@ public class UpdateCandidateRequest {
     private String phoneNumber;
     private String email;
     private String positionContested;
-
-    public UpdateCandidateRequest(long id, String newParty, String newPosition) {
-    }
-
-    public UpdateCandidateRequest() {
-
-    }
 }

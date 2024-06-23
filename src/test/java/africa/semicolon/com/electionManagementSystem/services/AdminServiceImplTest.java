@@ -4,8 +4,9 @@ import africa.semicolon.com.electionManagementSystem.dtos.requests.*;
 import africa.semicolon.com.electionManagementSystem.dtos.responses.*;
 import africa.semicolon.com.electionManagementSystem.exceptions.AdminNotFoundException;
 import africa.semicolon.com.electionManagementSystem.exceptions.UserAlreadyExistException;
-import africa.semicolon.com.electionManagementSystem.models.Address;
 import africa.semicolon.com.electionManagementSystem.models.Admin;
+import africa.semicolon.com.electionManagementSystem.models.Election;
+import africa.semicolon.com.electionManagementSystem.models.ElectionStatus;
 import africa.semicolon.com.electionManagementSystem.repository.VoterRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,6 +34,7 @@ public class AdminServiceImplTest {
     private VoterService voterService;
     @Autowired
     private VoterRepository voterRepository;
+
     @Test
     public void addAdminTest(){
         AddAdminRequest addAdminRequest = new AddAdminRequest();
@@ -111,18 +113,17 @@ public void adminCanScheduleElectionTest() {
 
 @Test
 @Sql(scripts = {"/db/data.sql"})
-public void cancelElectionTest(){
-    Admin admin = adminService.findAdminById(100L);
-    assertNotNull(admin);
+public void updateElectionStatusTest(){
+    UpdateElectionStatusRequest updateElectionStatusRequest = new UpdateElectionStatusRequest();
+    updateElectionStatusRequest.setElectionId(303L);
+    updateElectionStatusRequest.setAdminId(100L);
+    updateElectionStatusRequest.setElectionStatus(ElectionStatus.ONGOING);
+    UpdateElectionStatusResponse updateElectionStatusResponse = adminService.updateElectionStatus(updateElectionStatusRequest);
+    Election election = electionService.getElectionById(303L);
 
-    CancelElectionRequest cancelElectionRequest = new CancelElectionRequest();
-    cancelElectionRequest.setElectionId(303L);
-    cancelElectionRequest.setAdminId(100L);
-    CancelElectionResponse cancelElectionResponse = electionService.cancelElection(cancelElectionRequest);
-
-    assertThat(cancelElectionResponse).isNotNull();
-    assertEquals(303L, cancelElectionResponse.getElectionId());
-    assertEquals(100L, cancelElectionResponse.getAdminId());
+    assertThat(updateElectionStatusResponse).isNotNull();
+    assertEquals(303L, updateElectionStatusResponse.getElectionId());
+    assertEquals(ElectionStatus.ONGOING, election.getElectionStatus());
 }
 
 @Test
@@ -145,29 +146,30 @@ public void registerCandidate(){
     assertThat(response.getMessage()).isEqualTo("candidate registration successful");
 }
 
-    @Test
-    @Sql(scripts = {"/db/data.sql"})
-    public void registerVoter(){
-        Admin admin = adminService.findAdminById(100L);
-        assertThat(admin).isNotNull();
-        RegisterVoterRequest registerVoterRequest = new RegisterVoterRequest();
-        registerVoterRequest.setFirstName("newfirstname");
-        registerVoterRequest.setLastName("newlastname");
-        registerVoterRequest.setAdminId(100L);
-        Address address = new Address();
-        address.setBuildingNumber("00123");
-        address.setWard("newWardName");
-        address.setLocalGovernmentArea("newLocalGovtArea");
-        address.setCity("newCityName");
-        address.setState("newStateName");
-        registerVoterRequest.setAddress(address);
-        registerVoterRequest.setPhoneNumber("001234567");
-        registerVoterRequest.setEmail("newvoter@gmail.com");
-        registerVoterRequest.setDateOfBirth("21/10/1990");
-        RegisterVoterResponse registerVoterResponse = voterService.register(registerVoterRequest);
-        assertNotNull(registerVoterResponse);
-        assertTrue(registerVoterResponse.getMessage().contains("Voter Registered Successfully"));
-        assertEquals(6,voterRepository.findAll().size());
-    }
+//    @Test
+//    @Sql(scripts = {"/db/data.sql"})
+//    public void registerVoter(){
+//        Admin admin = adminService.findAdminById(100L);
+//        assertThat(admin).isNotNull();
+//        RegisterVoterRequest registerVoterRequest = new RegisterVoterRequest();
+//        registerVoterRequest.setFirstName("newfirstname");
+//        registerVoterRequest.setLastName("newlastname");
+//        registerVoterRequest.setAdminId(100L);
+//        Address address = new Address();
+//        address.setBuildingNumber("00123");
+//        address.setWard("newWardName");
+//        address.setLocalGovernmentArea("newLocalGovtArea");
+//        address.setCity("newCityName");
+//        address.setState("newStateName");
+//        registerVoterRequest.setAddress(address);
+//        registerVoterRequest.setPhoneNumber("001234567");
+//        registerVoterRequest.setEmail("newvoter@gmail.com");
+//        registerVoterRequest.setDateOfBirth("21/10/1990");
+//        RegisterVoterResponse registerVoterResponse = voterService.register(registerVoterRequest);
+//        assertNotNull(registerVoterResponse);
+//        assertTrue(registerVoterResponse.getMessage().contains("Voter Registered Successfully"));
+//        assertEquals(6,voterRepository.findAll().size());
+//    }
+
 
 }

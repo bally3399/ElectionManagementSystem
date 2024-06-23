@@ -5,7 +5,8 @@ import lombok.Setter;
 
 @Setter
 @Getter
-public class AddAdminResponse {
-    private String message;
-
+public class CastBallotResponse {
+    private Long voterId;
+    private Long candidateId;
+    private Long electionId;
 }
