@@ -1,5 +1,5 @@
 package africa.semicolon.com.electionManagementSystem.services;
-import africa.semicolon.com.electionManagementSystem.dtos.requests.AlreadyVotedForCandidateException;
+import africa.semicolon.com.electionManagementSystem.exceptions.AlreadyVotedForCandidateException;
 import africa.semicolon.com.electionManagementSystem.dtos.requests.CastBallotRequest;
 import africa.semicolon.com.electionManagementSystem.dtos.responses.CastBallotResponse;
 import africa.semicolon.com.electionManagementSystem.dtos.requests.ViewVoterInformationRequest;
@@ -19,9 +19,6 @@ import org.springframework.test.context.jdbc.Sql;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;

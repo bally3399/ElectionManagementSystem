@@ -1,4 +1,4 @@
-package africa.semicolon.com.electionManagementSystem.dtos.requests;
+package africa.semicolon.com.electionManagementSystem.exceptions;
 
 public class AlreadyVotedForCandidateException extends RuntimeException {
 
