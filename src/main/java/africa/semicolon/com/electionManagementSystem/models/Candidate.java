@@ -44,6 +44,7 @@ public class Candidate {
     private String positionContested;
 
     @ManyToOne
+    @JoinColumn(name = "election_id")
     private Election election;
 
 
