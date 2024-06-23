@@ -32,7 +32,7 @@ public class CandidateServiceTest {
         RegisterCandidateRequest candidateRequest = new RegisterCandidateRequest();
         candidateRequest.setFirstName("King");
         candidateRequest.setLastName("Jumong");
-        candidateRequest.setEmail("ajiogeh@gmail.com");
+        candidateRequest.setEmail("sulaimabaliqis@gmail.com");
         candidateRequest.setDateOfBirth(LocalDate.of(1985, 12, 29));
         candidateRequest.setAdminId(100L);
 //        candidateRequest.setElectionId(300L);
