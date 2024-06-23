@@ -9,10 +9,13 @@ import africa.semicolon.com.electionManagementSystem.dtos.responses.CastVoteResp
 import africa.semicolon.com.electionManagementSystem.dtos.responses.GetAllVoteResponse;
 import africa.semicolon.com.electionManagementSystem.dtos.responses.GetVoteResponse;
 import africa.semicolon.com.electionManagementSystem.exceptions.UserNotFoundException;
+import africa.semicolon.com.electionManagementSystem.models.Vote;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.jdbc.Sql;
+
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -32,22 +35,7 @@ public class VoteServiceTest {
 //
 //    }
 //
-//    @Test
-//    public  void  testGetVote(){
-//        GetVoteRequest request = new GetVoteRequest();
-//        request.setId(1L);
-//        GetVoteResponse response =  voteServices.getVote(request);
-//        assertThat(response).isNotNull();
 //
-//
-//    }
-//    @Test
-//    public void  testGetAllVote(){
-//        GetAllVoteRequest request = new GetAllVoteRequest();
-//        request.setCandidateId(400L);
-//        GetAllVoteResponse response = voteServices.getAllVote(request);
-//        assertThat(response).isNotNull();
-//    }
 
     @Test
     public void testCastVote(){
@@ -75,7 +63,6 @@ public class VoteServiceTest {
         } catch (Exception e){
             assertThat(e.getMessage()).isNotNull();
             assertThat(e.getMessage()).isEqualTo("Voter cast vote already");
-            System.out.println("=============> " + e.getMessage());
         }
     }
 
@@ -93,6 +80,27 @@ public class VoteServiceTest {
         }
     }
 
+    @Test
+    public void testThatVoteServiceThrowsExceptionIfWrongCandidateIdIsEntered(){
+        CastBallotRequest castBallotRequest = new CastBallotRequest();
+        castBallotRequest.setCandidateId(1400L);
+        castBallotRequest.setVoterId(200L);
+        try{
+            CastVoteResponse response = voteServices.caseVote(castBallotRequest);
+            assertThat(response).isNotNull();
+        } catch (Exception e){
+            assertThat(e.getMessage()).isNotNull();
+            assertThat(e.getMessage()).isEqualTo("candidate not found");
+        }
+    }
 
-}
+    @Test
+    public void testGetVote(){
+        Optional<Vote> response =  voteServices.getVote(500L);
+        assertThat(response).isNotNull();
+    }
+
+
+
+    }
 
