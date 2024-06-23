@@ -41,12 +41,10 @@ public class Candidate {
     private String email;
 
     @Column(nullable = false)
-    private String positionContested;
+    @Enumerated(value = STRING)
+    private PositionContested positionContested;
 
     @ManyToOne
     private Election election;
-
-
-
 
 }

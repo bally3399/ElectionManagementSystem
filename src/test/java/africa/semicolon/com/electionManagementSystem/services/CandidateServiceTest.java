@@ -17,6 +17,8 @@ import java.util.List;
 
 import static africa.semicolon.com.electionManagementSystem.models.Party.APC;
 import static africa.semicolon.com.electionManagementSystem.models.Party.PDP;
+import static africa.semicolon.com.electionManagementSystem.models.PositionContested.GOVERNOR;
+import static africa.semicolon.com.electionManagementSystem.models.PositionContested.PRESIDENTIAL;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.result.StatusResultMatchersExtensionsKt.isEqualTo;
 
@@ -39,7 +41,7 @@ public class CandidateServiceTest {
         candidateRequest.setBiography("Biography");
         candidateRequest.setPhoneNumber("08155336155");
         candidateRequest.setParty(APC);
-        candidateRequest.setPositionContested("Presidential");
+        candidateRequest.setPositionContested(PRESIDENTIAL);
         var response = candidateService.registerCandidate(candidateRequest);
         assertThat(response).isNotNull();
         assertThat(response.getMessage()).isEqualTo("candidate registration successful");
@@ -57,7 +59,7 @@ public class CandidateServiceTest {
         candidateRequest.setPhoneNumber("08155336155");
         candidateRequest.setParty(APC);
         //candidateRequest.setElectionId(300L);
-        candidateRequest.setPositionContested("Presidential");
+        candidateRequest.setPositionContested(PRESIDENTIAL);
         try{
             var response = candidateService.registerCandidate(candidateRequest);
             assertThat(response).isNull();
@@ -79,7 +81,7 @@ public class CandidateServiceTest {
         //candidateRequest.setElectionId(300L);
         candidateRequest.setAdminId(100L);
         candidateRequest.setParty(APC);
-        candidateRequest.setPositionContested("Presidential");
+        candidateRequest.setPositionContested(PRESIDENTIAL);
         try{
             RegisterCandidateResponse response = candidateService.registerCandidate(candidateRequest);
             assertThat(response).isNotNull();
@@ -105,17 +107,17 @@ public class CandidateServiceTest {
     public void testUpdateCandidate(){
         Candidate candidate = candidateService.findCandidateById(401L);
         assertThat(candidate.getParty()).isEqualTo(APC);
-        assertThat(candidate.getPositionContested()).isEqualTo("Governor");
+        assertThat(candidate.getPositionContested()).isEqualTo(GOVERNOR);
         UpdateCandidateRequest updateCandidateRequest = new UpdateCandidateRequest();
         updateCandidateRequest.setCandidateId(401L);
         updateCandidateRequest.setParty(PDP);
-        updateCandidateRequest.setPositionContested("President");
+        updateCandidateRequest.setPositionContested(PRESIDENTIAL);
         UpdateCandidateResponse response = candidateService.updateCandidate(updateCandidateRequest);
         assertThat(response).isNotNull();
         assertThat(response.getMessage()).isEqualTo("candidate updated successfully");
         assertThat(candidateService.findCandidateById(401L).getParty()).isEqualTo(PDP);
         assertThat(candidate.getId()).isEqualTo(401L);
-        assertThat(candidateService.findCandidateById(401L).getPositionContested()).isEqualTo("President");
+        assertThat(candidateService.findCandidateById(401L).getPositionContested()).isEqualTo(PRESIDENTIAL);
     }
 
     @Test

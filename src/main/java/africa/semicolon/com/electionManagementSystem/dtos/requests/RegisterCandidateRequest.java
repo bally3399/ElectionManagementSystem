@@ -1,6 +1,7 @@
 package africa.semicolon.com.electionManagementSystem.dtos.requests;
 
 import africa.semicolon.com.electionManagementSystem.models.Party;
+import africa.semicolon.com.electionManagementSystem.models.PositionContested;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -17,6 +18,6 @@ public class RegisterCandidateRequest {
     private String biography;
     private String phoneNumber;
     private String email;
-    private String positionContested;
+    private PositionContested positionContested;
 
 }
