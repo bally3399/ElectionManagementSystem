@@ -5,6 +5,7 @@ import africa.semicolon.com.electionManagementSystem.dtos.requests.CastVoteReque
 import africa.semicolon.com.electionManagementSystem.dtos.requests.GetAllVoteRequest;
 import africa.semicolon.com.electionManagementSystem.dtos.requests.GetVoteRequest;
 import africa.semicolon.com.electionManagementSystem.dtos.responses.AddVoteResponse;
+import africa.semicolon.com.electionManagementSystem.dtos.responses.CastVoteResponse;
 import africa.semicolon.com.electionManagementSystem.dtos.responses.GetAllVoteResponse;
 import africa.semicolon.com.electionManagementSystem.dtos.responses.GetVoteResponse;
 import africa.semicolon.com.electionManagementSystem.exceptions.UserNotFoundException;
