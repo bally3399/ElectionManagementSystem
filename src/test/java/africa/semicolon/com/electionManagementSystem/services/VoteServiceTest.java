@@ -1,6 +1,7 @@
 package africa.semicolon.com.electionManagementSystem.services;
 
 import africa.semicolon.com.electionManagementSystem.dtos.requests.AddVoteRequest;
+import africa.semicolon.com.electionManagementSystem.dtos.requests.CastVoteRequest;
 import africa.semicolon.com.electionManagementSystem.dtos.requests.GetAllVoteRequest;
 import africa.semicolon.com.electionManagementSystem.dtos.requests.GetVoteRequest;
 import africa.semicolon.com.electionManagementSystem.dtos.responses.AddVoteResponse;
@@ -47,7 +48,11 @@ public class VoteServiceTest {
 
     @Test
     public void testCastVote(){
-
+        CastVoteRequest voteRequest = new CastVoteRequest();
+        voteRequest.setCandidateId(400L);
+        voteRequest.setVoterId(200L);
+        voteRequest.setElectionId(300L);
+        CastVoteResponse response = voteServices.caseVote(voteRequest);
     }
 
 }
