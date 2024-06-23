@@ -35,6 +35,7 @@ public class CandidateServiceTest {
         candidateRequest.setEmail("jumong@gmail.com");
         candidateRequest.setDateOfBirth(LocalDate.of(1985, 12, 29));
         candidateRequest.setAdminId(100L);
+//        candidateRequest.setElectionId(300L);
         candidateRequest.setBiography("Biography");
         candidateRequest.setPhoneNumber("08155336155");
         candidateRequest.setParty(APC);
@@ -54,8 +55,8 @@ public class CandidateServiceTest {
         candidateRequest.setDateOfBirth(LocalDate.of(2012, 12, 29));
         candidateRequest.setBiography("Biography");
         candidateRequest.setPhoneNumber("08155336155");
-        candidateRequest.setAdminId(100L);
         candidateRequest.setParty(APC);
+        //candidateRequest.setElectionId(300L);
         candidateRequest.setPositionContested("Presidential");
         try{
             var response = candidateService.registerCandidate(candidateRequest);
@@ -75,6 +76,7 @@ public class CandidateServiceTest {
         candidateRequest.setDateOfBirth(LocalDate.of(1985, 12, 29));
         candidateRequest.setBiography("Biography");
         candidateRequest.setPhoneNumber("08155336155");
+        //candidateRequest.setElectionId(300L);
         candidateRequest.setAdminId(100L);
         candidateRequest.setParty(APC);
         candidateRequest.setPositionContested("Presidential");
@@ -96,7 +98,7 @@ public class CandidateServiceTest {
     @Test
     public void testThatCandidateServiceCanFindAllCandidates(){
         List<Candidate> candidates = candidateService.findAllCandidates();
-        assertThat(candidates.size()).isEqualTo(2L);
+        assertThat(candidates.size()).isEqualTo(3L);
     }
 
     @Test
@@ -118,13 +120,13 @@ public class CandidateServiceTest {
 
     @Test
     public void testRemoveCandidate(){
-        assertThat(candidateService.getNoOfCandidates()).isEqualTo(2);
+        assertThat(candidateService.getNoOfCandidates()).isEqualTo(3);
         RemoveCandidateRequest removeCandidateRequest = new RemoveCandidateRequest();
         removeCandidateRequest.setId(400L);
         RemoveCandidateResponse response = candidateService.removeCandidate(removeCandidateRequest);
         assertThat(response).isNotNull();
         assertThat(response.getMessage()).isEqualTo("candidate removed successfully");
-        assertThat(candidateService.getNoOfCandidates()).isEqualTo(1);
+        assertThat(candidateService.getNoOfCandidates()).isEqualTo(2);
     }
 
 

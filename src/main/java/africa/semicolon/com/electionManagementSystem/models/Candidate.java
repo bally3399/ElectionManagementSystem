@@ -43,6 +43,6 @@ public class Candidate {
     @Column(nullable = false)
     private String positionContested;
 
-    @Column(nullable = false)
-    private boolean isSuspended;
+    @ManyToOne
+    private Election election;
 }

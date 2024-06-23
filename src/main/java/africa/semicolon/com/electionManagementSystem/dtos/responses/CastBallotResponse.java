@@ -3,12 +3,10 @@ package africa.semicolon.com.electionManagementSystem.dtos.responses;
 import lombok.Getter;
 import lombok.Setter;
 
-@Getter
 @Setter
-public class CancelElectionResponse {
+@Getter
+public class CastBallotResponse {
+    private Long voterId;
+    private Long candidateId;
     private Long electionId;
-    private Long adminId;
-
-
-
 }
