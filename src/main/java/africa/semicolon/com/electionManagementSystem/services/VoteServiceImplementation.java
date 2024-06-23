@@ -11,6 +11,7 @@ import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -52,6 +53,11 @@ public class VoteServiceImplementation implements VoteService {
 //        vote.setVoteId(voteRequest.getId());
 //        vote = voteRepository.save(vote);
 //        return modelMapper.map(vote, AddVoteResponse.class);
+//    }
+
+//    @Override
+//    public List<Vote> getAllVote() {
+//        return voteRepository.getAllVote();
 //    }
 
     @Override

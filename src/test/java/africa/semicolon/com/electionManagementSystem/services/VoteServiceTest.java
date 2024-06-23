@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.jdbc.Sql;
 
+import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -100,7 +101,12 @@ public class VoteServiceTest {
         assertThat(response).isNotNull();
     }
 
+//    @Test
+//    public void  testGetAllVote(){
+//        List<Vote> voteList = voteServices.getAllVote();
+//        assertThat(voteList).size().isEqualTo(2);
+//    }
 
 
-    }
+}
 

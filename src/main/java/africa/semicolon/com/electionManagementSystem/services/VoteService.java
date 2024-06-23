@@ -4,11 +4,11 @@ import africa.semicolon.com.electionManagementSystem.dtos.requests.CastBallotReq
 import africa.semicolon.com.electionManagementSystem.dtos.responses.CastVoteResponse;
 import africa.semicolon.com.electionManagementSystem.models.Vote;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface VoteService {
-//    GetVoteResponse getVote(GetVoteRequest voteRequest);
-//    GetAllVoteResponse getAllVote(GetAllVoteRequest voteRequest);
+//    List<Vote> getAllVote();
 //    AddVoteResponse addVote(AddVoteRequest voteRequest);
 
     CastVoteResponse caseVote(CastBallotRequest voteRequest);
