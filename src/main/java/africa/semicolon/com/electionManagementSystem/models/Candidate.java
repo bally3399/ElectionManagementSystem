@@ -25,7 +25,6 @@ public class Candidate {
     private String firstName;
     @Column(nullable = false)
     private String lastName;
-
     @Column(nullable = false)
     @Enumerated(value = STRING)
     private Party party;
@@ -46,4 +45,12 @@ public class Candidate {
 
     @Column(nullable = false)
     private boolean isSuspended;
+
+    public Candidate(String email, String name, LocalDate now) {
+
+    }
+
+    public Candidate() {
+
+    }
 }

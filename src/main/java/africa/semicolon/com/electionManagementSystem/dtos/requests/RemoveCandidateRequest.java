@@ -3,9 +3,15 @@ package africa.semicolon.com.electionManagementSystem.dtos.requests;
 import lombok.Getter;
 import lombok.Setter;
 
-@Getter
 @Setter
-public class ViewVoterRequest {
+@Getter
+public class RemoveCandidateRequest {
     private Long id;
-   private String voterNumber;
+
+    public RemoveCandidateRequest(long id) {
+    }
+
+    public RemoveCandidateRequest() {
+
+    }
 }

@@ -11,14 +11,15 @@ import africa.semicolon.com.electionManagementSystem.exceptions.InvalidElectionA
 import africa.semicolon.com.electionManagementSystem.exceptions.InvalidElectionDateException;
 import africa.semicolon.com.electionManagementSystem.exceptions.InvalidElectionTimeException;
 import africa.semicolon.com.electionManagementSystem.models.Admin;
+import africa.semicolon.com.electionManagementSystem.models.Candidate;
 import africa.semicolon.com.electionManagementSystem.models.Election;
 import africa.semicolon.com.electionManagementSystem.repository.ElectionRepository;
 import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.Setter;
-import org.modelmapper.ModelMapper;
 
+import lombok.RequiredArgsConstructor;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -26,16 +27,26 @@ import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class ElectionServiceImplementation implements ElectionService {
     private final ElectionRepository electionRepository;
     private final ModelMapper modelMapper;
+    private AdminService adminService;
+    private CandidateService candidateService;
+
+    @Lazy
+    @Autowired
+    public void setAdminService(AdminService adminService) {
+        this.adminService = adminService;
+    }
 
     @Override
     public ScheduleElectionResponse scheduleElection(ScheduleElectionRequest scheduleElectionRequest) {
+        Admin admin = adminService.findAdminById(scheduleElectionRequest.getAdminId());
         Election election = modelMapper.map(scheduleElectionRequest, Election.class);
         validateElectionDates(scheduleElectionRequest, election);
         validateElectionTimes(scheduleElectionRequest, election);
+        election.setAdmin(admin);
         electionRepository.save(election);
         return modelMapper.map(election, ScheduleElectionResponse.class);
     }
@@ -56,7 +67,10 @@ public class ElectionServiceImplementation implements ElectionService {
 
     @Override
     public AddCandidateToElectionResponse addCandidateToElection(AddCandidateToElectionRequest addCandidateToElectionRequest) {
+        Admin admin = adminService.findAdminById(addCandidateToElectionRequest.getAdminId());
         Election election = getElectionById(addCandidateToElectionRequest.getElectionId());
+        if (!election.getAdmin().getId().equals(admin.getId())) throw new InvalidElectionAdminException("Admin is not involved in election.");
+        Candidate candidate = candidateService.findCandidateById(addCandidateToElectionRequest.getCandidateId());
         //make sure you find and add the candidate;
         // make sure you validate the admin
 

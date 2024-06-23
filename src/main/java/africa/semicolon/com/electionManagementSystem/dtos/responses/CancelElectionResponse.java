@@ -10,5 +10,6 @@ public class CancelElectionResponse {
     private Long adminId;
 
 
-
+    public CancelElectionResponse(String electionCancelledSuccessfully) {
+    }
 }

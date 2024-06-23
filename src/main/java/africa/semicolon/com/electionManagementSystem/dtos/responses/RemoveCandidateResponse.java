@@ -5,9 +5,10 @@ import lombok.Setter;
 
 @Setter
 @Getter
-public class DeleteAdminResponse {
+public class RemoveCandidateResponse {
     private String message;
 
-    public DeleteAdminResponse(String adminDeletedSuccessfully) {
+    public RemoveCandidateResponse() {
+        this.message = message;
     }
 }

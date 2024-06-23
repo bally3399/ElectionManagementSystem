@@ -1,10 +1,14 @@
 package africa.semicolon.com.electionManagementSystem.services;
 import africa.semicolon.com.electionManagementSystem.dtos.requests.LoginRequest;
+import africa.semicolon.com.electionManagementSystem.dtos.requests.ViewVoterInformationRequest;
 import africa.semicolon.com.electionManagementSystem.dtos.requests.ViewVoterRequest;
+import africa.semicolon.com.electionManagementSystem.dtos.responses.AddAdminResponse;
 import africa.semicolon.com.electionManagementSystem.dtos.responses.LoginResponse;
 import africa.semicolon.com.electionManagementSystem.dtos.responses.RegisterVoterResponse;
 import africa.semicolon.com.electionManagementSystem.dtos.requests.RegisterVoterRequest;
+import africa.semicolon.com.electionManagementSystem.dtos.responses.ViewVoterInformationResponse;
 import africa.semicolon.com.electionManagementSystem.exceptions.*;
+import africa.semicolon.com.electionManagementSystem.models.Admin;
 import africa.semicolon.com.electionManagementSystem.models.Voter;
 import africa.semicolon.com.electionManagementSystem.repository.VoterRepository;
 import lombok.AllArgsConstructor;
@@ -75,6 +79,23 @@ public class VoterServiceImplementation implements VoterService {
         return voterRepository.findById(viewRequest.getId())
                 .orElseThrow(()-> new InValidVoterException("Voter does not exist"));
     }
+
+    @Override
+    public Voter getVoterById(Long id) {
+        return voterRepository.findById(id)
+                .orElseThrow(()-> new InValidVoterException("Voter does not exist"));
+
+    }
+
+    @Override
+    public ViewVoterInformationResponse viewInfo(ViewVoterInformationRequest voterInfo) {
+        Voter voter = modelMapper.map(voterInfo,Voter.class);
+        ViewVoterInformationResponse viewInfoResponse = modelMapper.map(voter, ViewVoterInformationResponse.class);
+        return viewInfoResponse;
+    }
+
+
+
 
 
 }

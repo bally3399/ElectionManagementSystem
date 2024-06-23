@@ -11,4 +11,10 @@ public class CancelElectionRequest {
     private Long electionId;
     private Long adminId;
 
+    public CancelElectionRequest(long l) {
+    }
+
+    public CancelElectionRequest() {
+
+    }
 }

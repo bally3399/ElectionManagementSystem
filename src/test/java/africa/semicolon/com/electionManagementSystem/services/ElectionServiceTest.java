@@ -33,13 +33,8 @@ public class ElectionServiceTest {
 
     @Autowired
     private ElectionService electionService;
-    @Autowired
-    private AdminService adminService;
-
     @Test
     public void electionCanBeScheduledTest() {
-        Admin admin = adminService.findAdminById(100L);
-        assertThat(admin).isNotNull();
         ScheduleElectionRequest scheduleElectionRequest = new ScheduleElectionRequest();
         scheduleElectionRequest.setAdminId(100L);
         scheduleElectionRequest.setCategory(NATIONAL);
@@ -85,7 +80,6 @@ public class ElectionServiceTest {
         assertThrows(InvalidElectionTimeException.class ,()->electionService.scheduleElection(scheduleElectionRequest));
     }
 
-
     @Test
     public void electionCanBeCancelledTest() {
         CancelElectionRequest cancelElectionRequest = new CancelElectionRequest();
@@ -107,14 +101,14 @@ public class ElectionServiceTest {
         assertThrows(ElectionNotFoundException.class,()->electionService.cancelElection(cancelElectionRequest));
     }
 
-//    @Test
-//    public void invalidAdminCancelsElectionThrowsExceptionTest() {
-//        CancelElectionRequest cancelElectionRequest = new CancelElectionRequest();
-//        cancelElectionRequest.setElectionId(301L);
-//        cancelElectionRequest.setAdminId(101L);
-//
-//        assertThrows(InvalidElectionAdminException.class, ()->electionService.cancelElection(cancelElectionRequest));
-//    }
+    @Test
+    public void invalidAdminCancelsElectionThrowsExceptionTest() {
+        CancelElectionRequest cancelElectionRequest = new CancelElectionRequest();
+        cancelElectionRequest.setElectionId(301L);
+        cancelElectionRequest.setAdminId(101L);
+
+        assertThrows(InvalidElectionAdminException.class, ()->electionService.cancelElection(cancelElectionRequest));
+    }
 
     @Test
     public void addCandidateToElectionTest() {
