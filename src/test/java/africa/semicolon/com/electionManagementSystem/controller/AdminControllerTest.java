@@ -127,8 +127,11 @@ package africa.semicolon.com.electionManagementSystem.controller;//package afric
 import africa.semicolon.com.electionManagementSystem.controller.AdminController;
 import africa.semicolon.com.electionManagementSystem.dtos.requests.AddAdminRequest;
 import africa.semicolon.com.electionManagementSystem.dtos.requests.DeleteAdminRequest;
+import africa.semicolon.com.electionManagementSystem.dtos.requests.ScheduleElectionRequest;
 import africa.semicolon.com.electionManagementSystem.dtos.responses.AddAdminResponse;
 import africa.semicolon.com.electionManagementSystem.dtos.responses.DeleteAdminResponse;
+import africa.semicolon.com.electionManagementSystem.dtos.responses.ScheduleElectionResponse;
+import africa.semicolon.com.electionManagementSystem.models.Category;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpStatus;
@@ -214,6 +217,60 @@ public class AdminControllerTest {
         deleteAdminRequest.setEmail("penIsUp@email.com");
 
         ResponseEntity<DeleteAdminResponse> response = adminController.deleteAdmin(deleteAdminRequest);
+
+        assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
+    }
+
+    @Test
+    public void testScheduleElectionSuccess() {
+        ScheduleElectionRequest scheduleElectionRequest = new ScheduleElectionRequest();
+        scheduleElectionRequest.setAdminId(100L);
+        scheduleElectionRequest.setLocation("Semi_Colon");
+        scheduleElectionRequest.setStartDate("2024-12-31");
+        scheduleElectionRequest.setStartTime("09:00");
+        scheduleElectionRequest.setEndTime("17:00");
+        scheduleElectionRequest.setEndDate("2024-12-31");
+        scheduleElectionRequest.setTitle("Presidential Election");
+        scheduleElectionRequest.setCategory(Category.NATIONAL);
+
+
+        ResponseEntity<ScheduleElectionResponse> response = adminController.scheduleElection(scheduleElectionRequest);
+
+        assertEquals(HttpStatus.CREATED, response.getStatusCode());
+    }
+
+    @Test
+    public void testScheduleElectionAdminNotFound() {
+        ScheduleElectionRequest scheduleElectionRequest = new ScheduleElectionRequest();
+        scheduleElectionRequest.setAdminId(102L);
+        scheduleElectionRequest.setLocation("Semi_Colon");
+        scheduleElectionRequest.setStartDate("2024-12-31");
+        scheduleElectionRequest.setStartTime("09:00");
+        scheduleElectionRequest.setEndTime("17:00");
+        scheduleElectionRequest.setEndDate("2024-12-31");
+        scheduleElectionRequest.setTitle("Presidential Election");
+        scheduleElectionRequest.setCategory(Category.NATIONAL);
+
+
+        ResponseEntity<ScheduleElectionResponse> response = adminController.scheduleElection(scheduleElectionRequest);
+
+        assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
+    }
+
+    @Test
+    public void testScheduleElectionGeneralError() {
+        ScheduleElectionRequest scheduleElectionRequest = new ScheduleElectionRequest();
+        scheduleElectionRequest.setAdminId(100L);
+        scheduleElectionRequest.setLocation("Semi_Colon");
+        scheduleElectionRequest.setStartDate("2024-12-31");
+        scheduleElectionRequest.setStartTime("09:00");
+        scheduleElectionRequest.setEndTime("17:00");
+        scheduleElectionRequest.setEndDate("2024-12-31");
+        scheduleElectionRequest.setTitle("Presidential Election");
+        scheduleElectionRequest.setCategory(Category.NATIONAL);
+
+
+        ResponseEntity<ScheduleElectionResponse> response = adminController.scheduleElection(scheduleElectionRequest);
 
         assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
     }
