@@ -8,7 +8,4 @@ import lombok.Setter;
 public class RemoveCandidateResponse {
     private String message;
 
-    public RemoveCandidateResponse() {
-        this.message = message;
-    }
 }

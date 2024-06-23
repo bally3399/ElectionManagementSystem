@@ -8,10 +8,4 @@ import lombok.Setter;
 public class RemoveCandidateRequest {
     private Long id;
 
-    public RemoveCandidateRequest(long id) {
-    }
-
-    public RemoveCandidateRequest() {
-
-    }
 }
