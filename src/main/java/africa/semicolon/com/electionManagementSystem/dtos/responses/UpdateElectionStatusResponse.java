@@ -11,5 +11,4 @@ public class UpdateElectionStatusResponse {
     private Long adminId;
     private ElectionStatus electionStatus;
 
-
 }

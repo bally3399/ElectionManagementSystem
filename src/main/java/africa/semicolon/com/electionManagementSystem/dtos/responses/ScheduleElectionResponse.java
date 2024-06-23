@@ -25,4 +25,5 @@ public class ScheduleElectionResponse {
     private LocalTime endDate;
     @JsonSerialize(using = LocalTimeSerializer.class)
     private LocalTime endTime;
+
 }

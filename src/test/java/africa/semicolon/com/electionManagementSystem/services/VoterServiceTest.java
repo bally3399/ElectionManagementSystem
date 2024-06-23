@@ -1,13 +1,16 @@
 package africa.semicolon.com.electionManagementSystem.services;
-
 import africa.semicolon.com.electionManagementSystem.dtos.requests.AlreadyVotedForCandidateException;
 import africa.semicolon.com.electionManagementSystem.dtos.requests.CastBallotRequest;
 import africa.semicolon.com.electionManagementSystem.dtos.responses.CastBallotResponse;
+import africa.semicolon.com.electionManagementSystem.dtos.requests.ViewVoterInformationRequest;
+import africa.semicolon.com.electionManagementSystem.dtos.requests.ViewVoterRequest;
 import africa.semicolon.com.electionManagementSystem.dtos.responses.RegisterVoterResponse;
 import africa.semicolon.com.electionManagementSystem.dtos.requests.RegisterVoterRequest;
+import africa.semicolon.com.electionManagementSystem.dtos.responses.ViewVoterInformationResponse;
 import africa.semicolon.com.electionManagementSystem.exceptions.UnderAgeVoterException;
 import africa.semicolon.com.electionManagementSystem.exceptions.VoterAlreadyExistException;
 import africa.semicolon.com.electionManagementSystem.models.Address;
+import africa.semicolon.com.electionManagementSystem.models.Voter;
 import africa.semicolon.com.electionManagementSystem.repository.VoterRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +19,9 @@ import org.springframework.test.context.jdbc.Sql;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
@@ -30,6 +35,14 @@ public class VoterServiceTest {
 
     @Test
     public void registerVoterTest() {
+//        RegisterVoterRequest registerVoterRequest = getRegisterVoterRequest();
+        RegisterVoterResponse registerVoterResponse = voterService.register(getRegisterVoterRequest());
+        assertNotNull(registerVoterResponse);
+        assertTrue(registerVoterResponse.getMessage().contains("Voter Registered Successfully"));
+        assertEquals(10,voterRepository.findAll().size());
+    }
+
+    private RegisterVoterRequest getRegisterVoterRequest() {
         RegisterVoterRequest registerVoterRequest = new RegisterVoterRequest();
         registerVoterRequest.setFirstName("newfirstname");
         registerVoterRequest.setLastName("newlastname");
@@ -49,8 +62,12 @@ public class VoterServiceTest {
         assertNotNull(registerVoterResponse);
         assertTrue(registerVoterResponse.getMessage().contains("Voter Registered Successfully"));
         //Assertions.assertEquals(2,voterRepository.findAll().size());
-    }
+        registerVoterRequest.setPhoneNumber("0012345672");
+        registerVoterRequest.setEmail("newvoterp@gmail.com");
+        registerVoterRequest.setDateOfBirth("21/10/1990");
+        return registerVoterRequest;
 
+    }
 
 
     @Test
@@ -70,6 +87,7 @@ public class VoterServiceTest {
         registerVoterRequest.setPhoneNumber("1234567");
         registerVoterRequest.setEmail("voter@gmail.com");
         registerVoterRequest.setDateOfBirth("21/10/2000");
+        voterService.register(registerVoterRequest);
         RegisterVoterResponse registerVoterResponse = voterService.register(registerVoterRequest);
         assertNotNull(registerVoterResponse);
         assertTrue(registerVoterResponse.getMessage().contains("Voter Registered Successfully"));
@@ -113,6 +131,34 @@ public class VoterServiceTest {
         voterService.castBallot(castBallotRequest);
 
         assertThat(castBallotResponse).isNotNull();
+    }
+
+    @Test
+    public void testToViewVoterHistory(){
+       ViewVoterRequest voterRequest = new ViewVoterRequest();
+       voterRequest.setId(200L);
+       voterRequest.setVoterNumber("100000");
+       voterService.viewVoter(voterRequest);
+        Voter voter = voterService.getVoterById(200L);
+        assertNotNull(voter);
+        assertEquals(200L, voter.getId());
+        assertEquals( "100000", voter.getVoterNumber());
+    }
+
+
+
+    @Test
+    public void testToViewVoterInformation(){
+        ViewVoterInformationRequest voterInfo = new ViewVoterInformationRequest();
+        voterInfo.setFirstName("newfirstnamep");
+        voterInfo.setLastName("nameu");
+        voterInfo.setVoterNumber("100000");
+        voterInfo.setPhoneNumber("9876543211");
+        voterInfo.setEmail("anothert@example.com");
+        voterInfo.setStateOfOrigin("Imo");
+        voterInfo.setDateOfBirth("21/10/1980");
+        ViewVoterInformationResponse response = voterService.viewInfo(voterInfo);
+        assertNotNull(response);
 
     }
 
@@ -127,6 +173,11 @@ public class VoterServiceTest {
 
     }
 
+//    public void testToFindVoterId(){
+//        Voter voter = voterService.getVoterById(200L);
+//        assertNotNull(voter);
+//        assertEquals(200L, voter.getId());
+//    }
 
 
 }

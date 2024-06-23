@@ -1,11 +1,15 @@
 package africa.semicolon.com.electionManagementSystem.services;
 import africa.semicolon.com.electionManagementSystem.dtos.requests.CastBallotRequest;
 import africa.semicolon.com.electionManagementSystem.dtos.requests.LoginRequest;
+import africa.semicolon.com.electionManagementSystem.dtos.requests.ViewVoterInformationRequest;
 import africa.semicolon.com.electionManagementSystem.dtos.requests.ViewVoterRequest;
 import africa.semicolon.com.electionManagementSystem.dtos.responses.CastBallotResponse;
+import africa.semicolon.com.electionManagementSystem.dtos.responses.AddAdminResponse;
+
 import africa.semicolon.com.electionManagementSystem.dtos.responses.LoginResponse;
 import africa.semicolon.com.electionManagementSystem.dtos.responses.RegisterVoterResponse;
 import africa.semicolon.com.electionManagementSystem.dtos.requests.RegisterVoterRequest;
+import africa.semicolon.com.electionManagementSystem.dtos.responses.ViewVoterInformationResponse;
 import africa.semicolon.com.electionManagementSystem.exceptions.*;
 import africa.semicolon.com.electionManagementSystem.models.Candidate;
 import africa.semicolon.com.electionManagementSystem.models.Election;
@@ -13,7 +17,7 @@ import africa.semicolon.com.electionManagementSystem.models.Vote;
 import africa.semicolon.com.electionManagementSystem.models.Voter;
 import africa.semicolon.com.electionManagementSystem.repository.VoteRepository;
 import africa.semicolon.com.electionManagementSystem.repository.VoterRepository;
-import lombok.AllArgsConstructor;
+
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -126,10 +130,16 @@ public class VoterServiceImplementation implements VoterService {
         return modelMapper.map(vote, CastBallotResponse.class);
     }
 
+    @Override
+    public Voter getVoterByEmailAndPassword(Object email, String password) {
+        return null;
+    }
+
     private Voter getVoter(ViewVoterRequest viewRequest) {
         return voterRepository.findById(viewRequest.getId())
                 .orElseThrow(()-> new InValidVoterException("Voter does not exist"));
     }
+
 
     private String generateVoterNumber() {
         SecureRandom secureRandom = new SecureRandom();
@@ -140,6 +150,19 @@ public class VoterServiceImplementation implements VoterService {
         return "" + newVoterNumber;
     }
 
+    @Override
+    public Voter getVoterById(Long id) {
+        return voterRepository.findById(id)
+                .orElseThrow(()-> new InValidVoterException("Voter does not exist"));
+
+    }
+
+    @Override
+    public ViewVoterInformationResponse viewInfo(ViewVoterInformationRequest voterInfo) {
+        Voter voter = modelMapper.map(voterInfo,Voter.class);
+        ViewVoterInformationResponse viewInfoResponse = modelMapper.map(voter, ViewVoterInformationResponse.class);
+        return viewInfoResponse;
+    }
 
 
 }

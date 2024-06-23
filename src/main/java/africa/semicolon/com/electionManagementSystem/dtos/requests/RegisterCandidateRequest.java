@@ -18,4 +18,5 @@ public class RegisterCandidateRequest {
     private String phoneNumber;
     private String email;
     private String positionContested;
+
 }

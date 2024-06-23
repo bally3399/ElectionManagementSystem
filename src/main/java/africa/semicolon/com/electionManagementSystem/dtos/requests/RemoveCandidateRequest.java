@@ -7,4 +7,5 @@ import lombok.Setter;
 @Getter
 public class RemoveCandidateRequest {
     private Long id;
+
 }

@@ -32,7 +32,7 @@ public class CandidateServiceTest {
         RegisterCandidateRequest candidateRequest = new RegisterCandidateRequest();
         candidateRequest.setFirstName("King");
         candidateRequest.setLastName("Jumong");
-        candidateRequest.setEmail("jumong@gmail.com");
+        candidateRequest.setEmail("ajiogeh@gmail.com");
         candidateRequest.setDateOfBirth(LocalDate.of(1985, 12, 29));
         candidateRequest.setAdminId(100L);
 //        candidateRequest.setElectionId(300L);
@@ -51,7 +51,7 @@ public class CandidateServiceTest {
         RegisterCandidateRequest candidateRequest = new RegisterCandidateRequest();
         candidateRequest.setFirstName("King");
         candidateRequest.setLastName("Jumong");
-        candidateRequest.setEmail("jumong@gmail.com");
+        candidateRequest.setEmail("lawaltoheeb36@gmail.com");
         candidateRequest.setDateOfBirth(LocalDate.of(2012, 12, 29));
         candidateRequest.setBiography("Biography");
         candidateRequest.setPhoneNumber("08155336155");
@@ -70,9 +70,9 @@ public class CandidateServiceTest {
     @Test
     public void testThatCandidateCannotRegisterTwice(){
         RegisterCandidateRequest candidateRequest = new RegisterCandidateRequest();
-        candidateRequest.setFirstName("King");
-        candidateRequest.setLastName("Jumong");
-        candidateRequest.setEmail("adebabalola@gmail.com");
+        candidateRequest.setFirstName("ajiri");
+        candidateRequest.setLastName("ogeh");
+        candidateRequest.setEmail("ajogeh@gmail.com");
         candidateRequest.setDateOfBirth(LocalDate.of(1985, 12, 29));
         candidateRequest.setBiography("Biography");
         candidateRequest.setPhoneNumber("08155336155");
