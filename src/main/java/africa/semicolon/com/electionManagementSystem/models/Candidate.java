@@ -45,7 +45,6 @@ public class Candidate {
     private PositionContested positionContested;
 
     @ManyToOne
-    @JoinColumn(name = "election_id")
     private Election election;
 
 }

@@ -19,5 +19,5 @@ public class RegisterCandidateRequest {
     private String phoneNumber;
     private String email;
     private PositionContested positionContested;
-
+    private Long electionId;
 }
