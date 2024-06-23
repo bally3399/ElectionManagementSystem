@@ -75,6 +75,11 @@ public class VoterServiceImplementation implements VoterService {
 
     }
 
+    @Override
+    public Voter getVoterByEmailAndPassword(Object email, String password) {
+        return null;
+    }
+
     private Voter getVoter(ViewVoterRequest viewRequest) {
         return voterRepository.findById(viewRequest.getId())
                 .orElseThrow(()-> new InValidVoterException("Voter does not exist"));

@@ -11,11 +11,10 @@ import africa.semicolon.com.electionManagementSystem.models.Voter;
 
 public interface VoterService {
     RegisterVoterResponse register(RegisterVoterRequest registerVoterRequest);
-
-
     Voter viewVoter(ViewVoterRequest viewRequest);
-
     Voter getVoterById(Long id);
 
     ViewVoterInformationResponse viewInfo(ViewVoterInformationRequest voterInfo);
+    Voter getVoterByEmailAndPassword(Object email, String password);
+
 }

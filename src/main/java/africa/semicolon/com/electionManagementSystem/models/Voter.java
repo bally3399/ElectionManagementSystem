@@ -37,4 +37,8 @@ public class Voter {
     @Embedded
     private Address address;
     private boolean isLocked;
+
+    public Object getName() {
+        return this.firstName + " " + this.lastName;
+    }
 }

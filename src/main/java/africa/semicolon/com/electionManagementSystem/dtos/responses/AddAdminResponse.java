@@ -8,5 +8,5 @@ import lombok.Setter;
 public class AddAdminResponse {
     private String message;
 
-    public AddAdminResponse(String adminAddedSuccessfully) {}
+//    public AddAdminResponse(String adminAddedSuccessfully) {}
 }
