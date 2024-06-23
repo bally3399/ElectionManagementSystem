@@ -10,6 +10,7 @@ import java.time.LocalDate;
 @Setter
 @Getter
 public class UpdateCandidateRequest {
+    private Long adminId;
     private Long candidateId;
     private String firstName;
     private String lastName;

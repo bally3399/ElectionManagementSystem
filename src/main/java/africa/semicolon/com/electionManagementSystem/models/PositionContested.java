@@ -5,5 +5,6 @@ public enum PositionContested {
     GOVERNOR,
     SENATOR,
     LOCAL_GOVERNMENT_CHAIRMAN,
-    COUNCILLOR
+    COUNCILLOR,
+    OTHERS;
 }

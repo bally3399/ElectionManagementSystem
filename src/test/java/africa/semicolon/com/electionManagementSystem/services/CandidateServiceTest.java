@@ -15,8 +15,7 @@ import org.springframework.test.context.jdbc.Sql;
 import java.time.LocalDate;
 import java.util.List;
 
-import static africa.semicolon.com.electionManagementSystem.models.Party.APC;
-import static africa.semicolon.com.electionManagementSystem.models.Party.PDP;
+import static africa.semicolon.com.electionManagementSystem.models.Party.*;
 import static africa.semicolon.com.electionManagementSystem.models.PositionContested.GOVERNOR;
 import static africa.semicolon.com.electionManagementSystem.models.PositionContested.PRESIDENT;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -34,10 +33,10 @@ public class CandidateServiceTest {
         RegisterCandidateRequest candidateRequest = new RegisterCandidateRequest();
         candidateRequest.setFirstName("King");
         candidateRequest.setLastName("Jumong");
-        candidateRequest.setEmail("sulaimabaliqis@gmail.com");
+        candidateRequest.setEmail("ajiogeh@gmail.com");
         candidateRequest.setDateOfBirth(LocalDate.of(1985, 12, 29));
-        candidateRequest.setAdminId(100L);
-//        candidateRequest.setElectionId(300L);
+        candidateRequest.setId(100L);
+        candidateRequest.setElectionId(300L);
         candidateRequest.setBiography("Biography");
         candidateRequest.setPhoneNumber("08155336155");
         candidateRequest.setParty(APC);
@@ -58,7 +57,7 @@ public class CandidateServiceTest {
         candidateRequest.setBiography("Biography");
         candidateRequest.setPhoneNumber("08155336155");
         candidateRequest.setParty(APC);
-        //candidateRequest.setElectionId(300L);
+        candidateRequest.setElectionId(300L);
         candidateRequest.setPositionContested(PRESIDENT);
         try{
             var response = candidateService.registerCandidate(candidateRequest);
@@ -78,8 +77,8 @@ public class CandidateServiceTest {
         candidateRequest.setDateOfBirth(LocalDate.of(1985, 12, 29));
         candidateRequest.setBiography("Biography");
         candidateRequest.setPhoneNumber("08155336155");
-        //candidateRequest.setElectionId(300L);
-        candidateRequest.setAdminId(100L);
+        candidateRequest.setElectionId(300L);
+        candidateRequest.setId(100L);
         candidateRequest.setParty(APC);
         candidateRequest.setPositionContested(PRESIDENT);
         try{
@@ -110,6 +109,7 @@ public class CandidateServiceTest {
         assertThat(candidate.getPositionContested()).isEqualTo(GOVERNOR);
         UpdateCandidateRequest updateCandidateRequest = new UpdateCandidateRequest();
         updateCandidateRequest.setCandidateId(401L);
+        updateCandidateRequest.setAdminId(100L);
         updateCandidateRequest.setParty(PDP);
         updateCandidateRequest.setPositionContested(PRESIDENT);
         UpdateCandidateResponse response = candidateService.updateCandidate(updateCandidateRequest);
@@ -125,6 +125,7 @@ public class CandidateServiceTest {
         assertThat(candidateService.getNoOfCandidates()).isEqualTo(3);
         RemoveCandidateRequest removeCandidateRequest = new RemoveCandidateRequest();
         removeCandidateRequest.setId(400L);
+        removeCandidateRequest.setAdminId(100L);
         RemoveCandidateResponse response = candidateService.removeCandidate(removeCandidateRequest);
         assertThat(response).isNotNull();
         assertThat(response.getMessage()).isEqualTo("candidate removed successfully");
@@ -140,9 +141,10 @@ public class CandidateServiceTest {
         candidateRequest.setDateOfBirth(LocalDate.of(1980, 12, 29));
         candidateRequest.setBiography("Biography");
         candidateRequest.setPhoneNumber("08155336155");
-        candidateRequest.setParty(APC);
-        //candidateRequest.setElectionId(300L);
-        candidateRequest.setPositionContested(PRESIDENT);
+        candidateRequest.setParty(LP);
+        candidateRequest.setElectionId(300L);
+        candidateRequest.setId(100L);
+        candidateRequest.setPositionContested(GOVERNOR);
         try{
             var response = candidateService.registerCandidate(candidateRequest);
             assertThat(response).isNull();

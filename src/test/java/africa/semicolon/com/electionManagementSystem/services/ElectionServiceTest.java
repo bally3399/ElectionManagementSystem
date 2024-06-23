@@ -167,7 +167,29 @@ public class ElectionServiceTest {
     @Test
     public void electionCanBeUpdatedTest() {
         UpdateElectionRequest updateElectionRequest = new UpdateElectionRequest();
+        updateElectionRequest.setElectionId(302L);
+        updateElectionRequest.setLocation("Kwara");
+        updateElectionRequest.setTitle("Kwara state Governorship election");
+        updateElectionRequest.setEndDate("9/9/2024");
+        updateElectionRequest.setEndTime("21:00");
+        UpdateElectionResponse updateElectionResponse = electionService.updateElection(updateElectionRequest);
+        Election election = electionService.getElectionById(302L);
 
+        assertThat(updateElectionResponse).isNotNull();
+        assertEquals("Kwara", election.getLocation());
+        assertEquals("Kwara state Governorship election", election.getTitle());
+    }
+
+    @Test
+    public void nonExistentElectionUpdated_ThrowsExceptionTest() {
+        UpdateElectionRequest updateElectionRequest = new UpdateElectionRequest();
+        updateElectionRequest.setElectionId(503L);
+        updateElectionRequest.setLocation("Kwara");
+        updateElectionRequest.setTitle("Kwara state Governorship election");
+        updateElectionRequest.setEndDate("9/9/2024");
+        updateElectionRequest.setEndTime("21:00");
+
+        assertThrows(ElectionNotFoundException.class, ()->electionService.updateElection(updateElectionRequest));
     }
 
 }

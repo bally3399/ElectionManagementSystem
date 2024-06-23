@@ -26,8 +26,8 @@ public class VoteServiceTest {
         AddVoteResponse response =  voteServices.addVote(request);
         assertThat(response).isNotNull();
 
-
     }
+
     @Test
     public  void  testGetVote(){
         GetVoteRequest request = new GetVoteRequest();
@@ -43,8 +43,6 @@ public class VoteServiceTest {
         request.setCandidateId(400L);
         GetAllVoteResponse response = voteServices.getAllVote(request);
         assertThat(response).isNotNull();
-
-
     }
 
 }

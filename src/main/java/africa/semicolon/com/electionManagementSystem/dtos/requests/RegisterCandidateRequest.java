@@ -10,7 +10,7 @@ import java.time.LocalDate;
 @Getter
 @Setter
 public class RegisterCandidateRequest {
-    private Long adminId;
+    private Long id; // this id belongs to the admin(DO NOT REFACTOR. it will break the whole code)
     private String firstName;
     private String lastName;
     private Party party;
@@ -19,5 +19,5 @@ public class RegisterCandidateRequest {
     private String phoneNumber;
     private String email;
     private PositionContested positionContested;
-
+    private Long electionId;
 }

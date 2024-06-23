@@ -32,7 +32,6 @@ public class Election {
     private Long electionId;
     private String title;
     private String location;
-    private boolean isRegistrationOpen = true;
     @JsonSerialize(using = LocalDateSerializer.class)
     @JsonDeserialize(using = LocalDateDeserializer.class)
     private LocalDate startDate;
@@ -49,8 +48,6 @@ public class Election {
     private List<Candidate> candidates = new ArrayList<>();
     @Enumerated(value = STRING)
     private Category category;
-    @ManyToMany
-    private List<Voter> registeredVoters = new ArrayList<>();
     @OneToMany(fetch = FetchType.EAGER)
     private List<Vote> votes = new ArrayList<>();
     @Enumerated(value = STRING)

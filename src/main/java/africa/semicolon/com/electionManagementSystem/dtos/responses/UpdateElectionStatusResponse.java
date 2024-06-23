@@ -8,7 +8,6 @@ import lombok.Setter;
 @Setter
 public class UpdateElectionStatusResponse {
     private Long electionId;
-    private Long adminId;
     private ElectionStatus electionStatus;
 
 }
