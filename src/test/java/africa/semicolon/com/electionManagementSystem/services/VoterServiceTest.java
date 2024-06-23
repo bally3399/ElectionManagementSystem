@@ -1,25 +1,20 @@
 package africa.semicolon.com.electionManagementSystem.services;
 
+import africa.semicolon.com.electionManagementSystem.dtos.requests.ViewVoterInformationRequest;
+import africa.semicolon.com.electionManagementSystem.dtos.requests.ViewVoterRequest;
 import africa.semicolon.com.electionManagementSystem.dtos.responses.RegisterVoterResponse;
 import africa.semicolon.com.electionManagementSystem.dtos.requests.RegisterVoterRequest;
+import africa.semicolon.com.electionManagementSystem.dtos.responses.ViewVoterInformationResponse;
 import africa.semicolon.com.electionManagementSystem.exceptions.UnderAgeVoterException;
 import africa.semicolon.com.electionManagementSystem.exceptions.VoterAlreadyExistException;
 import africa.semicolon.com.electionManagementSystem.models.Address;
+import africa.semicolon.com.electionManagementSystem.models.Voter;
 import africa.semicolon.com.electionManagementSystem.repository.VoterRepository;
-import org.junit.jupiter.api.Assertions;
+
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import africa.semicolon.com.electionManagementSystem.dtos.requests.LoginRequest;
-import africa.semicolon.com.electionManagementSystem.dtos.responses.LoginResponse;
-import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
 
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
-
-import java.time.LocalDate;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
@@ -33,9 +28,18 @@ public class VoterServiceTest {
 
     @Test
     public void registerVoterTest() {
+//        RegisterVoterRequest registerVoterRequest = getRegisterVoterRequest();
+        RegisterVoterResponse registerVoterResponse = voterService.register(getRegisterVoterRequest());
+        assertNotNull(registerVoterResponse);
+        assertTrue(registerVoterResponse.getMessage().contains("Voter Registered Successfully"));
+        assertEquals(10,voterRepository.findAll().size());
+    }
+
+    private static RegisterVoterRequest getRegisterVoterRequest() {
         RegisterVoterRequest registerVoterRequest = new RegisterVoterRequest();
         registerVoterRequest.setFirstName("newfirstname");
         registerVoterRequest.setLastName("newlastname");
+        registerVoterRequest.setAdminId(100L);
         Address address = new Address();
         address.setBuildingNumber("00123");
         address.setWard("newWardName");
@@ -43,15 +47,11 @@ public class VoterServiceTest {
         address.setCity("newCityName");
         address.setState("newStateName");
         registerVoterRequest.setAddress(address);
-        registerVoterRequest.setPhoneNumber("001234567");
-        registerVoterRequest.setEmail("newvoter@gmail.com");
+        registerVoterRequest.setPhoneNumber("0012345672");
+        registerVoterRequest.setEmail("newvoterp@gmail.com");
         registerVoterRequest.setDateOfBirth("21/10/1990");
-        RegisterVoterResponse registerVoterResponse = voterService.register(registerVoterRequest);
-        assertNotNull(registerVoterResponse);
-        assertTrue(registerVoterResponse.getMessage().contains("Voter Registered Successfully"));
-        Assertions.assertEquals(2,voterRepository.findAll().size());
+        return registerVoterRequest;
     }
-
 
 
     @Test
@@ -60,6 +60,7 @@ public class VoterServiceTest {
         RegisterVoterRequest registerVoterRequest = new RegisterVoterRequest();
         registerVoterRequest.setFirstName("first name");
         registerVoterRequest.setLastName("last name");
+        registerVoterRequest.setAdminId(100L);
         Address address = new Address();
         address.setBuildingNumber("123");
         address.setWard("Ward Name");
@@ -70,6 +71,7 @@ public class VoterServiceTest {
         registerVoterRequest.setPhoneNumber("1234567");
         registerVoterRequest.setEmail("voter@gmail.com");
         registerVoterRequest.setDateOfBirth("21/10/2000");
+        voterService.register(registerVoterRequest);
         RegisterVoterResponse registerVoterResponse = voterService.register(registerVoterRequest);
         assertNotNull(registerVoterResponse);
         assertTrue(registerVoterResponse.getMessage().contains("Voter Registered Successfully"));
@@ -85,6 +87,7 @@ public class VoterServiceTest {
             RegisterVoterRequest registerVoterRequest = new RegisterVoterRequest();
             registerVoterRequest.setFirstName("second");
             registerVoterRequest.setLastName("name");
+            registerVoterRequest.setAdminId(100L);
             Address address = new Address();
             address.setBuildingNumber("456");
             address.setWard("WardName2");
@@ -101,6 +104,41 @@ public class VoterServiceTest {
         }
     }
 
+    @Test
+    public void testToViewVoterHistory(){
+       ViewVoterRequest voterRequest = new ViewVoterRequest();
+       voterRequest.setId(200L);
+       voterRequest.setVoterNumber("100000");
+       voterService.viewVoter(voterRequest);
+        Voter voter = voterService.getVoterById(200L);
+        assertNotNull(voter);
+        assertEquals(200L, voter.getId());
+        assertEquals( "100000", voter.getVoterNumber());
+    }
+
+
+
+    @Test
+    public void testToViewVoterInformation(){
+        ViewVoterInformationRequest voterInfo = new ViewVoterInformationRequest();
+        voterInfo.setFirstName("newfirstnamep");
+        voterInfo.setLastName("nameu");
+        voterInfo.setVoterNumber("100000");
+        voterInfo.setPhoneNumber("9876543211");
+        voterInfo.setEmail("anothert@example.com");
+        voterInfo.setStateOfOrigin("Imo");
+        voterInfo.setDateOfBirth("21/10/1980");
+        ViewVoterInformationResponse response = voterService.viewInfo(voterInfo);
+        assertNotNull(response);
+
+    }
+
+    @Test
+    public void testToFindVoterId(){
+        Voter voter = voterService.getVoterById(200L);
+        assertNotNull(voter);
+        assertEquals(200L, voter.getId());
+    }
 
 
 }

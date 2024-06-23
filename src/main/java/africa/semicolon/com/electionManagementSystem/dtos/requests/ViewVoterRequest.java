@@ -6,6 +6,6 @@ import lombok.Setter;
 @Getter
 @Setter
 public class ViewVoterRequest {
-
     private Long id;
+   private String voterNumber;
 }

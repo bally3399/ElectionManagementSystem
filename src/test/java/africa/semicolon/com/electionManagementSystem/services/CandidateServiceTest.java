@@ -32,8 +32,9 @@ public class CandidateServiceTest {
         RegisterCandidateRequest candidateRequest = new RegisterCandidateRequest();
         candidateRequest.setFirstName("King");
         candidateRequest.setLastName("Jumong");
-        candidateRequest.setEmail("jumong@gmail.com");
+        candidateRequest.setEmail("lawaltoheeb36@gmail.com");
         candidateRequest.setDateOfBirth(LocalDate.of(1985, 12, 29));
+        candidateRequest.setAdminId(100L);
         candidateRequest.setBiography("Biography");
         candidateRequest.setPhoneNumber("08155336155");
         candidateRequest.setParty(APC);
@@ -53,6 +54,7 @@ public class CandidateServiceTest {
         candidateRequest.setDateOfBirth(LocalDate.of(2012, 12, 29));
         candidateRequest.setBiography("Biography");
         candidateRequest.setPhoneNumber("08155336155");
+        candidateRequest.setAdminId(100L);
         candidateRequest.setParty(APC);
         candidateRequest.setPositionContested("Presidential");
         try{
@@ -73,6 +75,7 @@ public class CandidateServiceTest {
         candidateRequest.setDateOfBirth(LocalDate.of(1985, 12, 29));
         candidateRequest.setBiography("Biography");
         candidateRequest.setPhoneNumber("08155336155");
+        candidateRequest.setAdminId(100L);
         candidateRequest.setParty(APC);
         candidateRequest.setPositionContested("Presidential");
         try{
