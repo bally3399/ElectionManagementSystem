@@ -15,11 +15,11 @@ insert into voters(id, voter_number, first_name, last_name, is_locked, date_of_b
 (203, '100003', 'Efosa', 'Edosa', 'false', '4/4/1995', 'Edo', '4', 'fayemi', 'Ikate', 'Surulere', 'Surulere', 'Lagos', '4455667788'),
 (204, '100004', 'Akpan', 'Ekong', 'false', '5/5/1995', 'Cross-river', '5', 'Oguntola', 'Odomola', 'Lekki', 'Epe', 'Lagos', '556677889900');
 
-insert into elections(election_id, category, title, location, start_date, start_time, end_date, end_time, is_registration_open, election_status) values
-(300, 'NATIONAL', 'Ogun state Governorship election', 'Ogun', '9/1/2024', '7:00', '9/5/2024', '23:00', true, 'NOT_STARTED'),
-(301, 'NATIONAL', 'Ondo state Governorship election', 'Ondo', '9/1/2024', '7:00', '9/5/2024', '23:00', true, 'NOT_STARTED'),
-(302, 'NATIONAL', 'Osun state Governorship election', 'Osun', '9/1/2024', '7:00', '9/5/2024', '23:00', true,  'NOT_STARTED'),
-(303, 'NATIONAL', 'Ekiti state Governorship election', 'Ekiti', '9/1/2024', '7:00', '9/5/2024', '23:00', true, 'NOT_STARTED');
+insert into elections(election_id, category, title, location, start_date, start_time, end_date, end_time, election_status) values
+(300, 'NATIONAL', 'Ogun state Governorship election', 'Ogun', '9/1/2024', '7:00', '9/5/2024', '23:00', 'NOT_STARTED'),
+(301, 'NATIONAL', 'Ondo state Governorship election', 'Ondo', '9/1/2024', '7:00', '9/5/2024', '23:00', 'NOT_STARTED'),
+(302, 'NATIONAL', 'Osun state Governorship election', 'Osun', '9/1/2024', '7:00', '9/5/2024', '23:00', 'NOT_STARTED'),
+(303, 'NATIONAL', 'Ekiti state Governorship election', 'Ekiti', '9/1/2024', '7:00', '9/5/2024', '23:00', 'NOT_STARTED');
 
 insert into candidates(id, first_name, last_name, biography,date_of_birth,email, phone_number, position_contested, party, election_election_id) values
 (400, 'Ade', 'Babalola', 'Ade Babalola was born in 1970.', '1/1/1970', 'adebabalola@gmail.com', '08012345678', 'GOVERNOR', 'PDP', NULL),

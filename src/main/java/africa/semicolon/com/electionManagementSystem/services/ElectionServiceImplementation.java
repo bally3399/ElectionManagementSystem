@@ -1,5 +1,6 @@
 package africa.semicolon.com.electionManagementSystem.services;
 
+import africa.semicolon.com.electionManagementSystem.dtos.requests.UpdateElectionRequest;
 import africa.semicolon.com.electionManagementSystem.dtos.requests.UpdateElectionStatusRequest;
 import africa.semicolon.com.electionManagementSystem.dtos.requests.ScheduleElectionRequest;
 import africa.semicolon.com.electionManagementSystem.dtos.responses.*;
@@ -69,6 +70,21 @@ public class ElectionServiceImplementation implements ElectionService {
     @Override
     public Election saveElection(Election election) {
         return electionRepository.save(election);
+    }
+
+    @Override
+    public UpdateElectionResponse updateElection(UpdateElectionRequest updateElectionRequest) {
+        Election election = getElectionById(updateElectionRequest.getElectionId());
+        if (updateElectionRequest.getTitle() != null) election.setTitle(updateElectionRequest.getTitle());
+        if (updateElectionRequest.getElectionStatus() != null) election.setElectionStatus(updateElectionRequest.getElectionStatus());
+        if (updateElectionRequest.getLocation() != null) election.setLocation(updateElectionRequest.getLocation());
+        if (updateElectionRequest.getCategory() != null) election.setElectionStatus(updateElectionRequest.getElectionStatus());
+        if (updateElectionRequest.getStartDate() != null) election.setStartDate(parseStringToLocalDate(updateElectionRequest.getStartDate()));
+        if (updateElectionRequest.getEndDate() != null) election.setStartDate(parseStringToLocalDate(updateElectionRequest.getEndDate()));
+        if (updateElectionRequest.getStartTime() != null) election.setStartTime(parseStringToLocalTime(updateElectionRequest.getStartTime()));
+        if (updateElectionRequest.getEndTime() != null) election.setEndTime(parseStringToLocalTime(updateElectionRequest.getEndTime()));
+        electionRepository.save(election);
+        return modelMapper.map(election, UpdateElectionResponse.class);
     }
 
 //    @Override

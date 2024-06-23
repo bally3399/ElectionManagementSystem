@@ -137,7 +137,8 @@ public void registerCandidate(){
     candidateRequest.setLastName("Jumong");
     candidateRequest.setEmail("jumong@gmail.com");
     candidateRequest.setDateOfBirth(LocalDate.of(1985, 12, 29));
-    candidateRequest.setAdminId(100L);
+    candidateRequest.setId(100L);
+    candidateRequest.setElectionId(300L);
     candidateRequest.setBiography("Biography");
     candidateRequest.setPhoneNumber("08155336155");
     candidateRequest.setParty(APC);
@@ -146,31 +147,5 @@ public void registerCandidate(){
     assertThat(response).isNotNull();
     assertThat(response.getMessage()).isEqualTo("candidate registration successful");
 }
-
-//    @Test
-//    @Sql(scripts = {"/db/data.sql"})
-//    public void registerVoter(){
-//        Admin admin = adminService.findAdminById(100L);
-//        assertThat(admin).isNotNull();
-//        RegisterVoterRequest registerVoterRequest = new RegisterVoterRequest();
-//        registerVoterRequest.setFirstName("newfirstname");
-//        registerVoterRequest.setLastName("newlastname");
-//        registerVoterRequest.setAdminId(100L);
-//        Address address = new Address();
-//        address.setBuildingNumber("00123");
-//        address.setWard("newWardName");
-//        address.setLocalGovernmentArea("newLocalGovtArea");
-//        address.setCity("newCityName");
-//        address.setState("newStateName");
-//        registerVoterRequest.setAddress(address);
-//        registerVoterRequest.setPhoneNumber("001234567");
-//        registerVoterRequest.setEmail("newvoter@gmail.com");
-//        registerVoterRequest.setDateOfBirth("21/10/1990");
-//        RegisterVoterResponse registerVoterResponse = voterService.register(registerVoterRequest);
-//        assertNotNull(registerVoterResponse);
-//        assertTrue(registerVoterResponse.getMessage().contains("Voter Registered Successfully"));
-//        assertEquals(6,voterRepository.findAll().size());
-//    }
-
 
 }

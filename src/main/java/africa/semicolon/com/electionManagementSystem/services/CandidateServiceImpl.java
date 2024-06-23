@@ -9,10 +9,14 @@ import africa.semicolon.com.electionManagementSystem.dtos.responses.UpdateCandid
 import africa.semicolon.com.electionManagementSystem.exceptions.CandidateAlreadyExistsException;
 import africa.semicolon.com.electionManagementSystem.exceptions.CandidateNotFoundException;
 import africa.semicolon.com.electionManagementSystem.models.Candidate;
+import africa.semicolon.com.electionManagementSystem.models.Election;
 import africa.semicolon.com.electionManagementSystem.repository.CandidateRepository;
 import lombok.AllArgsConstructor;
+import lombok.ToString;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -21,11 +25,20 @@ import java.util.List;
 @Service
 @AllArgsConstructor
 @Slf4j
+@ToString
 public class CandidateServiceImpl implements CandidateService{
 
     private final ModelMapper modelMapper;
     private final CandidateRepository candidateRepository;
     private final EmailService emailService;
+    private ElectionService electionService;
+
+
+    @Lazy
+    @Autowired
+    public void setElectionService(ElectionService electionService) {
+        this.electionService = electionService;
+    }
 
     @Override
     public RegisterCandidateResponse registerCandidate(RegisterCandidateRequest candidateRequest) {
@@ -59,7 +72,8 @@ public class CandidateServiceImpl implements CandidateService{
     }
 
     private void validateCandidate(RegisterCandidateRequest registerCandidateRequest){
-        Candidate candidate = candidateRepository.findCandidateByParty(registerCandidateRequest.getParty());
+        Election election = electionService.getElectionById(registerCandidateRequest.getElectionId());
+        Candidate candidate = candidateRepository.findCandidateByPartyAndElection(registerCandidateRequest.getParty(), election);
         if (candidate != null) {
             throw new CandidateAlreadyExistsException("Only one candidate from " + registerCandidateRequest.getParty() +
                     " is allowed to contest for " + registerCandidateRequest.getPositionContested());

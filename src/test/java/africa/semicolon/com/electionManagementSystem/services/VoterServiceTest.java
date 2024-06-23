@@ -32,11 +32,11 @@ public class VoterServiceTest {
 
     @Test
     public void registerVoterTest() {
-//        RegisterVoterRequest registerVoterRequest = getRegisterVoterRequest();
+        RegisterVoterRequest registerVoterRequest = getRegisterVoterRequest();
         RegisterVoterResponse registerVoterResponse = voterService.register(getRegisterVoterRequest());
         assertNotNull(registerVoterResponse);
         assertTrue(registerVoterResponse.getMessage().contains("Voter Registered Successfully"));
-        assertEquals(10,voterRepository.findAll().size());
+        assertEquals(1,voterRepository.findAll().size());
     }
 
     private RegisterVoterRequest getRegisterVoterRequest() {

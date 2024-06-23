@@ -13,11 +13,8 @@ import java.time.LocalTime;
 
 @Getter
 @Setter
-public class ScheduleElectionResponse {
+public class UpdateElectionResponse {
     private String electionId;
-    private String title;
-    private String location;
-
     @JsonSerialize(using = LocalDateSerializer.class)
     private LocalDate startDate;
     @JsonSerialize(using = LocalDateTimeSerializer.class)
@@ -27,5 +24,4 @@ public class ScheduleElectionResponse {
     private LocalDate endDate;
     @JsonSerialize(using = LocalTimeSerializer.class)
     private LocalTime endTime;
-
 }

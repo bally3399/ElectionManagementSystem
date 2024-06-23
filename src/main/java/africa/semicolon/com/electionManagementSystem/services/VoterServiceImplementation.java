@@ -125,7 +125,7 @@ public class VoterServiceImplementation implements VoterService {
         voteRepository.save(vote);
         election.getVotes().add(vote);
         voter.getVoteHistory().add(vote);
-        electionService.saveElection(election);
+        election = electionService.saveElection(election);
         voterRepository.save(voter);
         return modelMapper.map(vote, CastBallotResponse.class);
     }

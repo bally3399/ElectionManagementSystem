@@ -32,7 +32,6 @@ public class Election {
     private Long electionId;
     private String title;
     private String location;
-    private boolean isRegistrationOpen = true;
     @JsonSerialize(using = LocalDateSerializer.class)
     @JsonDeserialize(using = LocalDateDeserializer.class)
     private LocalDate startDate;
