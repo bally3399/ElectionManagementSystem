@@ -18,5 +18,6 @@ public class  RegisterVoterRequest {
     private String phoneNumber;
     private String dateOfBirth;
     private String password;
+    private String nationalIdentificationNumber;
     private String message;
 }

@@ -11,9 +11,4 @@ public class AddAdminRequest {
     private String password;
     private String email;
 
-    public AddAdminRequest(String email, String password) {}
-
-    public AddAdminRequest() {
-
-    }
 }

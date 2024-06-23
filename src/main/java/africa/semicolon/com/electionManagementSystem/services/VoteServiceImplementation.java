@@ -36,7 +36,7 @@ public class VoteServiceImplementation implements VoteService {
     @Override
     public GetAllVoteResponse getAllVote(GetAllVoteRequest voteRequest) {
         Vote vote = new Vote();
-        var getAllVote = voteRepository.findVoteByCandidate(voteRequest.getCandidateId());
+        //var getAllVote = voteRepository.findVoteByCandidate(voteRequest.getCandidateId());
         GetAllVoteResponse getAllVoteResponse = new GetAllVoteResponse();
         voteRepository.save(vote);
         return getAllVoteResponse;

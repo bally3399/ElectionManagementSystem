@@ -37,15 +37,15 @@ public class VoterController {
         }
     }
 
-    @PostMapping("/login")
-    public ResponseEntity<LoginResponse> login(@RequestBody LoginRequest loginRequest) {
-        Voter voter = voterService.getVoterByEmailAndPassword(loginRequest.getEmail(), loginRequest.getPassword());
-        if (voter == null) {
-            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
-        }
-        LoginResponse loginResponse = new LoginResponse();
-        return new ResponseEntity<>(loginResponse, HttpStatus.OK);
-    }
+//    @PostMapping("/login")
+//    public ResponseEntity<LoginResponse> login(@RequestBody LoginRequest loginRequest) {
+//        Voter voter = voterService.getVoterByEmailAndPassword(loginRequest.getEmail(), loginRequest.getPassword());
+//        if (voter == null) {
+//            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+//        }
+//        LoginResponse loginResponse = new LoginResponse();
+//        return new ResponseEntity<>(loginResponse, HttpStatus.OK);
+//    }
 
     @PostMapping("/view")
     public ResponseEntity<Voter> viewVoter(@RequestBody ViewVoterRequest viewVoterRequest) {

@@ -21,9 +21,9 @@ public interface AdminService {
 
     ScheduleElectionResponse scheduleElection(ScheduleElectionRequest scheduleElectionRequest);
 
-    CancelElectionResponse cancelElection(CancelElectionRequest cancelElectionRequest);
+    UpdateElectionStatusResponse updateElectionStatus(UpdateElectionStatusRequest updateElectionStatusRequest);
 
-    RegisterCandidateResponse registerCandidate(RegisterCandidateRequest candidateRequest);
+    //RegisterCandidateResponse registerCandidate(RegisterCandidateRequest candidateRequest);
    }
 
 

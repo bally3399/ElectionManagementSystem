@@ -1,11 +1,10 @@
 package africa.semicolon.com.electionManagementSystem.controller;
 
 import africa.semicolon.com.electionManagementSystem.dtos.requests.AddAdminRequest;
-import africa.semicolon.com.electionManagementSystem.dtos.requests.CancelElectionRequest;
+
 import africa.semicolon.com.electionManagementSystem.dtos.requests.DeleteAdminRequest;
 import africa.semicolon.com.electionManagementSystem.dtos.requests.ScheduleElectionRequest;
 import africa.semicolon.com.electionManagementSystem.dtos.responses.AddAdminResponse;
-import africa.semicolon.com.electionManagementSystem.dtos.responses.CancelElectionResponse;
 import africa.semicolon.com.electionManagementSystem.dtos.responses.DeleteAdminResponse;
 import africa.semicolon.com.electionManagementSystem.dtos.responses.ScheduleElectionResponse;
 import africa.semicolon.com.electionManagementSystem.exceptions.AdminNotFoundException;
@@ -68,15 +67,15 @@ public class AdminController {
         }
     }
 
-    @PutMapping("/cancel-election")
-    public ResponseEntity<CancelElectionResponse> cancelElection(@RequestBody CancelElectionRequest cancelElectionRequest) {
-        try {
-            CancelElectionResponse response = adminService.cancelElection(cancelElectionRequest);
-            return new ResponseEntity<>(response, HttpStatus.OK);
-        } catch (AdminNotFoundException e) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        } catch (Exception e) {
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
+//    @PutMapping("/cancel-election")
+//    public ResponseEntity<CancelElectionResponse> cancelElection(@RequestBody CancelElectionRequest cancelElectionRequest) {
+//        try {
+//            CancelElectionResponse response = adminService.cancelElection(cancelElectionRequest);
+//            return new ResponseEntity<>(response, HttpStatus.OK);
+//        } catch (AdminNotFoundException e) {
+//            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+//        } catch (Exception e) {
+//            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+//        }
+//    }
 }

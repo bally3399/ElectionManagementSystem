@@ -16,13 +16,4 @@ public class ScheduleElectionRequest {
     private String title;
     private Category category;
 
-    public ScheduleElectionRequest(long l, String title, String description) {
-    }
-
-    public ScheduleElectionRequest() {
-
-    }
-
-    public void setElectionName(String electionName) {
-    }
 }

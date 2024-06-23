@@ -3,16 +3,11 @@ package africa.semicolon.com.electionManagementSystem.dtos.responses;
 import lombok.Getter;
 import lombok.Setter;
 
-@Getter
 @Setter
-public class CancelElectionResponse {
+@Getter
+public class RemoveCandidateFromElectionResponse {
+
     private Long electionId;
+    private Long candidateId;
     private Long adminId;
-
-
-    public CancelElectionResponse() {
-    }
-
-    public void setMessage(String electionCancelledSuccessfully) {
-    }
 }

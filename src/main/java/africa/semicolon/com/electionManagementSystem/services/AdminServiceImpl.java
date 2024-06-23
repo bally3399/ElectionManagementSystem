@@ -14,8 +14,6 @@ import africa.semicolon.com.electionManagementSystem.models.Admin;
 import africa.semicolon.com.electionManagementSystem.repository.AdminRepository;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -25,7 +23,6 @@ public class AdminServiceImpl implements AdminService{
     private final AdminRepository adminRepository;
     private final ElectionService electionService;
     private final CandidateService candidateService;
-
 
 
     @Override
@@ -65,27 +62,27 @@ public class AdminServiceImpl implements AdminService{
 
     @Override
     public ScheduleElectionResponse scheduleElection(ScheduleElectionRequest scheduleElectionRequest) {
+        findAdminById(scheduleElectionRequest.getAdminId());
         return electionService.scheduleElection(scheduleElectionRequest);
     }
 
     @Override
-    public CancelElectionResponse cancelElection(CancelElectionRequest cancelElectionRequest) {
-        findAdminById(cancelElectionRequest.getAdminId());
-        return electionService.cancelElection(cancelElectionRequest);
+    public UpdateElectionStatusResponse updateElectionStatus(UpdateElectionStatusRequest updateElectionStatusRequest) {
+        findAdminById(updateElectionStatusRequest.getAdminId());
+        return electionService.updateElectionStatus(updateElectionStatusRequest);
 
     }
 
-    @Override
-    public RegisterCandidateResponse registerCandidate(RegisterCandidateRequest candidateRequest) {
-        findAdminById(candidateRequest.getAdminId());
-        return candidateService.registerCandidate(candidateRequest);
-    }
+//    @Override
+//    public RegisterCandidateResponse registerCandidate(RegisterCandidateRequest candidateRequest) {
+//        findAdminById(candidateRequest.getAdminId());
+//        return candidateService.registerCandidate(candidateRequest);
+//    }
     public void verifyAdmin(String email) {
             Admin admin = adminRepository.findByEmail(email);
             if(admin != null) {
                 throw new UserAlreadyExistException("Admin with same email already exist");
             }
     }
-
 
 }

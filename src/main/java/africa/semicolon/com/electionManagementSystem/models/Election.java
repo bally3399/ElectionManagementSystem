@@ -11,6 +11,7 @@ import com.fasterxml.jackson.datatype.jsr310.ser.LocalTimeSerializer;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.context.annotation.Lazy;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -29,14 +30,9 @@ public class Election {
     @Id
     @GeneratedValue(strategy = IDENTITY)
     private Long electionId;
-
     private String title;
-
-    //Location variable added to model
     private String location;
-
     private boolean isRegistrationOpen = true;
-
     @JsonSerialize(using = LocalDateSerializer.class)
     @JsonDeserialize(using = LocalDateDeserializer.class)
     private LocalDate startDate;
@@ -49,16 +45,14 @@ public class Election {
     @JsonSerialize(using = LocalTimeSerializer.class)
     @JsonDeserialize(using = LocalTimeDeserializer.class)
     private LocalTime endTime;
-    @OneToMany
+    @OneToMany(fetch = FetchType.EAGER)
     private List<Candidate> candidates = new ArrayList<>();
     @Enumerated(value = STRING)
     private Category category;
     @ManyToMany
     private List<Voter> registeredVoters = new ArrayList<>();
-    @ManyToOne
-    private Admin admin;
-    @OneToMany
-    private List<Vote> votes;
+    @OneToMany(fetch = FetchType.EAGER)
+    private List<Vote> votes = new ArrayList<>();
     @Enumerated(value = STRING)
     private ElectionStatus electionStatus;
 

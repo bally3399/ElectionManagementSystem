@@ -26,9 +26,4 @@ public class ScheduleElectionResponse {
     @JsonSerialize(using = LocalTimeSerializer.class)
     private LocalTime endTime;
 
-    public ScheduleElectionResponse() {
-    }
-
-    public void setMessage(String electionScheduledSuccessfully) {
-    }
 }
