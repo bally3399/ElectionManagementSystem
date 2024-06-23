@@ -126,7 +126,9 @@ package africa.semicolon.com.electionManagementSystem.controller;//package afric
 
 import africa.semicolon.com.electionManagementSystem.controller.AdminController;
 import africa.semicolon.com.electionManagementSystem.dtos.requests.AddAdminRequest;
+import africa.semicolon.com.electionManagementSystem.dtos.requests.DeleteAdminRequest;
 import africa.semicolon.com.electionManagementSystem.dtos.responses.AddAdminResponse;
+import africa.semicolon.com.electionManagementSystem.dtos.responses.DeleteAdminResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpStatus;
@@ -185,6 +187,35 @@ public class AdminControllerTest {
 
         assertEquals(HttpStatus.CREATED, responseEntity.getStatusCode());
         assertThat(responseEntity.getStatusCode(), is(HttpStatus.CREATED));
+    }
+    @Test
+    public void testDeleteAdminSuccess() {
+        DeleteAdminRequest deleteAdminRequest = new DeleteAdminRequest();
+        deleteAdminRequest.setEmail("admin1@email.com");
+
+        ResponseEntity<DeleteAdminResponse> response = adminController.deleteAdmin(deleteAdminRequest);
+
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+    }
+
+    @Test
+    public void testDeleteAdminNotFound() {
+        DeleteAdminRequest deleteAdminRequest = new DeleteAdminRequest();
+        deleteAdminRequest.setEmail("PenIsUp@email.com");
+
+        ResponseEntity<DeleteAdminResponse> response = adminController.deleteAdmin(deleteAdminRequest);
+
+        assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
+    }
+
+    @Test
+    public void testDeleteAdminGeneralError() {
+        DeleteAdminRequest deleteAdminRequest = new DeleteAdminRequest();
+        deleteAdminRequest.setEmail("penIsUp@email.com");
+
+        ResponseEntity<DeleteAdminResponse> response = adminController.deleteAdmin(deleteAdminRequest);
+
+        assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
     }
 }
 
