@@ -12,4 +12,6 @@ public interface VoterService {
 
 
     Voter viewVoter(ViewVoterRequest viewRequest);
+
+    Voter getVoterByEmailAndPassword(Object email, String password);
 }
