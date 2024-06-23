@@ -7,7 +7,6 @@ import africa.semicolon.com.electionManagementSystem.exceptions.UserAlreadyExist
 import africa.semicolon.com.electionManagementSystem.models.Admin;
 import africa.semicolon.com.electionManagementSystem.models.Election;
 import africa.semicolon.com.electionManagementSystem.models.ElectionStatus;
-import africa.semicolon.com.electionManagementSystem.models.PositionContested;
 import africa.semicolon.com.electionManagementSystem.repository.VoterRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +17,7 @@ import java.time.LocalDate;
 
 import static africa.semicolon.com.electionManagementSystem.models.Category.NATIONAL;
 import static africa.semicolon.com.electionManagementSystem.models.Party.APC;
-import static africa.semicolon.com.electionManagementSystem.models.PositionContested.PRESIDENTIAL;
+import static africa.semicolon.com.electionManagementSystem.models.PositionContested.PRESIDENT;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -142,7 +141,7 @@ public void registerCandidate(){
     candidateRequest.setBiography("Biography");
     candidateRequest.setPhoneNumber("08155336155");
     candidateRequest.setParty(APC);
-    candidateRequest.setPositionContested(PRESIDENTIAL);
+    candidateRequest.setPositionContested(PRESIDENT);
     var response = candidateService.registerCandidate(candidateRequest);
     assertThat(response).isNotNull();
     assertThat(response.getMessage()).isEqualTo("candidate registration successful");
