@@ -45,5 +45,10 @@ public class VoteServiceTest {
         assertThat(response).isNotNull();
     }
 
+    @Test
+    public void testCastVote(){
+
+    }
+
 }
 
