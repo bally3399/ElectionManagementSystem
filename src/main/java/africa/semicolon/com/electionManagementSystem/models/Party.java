@@ -6,5 +6,4 @@ public enum Party {
     NDP,
     LP
 
-
 }

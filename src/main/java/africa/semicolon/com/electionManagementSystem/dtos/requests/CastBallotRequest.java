@@ -6,7 +6,7 @@ import lombok.Setter;
 @Setter
 @Getter
 public class CastBallotRequest {
-
-    private Long candidateId;
     private Long voterId;
+    private Long candidateId;
+
 }

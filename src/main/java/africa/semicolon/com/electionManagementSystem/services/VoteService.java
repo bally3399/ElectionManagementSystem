@@ -1,14 +1,19 @@
 package africa.semicolon.com.electionManagementSystem.services;
 
-import africa.semicolon.com.electionManagementSystem.dtos.requests.AddVoteRequest;
-import africa.semicolon.com.electionManagementSystem.dtos.requests.GetAllVoteRequest;
-import africa.semicolon.com.electionManagementSystem.dtos.requests.GetVoteRequest;
-import africa.semicolon.com.electionManagementSystem.dtos.responses.AddVoteResponse;
-import africa.semicolon.com.electionManagementSystem.dtos.responses.GetAllVoteResponse;
-import africa.semicolon.com.electionManagementSystem.dtos.responses.GetVoteResponse;
+import africa.semicolon.com.electionManagementSystem.dtos.requests.CastBallotRequest;
+import africa.semicolon.com.electionManagementSystem.dtos.responses.CastVoteResponse;
+import africa.semicolon.com.electionManagementSystem.models.Vote;
+
+import java.util.List;
+import java.util.Optional;
 
 public interface VoteService {
-    GetVoteResponse getVote(GetVoteRequest voteRequest);
-    GetAllVoteResponse getAllVote(GetAllVoteRequest voteRequest);
-    AddVoteResponse addVote(AddVoteRequest voteRequest);
+//    List<Vote> getAllVote();
+//    AddVoteResponse addVote(AddVoteRequest voteRequest);
+
+    CastVoteResponse caseVote(CastBallotRequest voteRequest);
+
+    Long getNumberOfVote();
+
+    Optional<Vote> getVote(long id);
 }
