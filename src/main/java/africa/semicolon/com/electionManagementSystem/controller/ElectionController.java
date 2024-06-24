@@ -1,39 +1,65 @@
 package africa.semicolon.com.electionManagementSystem.controller;
 
-import africa.semicolon.com.electionManagementSystem.dtos.requests.AddCandidateToElectionRequest;
-import africa.semicolon.com.electionManagementSystem.dtos.requests.ScheduleElectionRequest;
-import africa.semicolon.com.electionManagementSystem.dtos.responses.AddCandidateToElectionResponse;
-import africa.semicolon.com.electionManagementSystem.dtos.responses.ScheduleElectionResponse;
+import africa.semicolon.com.electionManagementSystem.dtos.requests.*;
+import africa.semicolon.com.electionManagementSystem.dtos.responses.*;
 import africa.semicolon.com.electionManagementSystem.services.ElectionService;
+import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+
 
 @RestController
-@RequiredArgsConstructor
+@RequestMapping("/api/v1/election")
+@AllArgsConstructor
 public class ElectionController {
 
     private final ElectionService electionService;
 
     @PostMapping("/scheduleElection")
-    public ResponseEntity<ScheduleElectionResponse> scheduleElection(@RequestBody @Valid ScheduleElectionRequest scheduleElectionRequest) {
-        ScheduleElectionResponse response = electionService.scheduleElection(scheduleElectionRequest);
-        return new ResponseEntity<>(response, HttpStatus.CREATED);
+    public ResponseEntity<ScheduleElectionResponse> scheduleElection(@RequestBody ScheduleElectionRequest scheduleElectionRequest) {
+        try {
+            ScheduleElectionResponse response = electionService.scheduleElection(scheduleElectionRequest);
+            return new ResponseEntity<>(response, HttpStatus.CREATED);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+
     }
 
-//    @DeleteMapping("/cancelElection")
-//    public ResponseEntity<CancelElectionResponse> cancelElection(@RequestBody @Valid CancelElectionRequest cancelElectionRequest) {
-//        CancelElectionResponse response = electionService.cancelElection(cancelElectionRequest);
-//        return new ResponseEntity<>(response, HttpStatus.OK);
-//    }
+    @PatchMapping("/updateElectionStatus")
+    public ResponseEntity<UpdateElectionStatusResponse> updateElectionStatus(@RequestBody UpdateElectionStatusRequest updateElectionStatusRequest) {
+        try {
+            UpdateElectionStatusResponse response = electionService.updateElectionStatus(updateElectionStatusRequest);
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
 
-//    @PostMapping("/addCandidateToElection")
-//    public ResponseEntity<AddCandidateToElectionResponse> addCandidateToElection(@RequestBody @Valid AddCandidateToElectionRequest addCandidateToElectionRequest) {
-//        AddCandidateToElectionResponse response = electionService.addCandidateToElection(addCandidateToElectionRequest);
-//        return new ResponseEntity<>(response, HttpStatus.CREATED);
-//    }
+    @PatchMapping("/updateElection")
+    public ResponseEntity<UpdateElectionResponse> updateElection(@RequestBody UpdateElectionRequest updateElectionRequest) {
+        try {
+            UpdateElectionResponse response = electionService.updateElection(updateElectionRequest);
+            return new ResponseEntity<>(response, HttpStatus.OK);
+
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+
+    }
+
+    @GetMapping("/findElection")
+    public ResponseEntity<FindElectionResponse> findElection(@RequestBody FindElectionRequest findElectionRequest) {
+        try {
+            FindElectionResponse response = electionService.findElection(findElectionRequest);
+            return new ResponseEntity<>(response, HttpStatus.OK);
+
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
+
 }

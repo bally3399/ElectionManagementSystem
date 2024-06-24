@@ -26,17 +26,7 @@ public class VoteServiceTest {
 
     @Autowired
     private VoteServiceImplementation voteServices;
-//    @Test
-//    public void testAddVote()throws UserNotFoundException {
-//        AddVoteRequest request = new AddVoteRequest();
-//        request.setId(1L);
-//        request.setCandidateId(400L);
-//        AddVoteResponse response =  voteServices.addVote(request);
-//        assertThat(response).isNotNull();
-//
-//    }
-//
-//
+
 
     @Test
     public void testCastVote(){
@@ -101,11 +91,7 @@ public class VoteServiceTest {
         assertThat(response).isNotNull();
     }
 
-//    @Test
-//    public void  testGetAllVote(){
-//        List<Vote> voteList = voteServices.getAllVote();
-//        assertThat(voteList).size().isEqualTo(2);
-//    }
+
 
 
 }

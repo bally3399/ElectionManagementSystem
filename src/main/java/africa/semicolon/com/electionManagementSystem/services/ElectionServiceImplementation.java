@@ -1,5 +1,6 @@
 package africa.semicolon.com.electionManagementSystem.services;
 
+import africa.semicolon.com.electionManagementSystem.dtos.requests.FindElectionRequest;
 import africa.semicolon.com.electionManagementSystem.dtos.requests.UpdateElectionRequest;
 import africa.semicolon.com.electionManagementSystem.dtos.requests.UpdateElectionStatusRequest;
 import africa.semicolon.com.electionManagementSystem.dtos.requests.ScheduleElectionRequest;
@@ -87,25 +88,11 @@ public class ElectionServiceImplementation implements ElectionService {
         return modelMapper.map(election, UpdateElectionResponse.class);
     }
 
-//    @Override
-//    public AddCandidateToElectionResponse addCandidateToElection(AddCandidateToElectionRequest addCandidateToElectionRequest) {
-//        Admin admin = adminService.findAdminById(addCandidateToElectionRequest.getAdminId());
-//        Election election = getElectionById(addCandidateToElectionRequest.getElectionId());
-//        if (!election.getAdmin().getId().equals(admin.getId())) throw new InvalidElectionAdminException("Admin is not involved in this election.");
-//        Candidate candidate = candidateService.findCandidateById(addCandidateToElectionRequest.getCandidateId());
-//        election.getCandidates().add(candidate);
-//        electionRepository.save(election);
-//        return modelMapper.map(election, AddCandidateToElectionResponse.class);
-//        // make sure candidate has one election
-//        // validate that candidate has one election. i am begging you ajiri;
-//    }
-//
-//    @Override
-//    public RemoveCandidateFromElectionResponse removeCandidateFromElection(RemoveCandidateFromElectionRequest removeCandidateFromElectionRequest) {
-//        Admin admin = adminService.findAdminById(removeCandidateFromElectionRequest.getAdminId());
-//        Election election =
-//        return null;
-//    }
+    @Override
+    public FindElectionResponse findElection(FindElectionRequest findElectionRequest) {
+        Election election = getElectionById(findElectionRequest.getElectionId());
+        return modelMapper.map(election, FindElectionResponse.class);
+    }
 
     private void validateElectionTimes(ScheduleElectionRequest scheduleElectionRequest, Election election) {
         election.setStartTime(parseStringToLocalTime(scheduleElectionRequest.getStartTime()));

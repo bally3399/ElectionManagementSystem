@@ -73,7 +73,19 @@ public class AdminServiceImpl implements AdminService{
 
     }
 
-//    @Override
+    @Override
+    public RemoveCandidateResponse removeCandidate(RemoveCandidateRequest removeCandidateRequest) {
+        findAdminById(removeCandidateRequest.getAdminId());
+        return candidateService.removeCandidate(removeCandidateRequest);
+    }
+
+    @Override
+    public UpdateCandidateResponse updateCandidate(UpdateCandidateRequest updateCandidateRequest) {
+        findAdminById(updateCandidateRequest.getAdminId());
+        return candidateService.updateCandidate(updateCandidateRequest);
+    }
+
+    //    @Override
 //    public RegisterCandidateResponse registerCandidate(RegisterCandidateRequest candidateRequest) {
 //        findAdminById(candidateRequest.getAdminId());
 //        return candidateService.registerCandidate(candidateRequest);

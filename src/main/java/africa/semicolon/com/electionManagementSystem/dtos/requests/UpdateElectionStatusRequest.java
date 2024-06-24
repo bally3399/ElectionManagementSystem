@@ -9,7 +9,6 @@ import lombok.Setter;
 @Getter
 @Setter
 public class UpdateElectionStatusRequest {
-
     private Long electionId;
     private ElectionStatus electionStatus;
     private Long adminId;

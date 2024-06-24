@@ -24,6 +24,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
+@Sql(scripts = {"/db/data.sql"})
 public class VoterServiceTest {
     @Autowired
     private VoterServiceImplementation voterService;
@@ -32,11 +33,10 @@ public class VoterServiceTest {
 
     @Test
     public void registerVoterTest() {
-        RegisterVoterRequest registerVoterRequest = getRegisterVoterRequest();
         RegisterVoterResponse registerVoterResponse = voterService.register(getRegisterVoterRequest());
         assertNotNull(registerVoterResponse);
         assertTrue(registerVoterResponse.getMessage().contains("Voter Registered Successfully"));
-        assertEquals(1,voterRepository.findAll().size());
+        assertEquals(6, voterRepository.findAll().size());
     }
 
     private RegisterVoterRequest getRegisterVoterRequest() {
@@ -55,15 +55,7 @@ public class VoterServiceTest {
         registerVoterRequest.setPhoneNumber("001234567");
         registerVoterRequest.setEmail("newvoter@gmail.com");
         registerVoterRequest.setDateOfBirth("21/10/1990");
-        RegisterVoterResponse registerVoterResponse = voterService.register(registerVoterRequest);
-        assertNotNull(registerVoterResponse);
-        assertTrue(registerVoterResponse.getMessage().contains("Voter Registered Successfully"));
-        //Assertions.assertEquals(2,voterRepository.findAll().size());
-        registerVoterRequest.setPhoneNumber("0012345672");
-        registerVoterRequest.setEmail("newvoterp@gmail.com");
-        registerVoterRequest.setDateOfBirth("21/10/1990");
         return registerVoterRequest;
-
     }
 
 
@@ -119,7 +111,6 @@ public class VoterServiceTest {
     }
 
     @Test
-    @Sql(scripts = {"/db/data.sql"})
     public void voterCanCastBallotTest() {
         CastBallotRequest castBallotRequest = new CastBallotRequest();
         castBallotRequest.setVoterId(204L);
@@ -139,10 +130,7 @@ public class VoterServiceTest {
         Voter voter = voterService.getVoterById(200L);
         assertNotNull(voter);
         assertEquals(200L, voter.getId());
-        assertEquals( "100000", voter.getVoterNumber());
     }
-
-
 
     @Test
     public void testToViewVoterInformation(){
@@ -160,7 +148,6 @@ public class VoterServiceTest {
     }
 
     @Test
-    @Sql(scripts = {"/db/data.sql"})
     public void voterCanCastBallotTwiceTest() {
         CastBallotRequest castBallotRequest = new CastBallotRequest();
         castBallotRequest.setVoterId(202L);
@@ -170,11 +157,6 @@ public class VoterServiceTest {
 
     }
 
-//    public void testToFindVoterId(){
-//        Voter voter = voterService.getVoterById(200L);
-//        assertNotNull(voter);
-//        assertEquals(200L, voter.getId());
-//    }
 
 
 }

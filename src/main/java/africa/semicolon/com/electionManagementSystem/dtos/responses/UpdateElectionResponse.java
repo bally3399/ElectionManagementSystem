@@ -17,7 +17,7 @@ public class UpdateElectionResponse {
     private String electionId;
     @JsonSerialize(using = LocalDateSerializer.class)
     private LocalDate startDate;
-    @JsonSerialize(using = LocalDateTimeSerializer.class)
+    @JsonSerialize(using = LocalTimeSerializer.class)
     private LocalTime startTime;
 
     @JsonSerialize(using = LocalDateSerializer.class)
