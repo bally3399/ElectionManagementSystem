@@ -20,27 +20,46 @@ public class ElectionController {
 
     @PostMapping("/scheduleElection")
     public ResponseEntity<ScheduleElectionResponse> scheduleElection(@RequestBody ScheduleElectionRequest scheduleElectionRequest) {
-        ScheduleElectionResponse response = electionService.scheduleElection(scheduleElectionRequest);
-        return new ResponseEntity<>(response, HttpStatus.CREATED);
+        try {
+            ScheduleElectionResponse response = electionService.scheduleElection(scheduleElectionRequest);
+            return new ResponseEntity<>(response, HttpStatus.CREATED);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+
     }
 
     @PatchMapping("/updateElectionStatus")
     public ResponseEntity<UpdateElectionStatusResponse> updateElectionStatus(@RequestBody UpdateElectionStatusRequest updateElectionStatusRequest) {
-        UpdateElectionStatusResponse response = electionService.updateElectionStatus(updateElectionStatusRequest);
-        return new ResponseEntity<>(response, HttpStatus.OK);
+        try {
+            UpdateElectionStatusResponse response = electionService.updateElectionStatus(updateElectionStatusRequest);
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
     }
 
     @PatchMapping("/updateElection")
     public ResponseEntity<UpdateElectionResponse> updateElection(@RequestBody UpdateElectionRequest updateElectionRequest) {
-        UpdateElectionResponse response = electionService.updateElection(updateElectionRequest);
-        return new ResponseEntity<>(response, HttpStatus.OK);
+        try {
+            UpdateElectionResponse response = electionService.updateElection(updateElectionRequest);
+            return new ResponseEntity<>(response, HttpStatus.OK);
+
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+
     }
 
     @GetMapping("/findElection")
     public ResponseEntity<FindElectionResponse> findElection(@RequestBody FindElectionRequest findElectionRequest) {
-        FindElectionResponse response = electionService.findElection(findElectionRequest);
-        return new ResponseEntity<>(response, HttpStatus.OK);
-    }
+        try {
+            FindElectionResponse response = electionService.findElection(findElectionRequest);
+            return new ResponseEntity<>(response, HttpStatus.OK);
 
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
 
 }
