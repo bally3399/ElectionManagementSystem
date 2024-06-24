@@ -157,11 +157,6 @@ public class VoterServiceTest {
 
     }
 
-//    public void testToFindVoterId(){
-//        Voter voter = voterService.getVoterById(200L);
-//        assertNotNull(voter);
-//        assertEquals(200L, voter.getId());
-//    }
 
 
 }

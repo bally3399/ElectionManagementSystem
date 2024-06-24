@@ -1,5 +1,6 @@
 package africa.semicolon.com.electionManagementSystem.services;
 
+import africa.semicolon.com.electionManagementSystem.dtos.requests.FindElectionRequest;
 import africa.semicolon.com.electionManagementSystem.dtos.requests.UpdateElectionStatusRequest;
 import africa.semicolon.com.electionManagementSystem.dtos.requests.ScheduleElectionRequest;
 
@@ -44,35 +45,6 @@ public class ElectionServiceTest {
         assertEquals("Lagos State Governorship Election", scheduleElectionResponse.getTitle());
     }
 
-//    @Test
-//    public void invalidElectionStartDate_ThrowsExceptionTest() {
-//        ScheduleElectionRequest scheduleElectionRequest = new ScheduleElectionRequest();
-//        scheduleElectionRequest.setAdminId(100L);
-//        scheduleElectionRequest.setCategory(NATIONAL);
-//        scheduleElectionRequest.setTitle("Lagos State Governorship Election");
-//        scheduleElectionRequest.setLocation("Lagos");
-//        scheduleElectionRequest.setStartDate("invalid date");
-//        scheduleElectionRequest.setStartTime("7:00");
-//        scheduleElectionRequest.setEndDate("5/9/2024");
-//        scheduleElectionRequest.setEndTime("23:00");
-//
-//        assertThrows(InvalidElectionDateException.class ,()->electionService.scheduleElection(scheduleElectionRequest));
-//    }
-//
-//    @Test
-//    public void invalidElectionEndTimeTestThrowsExceptionTest() {
-//        ScheduleElectionRequest scheduleElectionRequest = new ScheduleElectionRequest();
-//        scheduleElectionRequest.setAdminId(100L);
-//        scheduleElectionRequest.setCategory(NATIONAL);
-//        scheduleElectionRequest.setTitle("Lagos State Governorship Election");
-//        scheduleElectionRequest.setLocation("Lagos");
-//        scheduleElectionRequest.setStartDate("1/9/2024");
-//        scheduleElectionRequest.setStartTime("7:00");
-//        scheduleElectionRequest.setEndDate("5/9/2024");
-//        scheduleElectionRequest.setEndTime("invalid end time");
-//
-//        assertThrows(InvalidElectionTimeException.class ,()->electionService.scheduleElection(scheduleElectionRequest));
-//    }
 
     @Test
     public void electionStatusCanBeUpdatedTest() {
@@ -97,72 +69,6 @@ public class ElectionServiceTest {
         assertThrows(ElectionNotFoundException.class,()->electionService.updateElectionStatus(updateElectionStatusRequest));
     }
 
-
-//    @Test
-//    public void addCandidateToElectionTest() {
-//        AddCandidateToElectionRequest addCandidateToElectionRequest = new AddCandidateToElectionRequest();
-//        addCandidateToElectionRequest.setAdminId(100L);
-//        addCandidateToElectionRequest.setCandidateId(400L);
-//        addCandidateToElectionRequest.setElectionId(300L);
-//        AddCandidateToElectionResponse addCandidateToElectionResponse = electionService.addCandidateToElection(addCandidateToElectionRequest);
-//
-//        Election election = electionService.getElectionById(300L);
-//
-//        assertThat(addCandidateToElectionResponse).isNotNull();
-//        assertEquals(1, election.getCandidates().size());
-//        assertEquals(400L, election.getCandidates().getFirst().getId());
-//    }
-//
-//    @Test
-//    public void candidateAddedTo_NonExistentElectionThrowsExceptionTest() {
-//        AddCandidateToElectionRequest addCandidateToElectionRequest = new AddCandidateToElectionRequest();
-//        addCandidateToElectionRequest.setAdminId(100L);
-//        addCandidateToElectionRequest.setCandidateId(400L);
-//        addCandidateToElectionRequest.setElectionId(500L);
-//
-//        assertThrows(ElectionNotFoundException.class, ()->electionService.addCandidateToElection(addCandidateToElectionRequest));
-//    }
-//
-//    @Test
-//    public void nonExistentCandidate_AddedToElectionThrowsExceptionTest() {
-//        AddCandidateToElectionRequest addCandidateToElectionRequest = new AddCandidateToElectionRequest();
-//        addCandidateToElectionRequest.setAdminId(100L);
-//        addCandidateToElectionRequest.setCandidateId(500L);
-//        addCandidateToElectionRequest.setElectionId(300L);
-//
-//        assertThrows(CandidateNotFoundException.class, ()->electionService.addCandidateToElection(addCandidateToElectionRequest));
-//    }
-//
-//    @Test
-//    public void throwsExceptionTest(){
-//        AddCandidateToElectionRequest addCandidateToElectionRequest = new AddCandidateToElectionRequest();
-//        addCandidateToElectionRequest.setAdminId(100L);
-//        addCandidateToElectionRequest.setCandidateId(402L);
-//        addCandidateToElectionRequest.setElectionId(300L);
-//
-//        assertThrows(CandidateInElectionException.class, ()->electionService.addCandidateToElection(addCandidateToElectionRequest));
-//    }
-//
-//    @Test
-//    public void uninvolvedAdmin_AddedToElectionThrowsExceptionTest() {
-//        AddCandidateToElectionRequest addCandidateToElectionRequest = new AddCandidateToElectionRequest();
-//        addCandidateToElectionRequest.setAdminId(101L);
-//        addCandidateToElectionRequest.setCandidateId(402L);
-//        addCandidateToElectionRequest.setElectionId(300L);
-//
-//        assertThrows(InvalidElectionAdminException.class, ()->electionService.addCandidateToElection(addCandidateToElectionRequest));
-//    }
-//
-//    @Test
-//    public void removeCandidateFromElectionTest() {
-//        RemoveCandidateFromElectionRequest removeCandidateFromElectionRequest = new RemoveCandidateFromElectionRequest();
-//        removeCandidateFromElectionRequest.setElectionId(300L);
-//        removeCandidateFromElectionRequest.setAdminId(100L);
-//        removeCandidateFromElectionRequest.setCandidateId(402L);
-//        RemoveCandidateFromElectionResponse removeCandidateFromElectionResponse = electionService.removeCandidateFromElection(removeCandidateFromElectionRequest);
-//
-//        assertThat(removeCandidateFromElectionResponse).isNotNull();
-//    }
 
     @Test
     public void electionCanBeUpdatedTest() {
@@ -190,6 +96,25 @@ public class ElectionServiceTest {
         updateElectionRequest.setEndTime("21:00");
 
         assertThrows(ElectionNotFoundException.class, ()->electionService.updateElection(updateElectionRequest));
+    }
+
+    @Test
+    public void findElectionTest() {
+        FindElectionRequest findElectionRequest = new FindElectionRequest();
+        findElectionRequest.setElectionId(300L);
+        FindElectionResponse findElectionResponse = electionService.findElection(findElectionRequest);
+
+        assertThat(findElectionResponse).isNotNull();
+        assertEquals(300L, findElectionResponse.getElectionId());
+    }
+
+    @Test
+    public void findNonExistentElectionTest() {
+        FindElectionRequest findElectionRequest = new FindElectionRequest();
+        findElectionRequest.setElectionId(500L);
+
+        assertThrows(ElectionNotFoundException.class, ()->electionService.findElection(findElectionRequest));
+
     }
 
 }

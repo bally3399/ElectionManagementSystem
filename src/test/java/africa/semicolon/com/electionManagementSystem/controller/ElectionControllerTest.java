@@ -5,6 +5,7 @@ import africa.semicolon.com.electionManagementSystem.dtos.requests.*;
 
 import africa.semicolon.com.electionManagementSystem.dtos.responses.AddCandidateToElectionResponse;
 
+import africa.semicolon.com.electionManagementSystem.dtos.responses.FindElectionResponse;
 import africa.semicolon.com.electionManagementSystem.dtos.responses.ScheduleElectionResponse;
 import africa.semicolon.com.electionManagementSystem.dtos.responses.UpdateElectionStatusResponse;
 import africa.semicolon.com.electionManagementSystem.models.ElectionStatus;
@@ -21,9 +22,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.time.LocalTime;
+
 import static africa.semicolon.com.electionManagementSystem.models.Category.NATIONAL;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -45,7 +48,7 @@ public class ElectionControllerTest {
         scheduleElectionRequest.setTitle("Lagos State Governorship Election");
         scheduleElectionRequest.setLocation("Lagos");
         scheduleElectionRequest.setStartDate("3/9/2024");
-        scheduleElectionRequest.setStartTime("7:00");
+        scheduleElectionRequest.setStartTime("07:00");
         scheduleElectionRequest.setEndDate("15/9/2024");
         scheduleElectionRequest.setEndTime("23:00");
 
@@ -56,6 +59,7 @@ public class ElectionControllerTest {
 
     }
 
+
     @Test
     public void testUpdateElectionStatus() throws Exception {
         ObjectMapper objectMapper = new ObjectMapper();
@@ -64,7 +68,7 @@ public class ElectionControllerTest {
         updateElectionStatusRequest.setAdminId(100L);
         updateElectionStatusRequest.setElectionStatus(ElectionStatus.ONGOING);
 
-        mockMvc.perform(post("/api/v1/election/updateElectionStatus")
+        mockMvc.perform(patch("/api/v1/election/updateElectionStatus")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsBytes(updateElectionStatusRequest))
         ).andExpect(status().isOk()).andDo(print());
@@ -80,56 +84,22 @@ public class ElectionControllerTest {
         updateElectionRequest.setTitle("Kwara state Governorship election");
 
 
-        mockMvc.perform(post("/api/v1/election/updateElection")
+        mockMvc.perform(patch("/api/v1/election/updateElection")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsBytes(updateElectionRequest))
         ).andExpect(status().isOk()).andDo(print());
     }
 
+    @Test
+    public void testFindElection() throws Exception {
+        ObjectMapper objectMapper = new ObjectMapper();
+        FindElectionRequest findElectionRequest = new FindElectionRequest();
+        findElectionRequest.setElectionId(302L);
 
+        mockMvc.perform(get("/api/v1/election/findElection")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsBytes(findElectionRequest))
+        ).andExpect(status().isOk()).andDo(print());
+    }
 
-//    @Test
-//    void scheduleElection() {
-//        ScheduleElectionRequest request = new ScheduleElectionRequest();
-//        request.setElectionName("Election Name");
-//        request.setStartTime("10:00");
-//        request.setEndTime("12:00");
-//        request.setStartDate("1/1/2022");
-//        request.setEndDate("1/2/2022");
-//
-//        ScheduleElectionResponse response = new ScheduleElectionResponse();
-//        response.setMessage("Election scheduled successfully");
-//        when(electionService.scheduleElection(request)).thenReturn(response);
-//        ResponseEntity<ScheduleElectionResponse> result = electionController.scheduleElection(request);
-//        assertEquals(HttpStatus.CREATED, result.getStatusCode());
-//        assertEquals(response, result.getBody());
-//    }
-//
-//    @Test
-//    void cancelElection() {
-//        CancelElectionRequest request = new CancelElectionRequest();
-//        request.setElectionId(1L);
-//
-//        CancelElectionResponse response = new CancelElectionResponse();
-//        response.setMessage("Election cancelled successfully");
-//
-//        when(electionService.cancelElection(request)).thenReturn(response);
-//        ResponseEntity<CancelElectionResponse> result = electionController.cancelElection(request);
-//        assertEquals(HttpStatus.OK, result.getStatusCode());
-//        assertEquals(response, result.getBody());
-//    }
-//
-//    @Test
-//    void addCandidateToElection() {
-//        AddCandidateToElectionRequest request = new AddCandidateToElectionRequest();
-//        request.setElectionId(1L);
-//
-//        AddCandidateToElectionResponse response = new AddCandidateToElectionResponse();
-//        response.setMessage("Candidate added successfully");
-//
-//        when(electionService.addCandidateToElection(request)).thenReturn(response);
-//        ResponseEntity<AddCandidateToElectionResponse> result = electionController.addCandidateToElection(request);
-//        assertEquals(HttpStatus.CREATED, result.getStatusCode());
-//        assertEquals(response, result.getBody());
-//    }
 }

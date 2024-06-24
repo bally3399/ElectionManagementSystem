@@ -5,6 +5,7 @@ import africa.semicolon.com.electionManagementSystem.dtos.responses.*;
 import africa.semicolon.com.electionManagementSystem.exceptions.AdminNotFoundException;
 import africa.semicolon.com.electionManagementSystem.exceptions.UserAlreadyExistException;
 import africa.semicolon.com.electionManagementSystem.models.Admin;
+import africa.semicolon.com.electionManagementSystem.models.Candidate;
 import africa.semicolon.com.electionManagementSystem.models.Election;
 import africa.semicolon.com.electionManagementSystem.models.ElectionStatus;
 import africa.semicolon.com.electionManagementSystem.repository.VoterRepository;
@@ -17,6 +18,8 @@ import java.time.LocalDate;
 
 import static africa.semicolon.com.electionManagementSystem.models.Category.NATIONAL;
 import static africa.semicolon.com.electionManagementSystem.models.Party.APC;
+import static africa.semicolon.com.electionManagementSystem.models.Party.PDP;
+import static africa.semicolon.com.electionManagementSystem.models.PositionContested.GOVERNOR;
 import static africa.semicolon.com.electionManagementSystem.models.PositionContested.PRESIDENT;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
@@ -101,10 +104,10 @@ public void adminCanScheduleElectionTest() {
     scheduleElectionRequest.setCategory(NATIONAL);
     scheduleElectionRequest.setTitle("Lagos State Governorship Election");
     scheduleElectionRequest.setLocation("Lagos");
-//    scheduleElectionRequest.setStartDate("3/9/2024");
-//    scheduleElectionRequest.setStartTime("7:00");
-//    scheduleElectionRequest.setEndDate("15/9/2024");
-//    scheduleElectionRequest.setEndTime("23:00");
+    scheduleElectionRequest.setStartDate("3/9/2024");
+    scheduleElectionRequest.setStartTime("7:00");
+    scheduleElectionRequest.setEndDate("15/9/2024");
+    scheduleElectionRequest.setEndTime("23:00");
 
     ScheduleElectionResponse scheduleElectionResponse = adminService.scheduleElection(scheduleElectionRequest);
 
@@ -148,4 +151,39 @@ public void registerCandidate(){
     assertThat(response.getMessage()).isEqualTo("candidate registration successful");
 }
 
+@Test
+@Sql(scripts = {"/db/data.sql"})
+public void adminCanUpdateCandidateTest(){
+    Admin admin = adminService.findAdminById(100L);
+    assertNotNull(admin);
+    Candidate candidate = candidateService.findCandidateById(401L);
+    assertThat(candidate.getParty()).isEqualTo(APC);
+    assertThat(candidate.getPositionContested()).isEqualTo(GOVERNOR);
+    UpdateCandidateRequest updateCandidateRequest = new UpdateCandidateRequest();
+    updateCandidateRequest.setCandidateId(401L);
+    updateCandidateRequest.setAdminId(100L);
+    updateCandidateRequest.setParty(PDP);
+    updateCandidateRequest.setPositionContested(PRESIDENT);
+    UpdateCandidateResponse response = candidateService.updateCandidate(updateCandidateRequest);
+    assertThat(response).isNotNull();
+    assertThat(response.getMessage()).isEqualTo("candidate updated successfully");
+    assertThat(candidateService.findCandidateById(401L).getParty()).isEqualTo(PDP);
+    assertThat(candidate.getId()).isEqualTo(401L);
+    assertThat(candidateService.findCandidateById(401L).getPositionContested()).isEqualTo(PRESIDENT);
+}
+
+@Test
+@Sql(scripts = {"/db/data.sql"})
+public void adminCanRemoveCandidateTest(){
+    Admin admin = adminService.findAdminById(100L);
+    assertNotNull(admin);
+    assertThat(candidateService.getNoOfCandidates()).isEqualTo(3);
+    RemoveCandidateRequest removeCandidateRequest = new RemoveCandidateRequest();
+    removeCandidateRequest.setId(400L);
+    removeCandidateRequest.setAdminId(100L);
+    RemoveCandidateResponse response = candidateService.removeCandidate(removeCandidateRequest);
+    assertThat(response).isNotNull();
+    assertThat(response.getMessage()).isEqualTo("candidate removed successfully");
+    assertThat(candidateService.getNoOfCandidates()).isEqualTo(2);
+}
 }

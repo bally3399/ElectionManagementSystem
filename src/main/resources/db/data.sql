@@ -29,3 +29,5 @@ insert into candidates(id, first_name, last_name, biography,date_of_birth,email,
 insert into votes(candidate_id, election_election_id, vote_id, voter_id) values
 (402, 300, 500, 202),
 (402, 300, 501, 203);
+-- (401, 300, 502, 200);
+-- (400, 300, 503, 201);
