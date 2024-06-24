@@ -1,5 +1,6 @@
 package africa.semicolon.com.electionManagementSystem.services;
 
+import africa.semicolon.com.electionManagementSystem.dtos.requests.FindElectionRequest;
 import africa.semicolon.com.electionManagementSystem.dtos.requests.UpdateElectionRequest;
 import africa.semicolon.com.electionManagementSystem.dtos.requests.UpdateElectionStatusRequest;
 import africa.semicolon.com.electionManagementSystem.dtos.requests.ScheduleElectionRequest;
@@ -18,8 +19,6 @@ public interface ElectionService {
 
     UpdateElectionResponse updateElection(UpdateElectionRequest updateElectionRequest);
 
-//    AddCandidateToElectionResponse addCandidateToElection(AddCandidateToElectionRequest addCandidateToElectionRequest);
-//
-//
-//    RemoveCandidateFromElectionResponse removeCandidateFromElection(RemoveCandidateFromElectionRequest removeCandidateFromElectionRequest);
+    FindElectionResponse findElection(FindElectionRequest findElectionRequest);
+
 }
