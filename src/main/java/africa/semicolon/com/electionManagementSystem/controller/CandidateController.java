@@ -23,7 +23,7 @@ public class CandidateController {
     private final CandidateService candidateService;
 
     @PostMapping("/register")
-    public ResponseEntity<RegisterCandidateResponse> registerCandidate(@RequestBody RegisterCandidateRequest request) {
+    public ResponseEntity<RegisterCandidateResponse>                                                                    registerCandidate(@RequestBody RegisterCandidateRequest request) {
         RegisterCandidateResponse response = candidateService.registerCandidate(request);
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }

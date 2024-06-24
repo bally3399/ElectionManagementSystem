@@ -41,7 +41,7 @@ public class CandidateControllerTest {
         request.setDateOfBirth(LocalDate.of(1980, 1, 1));
         request.setBiography("John Doe is a candidate for the upcoming election.");
         request.setPhoneNumber("1234567890");
-        request.setEmail("johndoe@example.com");
+        request.setEmail("sulaimabaliqis@gmail.com");
         request.setPositionContested(PositionContested.PRESIDENT);
         request.setElectionId(301L);
 
