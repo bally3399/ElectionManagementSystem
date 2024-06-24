@@ -1,49 +1,51 @@
-//package africa.semicolon.com.electionManagementSystem.controller;
-//
-//import africa.semicolon.com.electionManagementSystem.dtos.requests.AddAdminRequest;
-//import africa.semicolon.com.electionManagementSystem.dtos.requests.CancelElectionRequest;
-//import africa.semicolon.com.electionManagementSystem.dtos.requests.DeleteAdminRequest;
-//import africa.semicolon.com.electionManagementSystem.dtos.requests.ScheduleElectionRequest;
-//import africa.semicolon.com.electionManagementSystem.dtos.responses.AddAdminResponse;
-//import africa.semicolon.com.electionManagementSystem.dtos.responses.CancelElectionResponse;
-//import africa.semicolon.com.electionManagementSystem.dtos.responses.DeleteAdminResponse;
-//import africa.semicolon.com.electionManagementSystem.dtos.responses.ScheduleElectionResponse;
-//import africa.semicolon.com.electionManagementSystem.exceptions.AdminNotFoundException;
-//import africa.semicolon.com.electionManagementSystem.exceptions.ElectionNotFoundException;
-//import africa.semicolon.com.electionManagementSystem.exceptions.UserAlreadyExistException;
-//import africa.semicolon.com.electionManagementSystem.services.AdminServiceImpl;
-//import org.junit.jupiter.api.Test;
-//import org.junit.jupiter.api.extension.ExtendWith;
-//import org.mockito.InjectMocks;
-//import org.mockito.Mock;
-//import org.mockito.junit.jupiter.MockitoExtension;
-//import org.springframework.http.HttpStatus;
-//import org.springframework.http.ResponseEntity;
-//
-//import static org.junit.jupiter.api.Assertions.assertEquals;
-//import static org.mockito.Mockito.when;
-//
-//@ExtendWith(MockitoExtension.class)
-//public class AdminControllerTest {
-//
-//    @Mock
-//    private AdminServiceImpl adminService;
-//
-//    @InjectMocks
-//    private AdminController adminController;
-//
-////    @Test
-////    public void testAddAdmin_Succeeds() throws UserAlreadyExistException {
-////        AddAdminRequest request = new AddAdminRequest("email", "password");
-//////        AddAdminResponse response = new AddAdminResponse("Admin added successfully");
-////        when(adminService.addAdmin(request)).thenReturn(response);
-////
-////        ResponseEntity<AddAdminResponse> result = adminController.addAdmin(request);
-////
-////        assertEquals(HttpStatus.CREATED, result.getStatusCode());
-////        assertEquals(response, result.getBody());
-////    }
-//
+package africa.semicolon.com.electionManagementSystem.controller;
+
+import africa.semicolon.com.electionManagementSystem.dtos.requests.AddAdminRequest;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.test.context.jdbc.Sql;
+import org.springframework.test.web.servlet.MockMvc;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+@SpringBootTest
+@AutoConfigureMockMvc
+@Sql(scripts = {"/db/data.sql"})
+public class AdminControllerTest {
+
+    @Autowired
+    private MockMvc mockMvc;
+
+    @Test
+    public void testAddAdmin_Succeeds() throws Exception {
+        ObjectMapper objectMapper = new ObjectMapper();
+        AddAdminRequest addAdminRequest = new AddAdminRequest();
+        addAdminRequest.setPassword("1234");
+        addAdminRequest.setFirstName("Lawal");
+        addAdminRequest.setLastName("Toheeb");
+        addAdminRequest.setEmail("Lawaltoheeb@email.com");
+        mockMvc.perform(post("/api/admin/add")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsBytes(addAdminRequest))
+        ).andExpect(status().isCreated()).andDo(print());
+
+    }
+
 //    @Test
 //    public void testAddAdmin_Fails_DuplicateEmail() throws UserAlreadyExistException {
 //        AddAdminRequest request = new AddAdminRequest("email", "password");
@@ -121,5 +123,5 @@
 //            throw e;
 //        }
 //    }
-//
-//}
+
+}

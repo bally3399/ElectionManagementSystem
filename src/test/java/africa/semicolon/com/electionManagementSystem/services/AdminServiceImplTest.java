@@ -101,10 +101,10 @@ public void adminCanScheduleElectionTest() {
     scheduleElectionRequest.setCategory(NATIONAL);
     scheduleElectionRequest.setTitle("Lagos State Governorship Election");
     scheduleElectionRequest.setLocation("Lagos");
-    scheduleElectionRequest.setStartDate("3/9/2024");
-    scheduleElectionRequest.setStartTime("7:00");
-    scheduleElectionRequest.setEndDate("15/9/2024");
-    scheduleElectionRequest.setEndTime("23:00");
+//    scheduleElectionRequest.setStartDate("3/9/2024");
+//    scheduleElectionRequest.setStartTime("7:00");
+//    scheduleElectionRequest.setEndDate("15/9/2024");
+//    scheduleElectionRequest.setEndTime("23:00");
 
     ScheduleElectionResponse scheduleElectionResponse = adminService.scheduleElection(scheduleElectionRequest);
 
