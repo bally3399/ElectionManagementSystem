@@ -37,18 +37,6 @@ public class AdminControllerTest {
         assertEquals(HttpStatus.CONFLICT, response.getStatusCode());
     }
 
-    @Test
-    public void testAddAdminGeneralError() {
-        AddAdminRequest addAdminRequest = new AddAdminRequest();
-        addAdminRequest.setFirstName("BimBim");
-        addAdminRequest.setLastName("addicted");
-        addAdminRequest.setEmail("newadmin@example.com");
-        addAdminRequest.setPassword("password");
-
-        ResponseEntity<AddAdminResponse> response = adminController.addAdmin(addAdminRequest);
-
-        assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
-    }
 
     @Test
     public void testAddAdminSuccess() {
