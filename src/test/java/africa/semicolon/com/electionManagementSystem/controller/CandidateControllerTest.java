@@ -107,5 +107,6 @@ public class CandidateControllerTest {
 
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertEquals(3L, Objects.requireNonNull(response.getBody()).longValue());
+
     }
 }
