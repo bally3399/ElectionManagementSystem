@@ -25,6 +25,7 @@ public class VoterController {
         this.voterService = voterService;
     }
 
+
     @PostMapping("/register")
     public ResponseEntity<RegisterVoterResponse> registerVoter(@RequestBody RegisterVoterRequest registerVoterRequest) {
         try {
