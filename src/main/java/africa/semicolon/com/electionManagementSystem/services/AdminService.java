@@ -23,7 +23,6 @@ public interface AdminService {
 
     UpdateElectionStatusResponse updateElectionStatus(UpdateElectionStatusRequest updateElectionStatusRequest);
 
-    //RegisterCandidateResponse registerCandidate(RegisterCandidateRequest candidateRequest);
     RemoveCandidateResponse removeCandidate(RemoveCandidateRequest removeCandidateRequest);
     UpdateCandidateResponse updateCandidate(UpdateCandidateRequest updateCandidateRequest);
    }
